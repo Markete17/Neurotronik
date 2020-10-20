@@ -2,13 +2,30 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class Cube {
+public class Cube{
+
+    /*
+        Array Index
+
+        Bottom          Up
+       4-------5     6-------7
+       /      /      /      /
+      /      /      /      /
+  0  /______/ 1  2 /______/ 3
+
+
+    */
 
     private ArrayList<Coordinate3D> cubeList=new ArrayList<>();
 
     public Cube() {
     }
 
+    public Cube(ArrayList<Coordinate3D> cubeList) {
+        this.cubeList = cubeList;
+    }
+
+    //input image
     public Cube(Triple dimensions) {
         this.cubeList.add(new Coordinate3D(0,0,0));//add origin
         this.cubeList.add(new Coordinate3D(dimensions.x,0,0));
@@ -32,7 +49,13 @@ public class Cube {
     }
 
 
+
     public ArrayList<Coordinate3D> getCubeList() {
         return this.cubeList;
     }
+
+    public void setCubeList(ArrayList<Coordinate3D> cubeList) {
+        this.cubeList = cubeList;
+    }
+
 }

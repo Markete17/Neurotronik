@@ -16,6 +16,7 @@ public class Main {
         //model.add(layers.MaxPooling2D((2, 2)))
         //model.add(layers.Conv2D(64, (3, 3), activation='relu'))
 
+        //Input
         Model model=new Models().Sequential();
         Layer layers=new Layer();
         model.add(layers.Conv2D(32,new Tuple(3,3),"relu",new Cube(new Triple(32,32,3))));
@@ -23,6 +24,10 @@ public class Main {
         model.add(layers.Conv2D(64,new Tuple(3,3),"relu"));
         model.add(layers.MaxPooling2D(new Tuple(2,2)));
         model.add(layers.Conv2D(64,new Tuple(3,3),"relu"));
+
+        SvgController svg=new SvgController();
+        System.out.println(svg.draw(model.modelQueue));
+
 
     }
 }

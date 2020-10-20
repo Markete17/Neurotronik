@@ -5,14 +5,15 @@ import java.util.Deque;
 import java.util.List;
 
 public class Model {
-    Deque<Cube> modelStack=new ArrayDeque<>();
-    Deque<Cube> convolutionsStack=new ArrayDeque<>();
+    Deque<Cube> modelQueue=new ArrayDeque<>();
 
     public void add(Cube cube){
-        this.modelStack.addFirst(cube);
+        this.modelQueue.addLast(cube);
     }
+
     public void add(List<Cube> cubeList){
-        this.modelStack.addFirst(cubeList.get(0));
-        this.modelStack.addFirst(cubeList.get(1));
+        for(Cube cube:cubeList){
+            this.modelQueue.addLast(cube);
+        }
     }
 }
