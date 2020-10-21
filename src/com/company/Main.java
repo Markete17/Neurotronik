@@ -1,7 +1,5 @@
 package com.company;
 
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -19,11 +17,11 @@ public class Main {
         //Input
         Model model=new Models().Sequential();
         Layer layers=new Layer();
-        model.add(layers.Conv2D(32,new Tuple(3,3),"relu",new Cube(new Triple(32,32,3))));
+        model.add(layers.Conv2D(32,new Tuple(3,3),new Tuple(1,1),"relu",new Cube(new Triple(32,32,3)),"same"));
         model.add(layers.MaxPooling2D(new Tuple(2,2)));
-        model.add(layers.Conv2D(64,new Tuple(3,3),"relu"));
+        model.add(layers.Conv2D(64,new Tuple(3,3),new Tuple(1,1),"relu","same"));
         model.add(layers.MaxPooling2D(new Tuple(2,2)));
-        model.add(layers.Conv2D(64,new Tuple(3,3),"relu"));
+        model.add(layers.Conv2D(64,new Tuple(3,3),new Tuple(1,1),"relu","same"));
 
         SvgController svg=new SvgController();
         System.out.println(svg.draw(model.modelQueue));

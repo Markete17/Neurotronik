@@ -8,7 +8,7 @@ public class Model {
     Deque<Cube> modelQueue=new ArrayDeque<>();
 
     public void add(Cube cube){
-        this.modelQueue.addLast(cube);
+        return;
     }
 
     public void add(List<Cube> cubeList){

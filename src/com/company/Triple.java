@@ -1,37 +1,37 @@
 package com.company;
 
 public class Triple {
-    int x;
-    int y;
-    int z;
+    int n1;
+    int n2;
+    int n3;
 
-    public Triple(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public Triple(int n1, int n2, int n3) {
+        this.n1 = n1;
+        this.n2 = n2;
+        this.n3 = n3;
     }
 
-    public int getX() {
-        return x;
+    public int getN1() {
+        return n1;
     }
 
-    public int getY() {
-        return y;
+    public int getN2() {
+        return n2;
     }
 
-    public int getZ() {
-        return z;
+    public int getN3() {
+        return n3;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setN1(int n1) {
+        this.n1 = n1;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setN2(int n2) {
+        this.n2 = n2;
     }
 
-    public void setZ(int z) {
-        this.z = z;
+    public void setN3(int n3) {
+        this.n3 = n3;
     }
 }

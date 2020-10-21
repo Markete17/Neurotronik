@@ -28,16 +28,16 @@ public class Cube{
     //input image
     public Cube(Triple dimensions) {
         this.cubeList.add(new Coordinate3D(0,0,0));//add origin
-        this.cubeList.add(new Coordinate3D(dimensions.x,0,0));
-        this.cubeList.add(new Coordinate3D(0,dimensions.y,0));
-        this.cubeList.add(new Coordinate3D(dimensions.x,dimensions.y,0));
-        this.cubeList.add(new Coordinate3D(0,0,dimensions.z));
-        this.cubeList.add(new Coordinate3D(dimensions.x,0,dimensions.z));
-        this.cubeList.add(new Coordinate3D(0,dimensions.y,dimensions.z));
-        this.cubeList.add(new Coordinate3D(dimensions.x,dimensions.y,dimensions.z));
+        this.cubeList.add(new Coordinate3D(dimensions.getN1(),0,0));
+        this.cubeList.add(new Coordinate3D(0,dimensions.getN2(),0));
+        this.cubeList.add(new Coordinate3D(dimensions.getN1(),dimensions.getN2(),0));
+        this.cubeList.add(new Coordinate3D(0,0,dimensions.getN3()));
+        this.cubeList.add(new Coordinate3D(dimensions.getN1(),0,dimensions.getN3()));
+        this.cubeList.add(new Coordinate3D(0,dimensions.getN2(),dimensions.getN3()));
+        this.cubeList.add(new Coordinate3D(dimensions.getN1(),dimensions.getN2(),dimensions.getN3()));
     }
 
-    public void createConvCube(int z,Tuple tuple){
+    public void createKernel(int z,Tuple tuple){
         this.cubeList.add(new Coordinate3D(0,0,0));
         this.cubeList.add(new Coordinate3D(tuple.n1,0,0));
         this.cubeList.add(new Coordinate3D(0,tuple.n2,0));
