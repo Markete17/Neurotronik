@@ -16,46 +16,58 @@ public class Cube{
 
     */
 
-    private ArrayList<Coordinate3D> cubeList=new ArrayList<>();
+    private int x;
+    private int y;
+    private int z;
+    private boolean isKernel=false;
 
     public Cube() {
     }
 
-    public Cube(ArrayList<Coordinate3D> cubeList) {
-        this.cubeList = cubeList;
-    }
 
     //input image
     public Cube(Triple dimensions) {
-        this.cubeList.add(new Coordinate3D(0,0,0));//add origin
-        this.cubeList.add(new Coordinate3D(dimensions.getN1(),0,0));
-        this.cubeList.add(new Coordinate3D(0,dimensions.getN2(),0));
-        this.cubeList.add(new Coordinate3D(dimensions.getN1(),dimensions.getN2(),0));
-        this.cubeList.add(new Coordinate3D(0,0,dimensions.getN3()));
-        this.cubeList.add(new Coordinate3D(dimensions.getN1(),0,dimensions.getN3()));
-        this.cubeList.add(new Coordinate3D(0,dimensions.getN2(),dimensions.getN3()));
-        this.cubeList.add(new Coordinate3D(dimensions.getN1(),dimensions.getN2(),dimensions.getN3()));
+        this.x=dimensions.getN1();
+        this.y=dimensions.getN2();
+        this.z=dimensions.getN3();
     }
 
     public void createKernel(int z,Tuple tuple){
-        this.cubeList.add(new Coordinate3D(0,0,0));
-        this.cubeList.add(new Coordinate3D(tuple.n1,0,0));
-        this.cubeList.add(new Coordinate3D(0,tuple.n2,0));
-        this.cubeList.add(new Coordinate3D(tuple.n1,tuple.n2,0));
-        this.cubeList.add(new Coordinate3D(0,0,z));
-        this.cubeList.add(new Coordinate3D(tuple.n1,0,z));
-        this.cubeList.add(new Coordinate3D(0,tuple.n2,z));
-        this.cubeList.add(new Coordinate3D(tuple.n1,tuple.n2,z));
+        this.x=tuple.getN1();
+        this.y=tuple.getN2();
+        this.z=z;
+        this.setKernel(true);
     }
 
-
-
-    public ArrayList<Coordinate3D> getCubeList() {
-        return this.cubeList;
+    public int getX() {
+        return x;
     }
 
-    public void setCubeList(ArrayList<Coordinate3D> cubeList) {
-        this.cubeList = cubeList;
+    public int getY() {
+        return y;
     }
 
+    public int getZ() {
+        return z;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
+    }
+
+    public boolean isKernel() {
+        return isKernel;
+    }
+
+    public void setKernel(boolean kernel) {
+        isKernel = kernel;
+    }
 }
