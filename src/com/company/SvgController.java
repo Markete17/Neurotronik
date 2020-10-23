@@ -34,9 +34,10 @@ public class SvgController {
                 String pathBase = "";
                 String pathCube = "";
                 pathBase += "m " + length + " 200 v " + String.valueOf(-cube.getY() * scaleY) + " m 0 " + cube.getY() * scaleY + " h " + cube.getZ() * scaleZ + " m " + String.valueOf(-(cube.getZ() * scaleZ)) + " 0 l " + String.valueOf(-cube.getX() * scaleX) + " " + cube.getY() * scaleY;
-                pathCube += "v " + String.valueOf(-cube.getY() * scaleY) + " l " + cube.getX() * scaleX + " " + String.valueOf(-cube.getY() * scaleY) + " h " + String.valueOf(cube.getZ() * scaleZ) + " v " + cube.getY() * scaleY + " l " + (String.valueOf(-cube.getX() * scaleX) + " " + cube.getY() * scaleY + " h " + String.valueOf(-(cube.getZ() * scaleZ)) + " m 0 " + String.valueOf(-cube.getY() * scaleY) + " h " + String.valueOf(cube.getZ() * scaleZ) + " v " + cube.getY() * scaleY + " m 0 " + String.valueOf(-cube.getY() * scaleY) + " l " + cube.getX() * scaleX + " " + String.valueOf(-cube.getY() * scaleY));
+                pathCube += "m " + length + " 200"+ "m "+String.valueOf(-cube.getX()*scaleX)+" "+cube.getY()*scaleY+" v " + String.valueOf(-cube.getY() * scaleY) + " l " + cube.getX() * scaleX + " " + String.valueOf(-cube.getY() * scaleY) + " h " + String.valueOf(cube.getZ() * scaleZ) + " v " + cube.getY() * scaleY + " l " + (String.valueOf(-cube.getX() * scaleX) + " " + cube.getY() * scaleY + " h " + String.valueOf(-(cube.getZ() * scaleZ)) + " m 0 " + String.valueOf(-cube.getY() * scaleY) + " h " + String.valueOf(cube.getZ() * scaleZ) + " v " + cube.getY() * scaleY + " m 0 " + String.valueOf(-cube.getY() * scaleY) + " l " + cube.getX() * scaleX + " " + String.valueOf(-cube.getY() * scaleY));
 
-                svgString += "\t\t\t<path fill=\"" + this.color + "\" d=\"" + pathBase + " " + pathCube + "\"/>" + "\n\n";
+                svgString += "\t\t\t<path fill=\"" + this.color + "\" d=\" "+pathCube + "\"/>" + "\n\n";
+                svgString += "\t\t\t<path stroke-dasharray=\"5,5\" d=\" "+pathBase + "\"/>" + "\n\n";
                 if(!cube.isKernel()) {
                    lenghtAux=length+SHIFT+(cube.getZ()*scaleZ);
                 }
