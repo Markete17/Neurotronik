@@ -7,7 +7,7 @@ import java.util.List;
 public class Model {
     Deque<Cube> modelQueue=new ArrayDeque<>();
 
-    public void add(Cube cube){
+    public void add(Cube cube){ //Max Pooling not add any cube
         return;
     }
 

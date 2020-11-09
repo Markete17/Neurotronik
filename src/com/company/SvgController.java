@@ -8,10 +8,10 @@ public class SvgController {
     int scaleY=2;
     int scaleZ=5;
     String color;
-    int length=100;
-    int lenghtAux=0;
-    int auxY;
-    int auxX;
+    double length=100;
+    double lenghtAux=0;
+    double auxY;
+    double auxX;
     int i;
     String svgString="<html>\n" +
             "\t"+"<head>\n" +
