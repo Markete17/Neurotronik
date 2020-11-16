@@ -1,4 +1,4 @@
-package com.company;
+package Data;
 
 public class Tuple {
     int n1;

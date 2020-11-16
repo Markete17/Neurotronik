@@ -1,4 +1,6 @@
-package com.company;
+package Shapes;
+
+import Data.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +38,6 @@ public class Cube{
         this.initializeCube(coordinates);
     }
 
-    public void createKernel(double z,Tuple tuple){
-        Coordinate coordinates=new Coordinate(tuple.getN1(),tuple.getN2(),z);
-        this.initializeCube(coordinates);
-        this.setKernel(true);
-    }
-
     public double getX() {
         return x;
     }
@@ -74,18 +70,22 @@ public class Cube{
         isKernel = kernel;
     }
 
+    public List<Coordinate> getCoordinateList() {
+        return coordinateList;
+    }
+
     private void initializeCube(Coordinate coordinate){
         this.x=coordinate.getX();
         this.y=coordinate.getY();
         this.z=coordinate.getZ();
 
         coordinateList.add(new Coordinate(0,0,0));
-        coordinateList.add(new Coordinate((double)coordinate.getX(),0,0));
-        coordinateList.add(new Coordinate(0,coordinate.getY(),0));
-        coordinateList.add(new Coordinate(coordinate.getX(),coordinate.getY(),0));
-        coordinateList.add(new Coordinate(0,0,coordinate.getZ()));
-        coordinateList.add(new Coordinate(coordinate.getX(),0,(double)coordinate.getZ()));
-        coordinateList.add(new Coordinate(0,coordinate.getY(),coordinate.getZ()));
-        coordinateList.add(new Coordinate(coordinate.getX(),coordinate.getY(),coordinate.getZ()));
+        coordinateList.add(new Coordinate(this.x,0,0));
+        coordinateList.add(new Coordinate(0,this.y,0));
+        coordinateList.add(new Coordinate(this.x,this.y,0));
+        coordinateList.add(new Coordinate(0,0,this.z));
+        coordinateList.add(new Coordinate(this.x,0,this.z));
+        coordinateList.add(new Coordinate(0,this.y,this.z));
+        coordinateList.add(new Coordinate(this.x,this.y,this.z));
     }
 }

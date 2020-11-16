@@ -1,4 +1,4 @@
-package com.company;
+package Models;
 
 public class Models {
     public Model Sequential(){

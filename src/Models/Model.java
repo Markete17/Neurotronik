@@ -1,4 +1,6 @@
-package com.company;
+package Models;
+
+import Shapes.Cube;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -15,5 +17,9 @@ public class Model {
         for(Cube cube:cubeList){
             this.modelQueue.addLast(cube);
         }
+    }
+
+    public Deque<Cube> getModelQueue() {
+        return modelQueue;
     }
 }

@@ -1,4 +1,4 @@
-package com.company;
+package Data;
 
 public class Coordinate {
     private double x;

@@ -1,4 +1,10 @@
-package com.company;
+package Console;
+
+import Data.*;
+import Models.*;
+import Layers.*;
+import Drawer.*;
+import Shapes.*;
 
 public class NeuralNetworkConsole {
 
@@ -24,7 +30,7 @@ public class NeuralNetworkConsole {
             model.add(layers.Conv2D(64, new Tuple(3, 3), new Tuple(1, 1), "same"));
 
             SvgController svg = new SvgController();
-            System.out.println(svg.draw(model.modelQueue));
+            System.out.println(svg.draw(model.getModelQueue()));
 
             return true;
         }
