@@ -18,16 +18,20 @@ public class NeuralNetworkConsole {
         //model.add(layers.Conv2D(64, (3, 3), activation='relu'))
         //model.add(layers.MaxPooling2D((2, 2)))
         //model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+        //model.add(layers.Dense(200))
+        //model.add(layers.Dense(400))
 
         //Input
         try {
             Model model = new Models().Sequential();
-            Layer layers = new Layer();
-            model.add(layers.Conv2D(32, new Tuple(3, 3), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 3)), "same"));
+            Layers layers = new Layers();
+            model.add(layers.Conv2D(32, new Tuple(3, 3), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
             model.add(layers.MaxPooling2D(new Tuple(2, 2)));
             model.add(layers.Conv2D(64, new Tuple(3, 3), new Tuple(1, 1), "same"));
             model.add(layers.MaxPooling2D(new Tuple(2, 2)));
             model.add(layers.Conv2D(64, new Tuple(3, 3), new Tuple(1, 1), "same"));
+            model.add(layers.Dense(200));
+            model.add(layers.Dense(400));
 
             SvgController svg = new SvgController();
             System.out.println(svg.draw(model.getModelQueue()));

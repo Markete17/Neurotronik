@@ -7,7 +7,7 @@ import Shapes.Cube;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Layer {
+public class Layers {
 
     private Cube cube_actual=new Cube();
 
@@ -32,9 +32,20 @@ public class Layer {
         return cubeList;
     }
 
+    //Pooling
     public Cube MaxPooling2D(Tuple tuple){
         setPooling(tuple);
         return this.cube_actual;
+    }
+
+    //Dense Layer
+    public List<Cube> Dense(double vector){
+        List<Cube> cubeList=new ArrayList<>();
+        Cube cube =new Cube(new Coordinate(10,vector,10));
+        cube.setDenseLayer(true);
+        this.cube_actual=cube;
+        cubeList.add(cube);
+        return cubeList;
     }
 
     private void setPooling(Tuple tuple) {
@@ -76,5 +87,4 @@ public class Layer {
         this.cube_actual=newCube;
 
     }
-
 }

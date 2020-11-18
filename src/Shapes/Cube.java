@@ -2,9 +2,6 @@ package Shapes;
 
 import Data.Coordinate;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Cube{
 
     final int NUM_COORDINATES = 8;
@@ -25,7 +22,8 @@ public class Cube{
     private double y;
     private double z;
     private boolean isKernel=false;
-    private List<Coordinate> coordinateList=new ArrayList<>(NUM_COORDINATES);
+    private boolean isDenseLayer=false;
+    private Coordinate [] coordinates =new Coordinate[NUM_COORDINATES];
 
 
 
@@ -70,22 +68,29 @@ public class Cube{
         isKernel = kernel;
     }
 
-    public List<Coordinate> getCoordinateList() {
-        return coordinateList;
+    public Coordinate[] getCoordinates() {
+        return coordinates;
     }
-
     private void initializeCube(Coordinate coordinate){
         this.x=coordinate.getX();
         this.y=coordinate.getY();
         this.z=coordinate.getZ();
 
-        coordinateList.add(new Coordinate(0,0,0));
-        coordinateList.add(new Coordinate(this.x,0,0));
-        coordinateList.add(new Coordinate(0,this.y,0));
-        coordinateList.add(new Coordinate(this.x,this.y,0));
-        coordinateList.add(new Coordinate(0,0,this.z));
-        coordinateList.add(new Coordinate(this.x,0,this.z));
-        coordinateList.add(new Coordinate(0,this.y,this.z));
-        coordinateList.add(new Coordinate(this.x,this.y,this.z));
+        coordinates[0]=(new Coordinate(-(this.x/2),-(this.y/2),this.z/2));
+        coordinates[1]=(new Coordinate(this.x/2,-(this.y/2),this.z/2));
+        coordinates[2]=(new Coordinate(-(this.x/2),(this.y/2),this.z/2));
+        coordinates[3]=(new Coordinate(this.x/2,this.y/2,this.z/2));
+        coordinates[4]=(new Coordinate(-(this.x/2),-(this.y/2),-(this.z/2)));
+        coordinates[5]=(new Coordinate(this.x/2,-(this.y/2),-(this.z/2)));
+        coordinates[6]=(new Coordinate(-(this.x/2),this.y/2,-(this.z/2)));
+        coordinates[7]=(new Coordinate(this.x/2,this.y/2,-(this.z/2)));
+    }
+
+    public boolean isDenseLayer() {
+        return isDenseLayer;
+    }
+
+    public void setDenseLayer(boolean denseLayer) {
+        isDenseLayer = denseLayer;
     }
 }
