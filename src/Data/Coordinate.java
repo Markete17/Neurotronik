@@ -1,15 +1,10 @@
 package Data;
 
 public class Coordinate {
-    private double x;
-    private double y;
-    private double z;
     private double [][] coordinateMatrix=new double[3][1];
 
     public Coordinate(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+
         this.coordinateMatrix[0][0]=x;
         this.coordinateMatrix[1][0]=y;
         this.coordinateMatrix[2][0]=z;
@@ -19,27 +14,27 @@ public class Coordinate {
     }
 
     public double getX() {
-        return x;
+        return this.coordinateMatrix[0][0];
     }
 
     public double getY() {
-        return y;
+        return this.coordinateMatrix[1][0];
     }
 
     public double getZ() {
-        return z;
+        return this.coordinateMatrix[2][0];
     }
 
     public void setX(double x) {
-        this.x = x;
+        this.coordinateMatrix[0][0]=x;
     }
 
     public void setY(double y) {
-        this.y = y;
+        this.coordinateMatrix[1][0]=y;
     }
 
     public void setZ(double z) {
-        this.z = z;
+        this.coordinateMatrix[2][0]=z;
     }
 
     public double[][] getCoordinateMatrix() {

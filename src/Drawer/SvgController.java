@@ -22,12 +22,8 @@ import java.util.List;
 
 public class SvgController {
     //CONSTANTS
-    final double ALFA=60;
+    final double ALFA=-30;
     final int SHIFT=50;
-
-
-    double SHIFT_Y=0;
-    double shift_YAux=0;
     double length=0;
     double lenghtAux=0;
     boolean activate=false;
@@ -42,27 +38,25 @@ public class SvgController {
             for(int i=0;i<modelQueue.size();i++) {
                 Cube cube=modelQueue.get(i);
                 color=selectColor(cube);
+                if(!cube.isKernel() && i!=0){
+                        length+=lenghtAux+SHIFT;
 
-                if(!cube.isKernel()){
-                    length+=lenghtAux;
-                    SHIFT_Y+=0;
                 }
 
-                doTransformations(cube.getCoordinates());
+               doTransformations(cube.getCoordinates());
 
                 //Cube Path
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[0].getX() +" "+ cube.getCoordinates()[0].getY() +" L"+ cube.getCoordinates()[1].getX() +" "+ cube.getCoordinates()[1].getY() +" L"+ cube.getCoordinates()[3].getX() +" "+ cube.getCoordinates()[3].getY() +" L"+ cube.getCoordinates()[2].getX() +" "+cube.getCoordinates()[2].getY()+" L"+ cube.getCoordinates()[0].getX() +" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[4].getX() +" "+cube.getCoordinates()[4].getY()+" L"+ cube.getCoordinates()[5].getX() +" "+cube.getCoordinates()[5].getY()+" L"+ cube.getCoordinates()[7].getX() +" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+"\"/>" + "\n";
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+" L"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+" L"+cube.getCoordinates()[5].getX()+" "+cube.getCoordinates()[5].getY()+" L"+cube.getCoordinates()[7].getX()+" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[3].getX()+" "+cube.getCoordinates()[3].getY()+" L"+cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+"\"/>" + "\n";
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+" L"+cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+" L"+cube.getCoordinates()[5].getX()+" "+cube.getCoordinates()[5].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+" L"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
-                svgString += "\t\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+" L"+cube.getCoordinates()[3].getX()+" "+cube.getCoordinates()[3].getY()+" L"+cube.getCoordinates()[7].getX()+" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+"\"/>"+"\n\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[0].getX() +" "+ cube.getCoordinates()[0].getY() +" L"+ cube.getCoordinates()[1].getX() +" "+ cube.getCoordinates()[1].getY() +" L"+ cube.getCoordinates()[3].getX() +" "+ cube.getCoordinates()[3].getY() +" L"+ cube.getCoordinates()[2].getX() +" "+cube.getCoordinates()[2].getY()+" L"+ cube.getCoordinates()[0].getX() +" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[4].getX() +" "+cube.getCoordinates()[4].getY()+" L"+ cube.getCoordinates()[5].getX() +" "+cube.getCoordinates()[5].getY()+" L"+ cube.getCoordinates()[7].getX() +" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+"\"/>" + "\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+" L"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+" L"+cube.getCoordinates()[5].getX()+" "+cube.getCoordinates()[5].getY()+" L"+cube.getCoordinates()[7].getX()+" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[3].getX()+" "+cube.getCoordinates()[3].getY()+" L"+cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+"\"/>" + "\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+" L"+cube.getCoordinates()[1].getX()+" "+cube.getCoordinates()[1].getY()+" L"+cube.getCoordinates()[5].getX()+" "+cube.getCoordinates()[5].getY()+" L"+cube.getCoordinates()[4].getX()+" "+cube.getCoordinates()[4].getY()+" L"+cube.getCoordinates()[0].getX()+" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
+                svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+" L"+cube.getCoordinates()[3].getX()+" "+cube.getCoordinates()[3].getY()+" L"+cube.getCoordinates()[7].getX()+" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+"\"/>"+"\n\n";
+
                 if(!cube.isKernel()){
-
-                    lenghtAux=(cube.getZ())+SHIFT;
-
-                    shift_YAux=cube.getZ()/2;
+                    lenghtAux=cube.getX();
                 }
+
                 if(activate){
 
                     Cube kernelCube=modelQueue.get(i-1);
@@ -70,10 +64,10 @@ public class SvgController {
 
                     Pyramid pyramid=new Pyramid(Arrays.copyOf(kernelCube.getCoordinates(),4),new Coordinate(vertex.getX(),vertex.getY(),vertex.getZ()));
                     color="green";
-                    svgString += "\t\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
-                    svgString += "\t\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
-                    svgString += "\t\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
-                    svgString += "\t\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n";
+                    svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
+                    svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
+                    svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
+                    svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n";
                     activate=false;
                 }
 
@@ -84,7 +78,7 @@ public class SvgController {
                     Coordinate vertex2=calculateCenter(Arrays.copyOfRange(cube.getCoordinates(),4,8));
 
                     Arrow arrow=new Arrow(vertex1,vertex2);
-                    svgString += "\t\t\t<path opacity=\"0.75\" d=\" "+"M"+ arrow.getCoordinates()[0].getX()+" "+ arrow.getCoordinates()[0].getY()  +" L"+ arrow.getCoordinates()[1].getX()  +" "+ arrow.getCoordinates()[1].getY()  +" L"+ arrow.getCoordinates()[2].getX() +" "+ arrow.getCoordinates()[2].getY()+" M"+ arrow.getCoordinates()[1].getX() +" "+arrow.getCoordinates()[1].getY()+" L"+ arrow.getCoordinates()[3].getX()  +" "+ arrow.getCoordinates()[3].getY()  +"\"/>" + "\n";
+                    svgString += "\t\t<path opacity=\"0.75\" d=\" "+"M"+ arrow.getCoordinates()[0].getX()+" "+ arrow.getCoordinates()[0].getY()  +" L"+ arrow.getCoordinates()[1].getX()  +" "+ arrow.getCoordinates()[1].getY()  +" L"+ arrow.getCoordinates()[2].getX() +" "+ arrow.getCoordinates()[2].getY()+" M"+ arrow.getCoordinates()[1].getX() +" "+arrow.getCoordinates()[1].getY()+" L"+ arrow.getCoordinates()[3].getX()  +" "+ arrow.getCoordinates()[3].getY()  +"\"/>" + "\n";
                 }
 
                 if(cube.isKernel()){
@@ -120,38 +114,20 @@ public class SvgController {
      * @return The 8 coordinates of the cube transformed
      */
     private void doTransformations(Coordinate[] coordinates) {
-        Matrix matrixRotX=new RotationMatrixX(ALFA);
-        Matrix matrixRotY=new RotationMatrixY(ALFA);
+
+        MatrixController matrixController=new MatrixController();
+
+        //Rotation on the Y-axis 90º
+        matrixController.rotate("y",coordinates,90);
+
+        //Translation X
+        matrixController.move("x",coordinates,length);
 
         //Rotation on the Y-axis
-        Coordinate a0=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[0].getCoordinateMatrix());
-        Coordinate a1=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[1].getCoordinateMatrix());
-        Coordinate a2=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[2].getCoordinateMatrix());
-        Coordinate a3=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[3].getCoordinateMatrix());
-        Coordinate a4=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[4].getCoordinateMatrix());
-        Coordinate a5=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[5].getCoordinateMatrix());
-        Coordinate a6=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[6].getCoordinateMatrix());
-        Coordinate a7=matrixRotY.multiply(matrixRotY.getMatrix(),coordinates[7].getCoordinateMatrix());
+        matrixController.rotate("y",coordinates,ALFA);
 
         //Rotation on the X-axis
-        coordinates[0]=matrixRotX.multiply(matrixRotX.getMatrix(),a0.getCoordinateMatrix());
-        coordinates[1]=matrixRotX.multiply(matrixRotX.getMatrix(),a1.getCoordinateMatrix());
-        coordinates[2]=matrixRotX.multiply(matrixRotX.getMatrix(),a2.getCoordinateMatrix());
-        coordinates[3]=matrixRotX.multiply(matrixRotX.getMatrix(),a3.getCoordinateMatrix());
-        coordinates[4]=matrixRotX.multiply(matrixRotX.getMatrix(),a4.getCoordinateMatrix());
-        coordinates[5]=matrixRotX.multiply(matrixRotX.getMatrix(),a5.getCoordinateMatrix());
-        coordinates[6]=matrixRotX.multiply(matrixRotX.getMatrix(),a6.getCoordinateMatrix());
-        coordinates[7]=matrixRotX.multiply(matrixRotX.getMatrix(),a7.getCoordinateMatrix());
-
-        //Translation
-        coordinates[0].setX(coordinates[0].getX()+length);coordinates[0].setY(coordinates[0].getY()-SHIFT_Y);
-        coordinates[1].setX(coordinates[1].getX()+length);coordinates[1].setY(coordinates[1].getY()-SHIFT_Y);
-        coordinates[2].setX(coordinates[2].getX()+length);coordinates[2].setY(coordinates[2].getY()-SHIFT_Y);
-        coordinates[3].setX(coordinates[3].getX()+length);coordinates[3].setY(coordinates[3].getY()-SHIFT_Y);
-        coordinates[4].setX(coordinates[4].getX()+length);coordinates[4].setY(coordinates[4].getY()-SHIFT_Y);
-        coordinates[5].setX(coordinates[5].getX()+length);coordinates[5].setY(coordinates[5].getY()-SHIFT_Y);
-        coordinates[6].setX(coordinates[6].getX()+length);coordinates[6].setY(coordinates[6].getY()-SHIFT_Y);
-        coordinates[7].setX(coordinates[7].getX()+length);coordinates[7].setY(coordinates[7].getY()-SHIFT_Y);
+        matrixController.rotate("x",coordinates,ALFA);
     }
 
     private Coordinate calculateCenter(Coordinate [] coordinates){
@@ -162,17 +138,11 @@ public class SvgController {
     }
 
     private void addHeader(){
-        this.svgString="<html>\n" +
-                "\t"+"<head>\n" +
-                "\t\t"+"<title>Page Title</title>\n" +
-                "\t\t"+"<link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/icon?family=Material+Icons\">\n" +
-                "\t"+"</head>\n" +
-                "\t"+"<body>\n" +
-                "\t\t<svg width=\"1000px\" height=\"1000px\" viewBox=\"-300 -400 1000 1000\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-                "\n" +
-                "\t\t<g stroke=\"black\" stroke-width=\"1\">\n";
+        this.svgString="<svg width=\"1000px\" height=\"1000px\" viewBox=\"-300 -400 1000 1000\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+                        "\t<g stroke=\"black\" stroke-width=\"1\">\n";
     }
     private void addFooter(){
-        this.svgString+="\t\t </g>\n\t\t"+"</svg> \n" +"\t"+"</body>\n"+"</html>";
+        this.svgString+="\t </g>\n"+"</svg>";
     }
+
 }

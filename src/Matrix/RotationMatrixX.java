@@ -26,11 +26,10 @@ public class RotationMatrixX extends Matrix {
 
         this.matrix[0][1] = 0;
         this.matrix[1][1] = Math.cos(Math.toRadians(alfa));
-        this.matrix[2][1] = Math.sin(alfa);
+        this.matrix[2][1] = Math.sin(Math.toRadians(alfa));
 
         this.matrix[0][2] = 0;
         this.matrix[1][2] = -(Math.sin(Math.toRadians(alfa)));
         this.matrix[2][2] = Math.cos(Math.toRadians(alfa));
-
     }
 }

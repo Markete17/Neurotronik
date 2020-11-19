@@ -84,6 +84,17 @@ public class Cube{
         coordinates[5]=(new Coordinate(this.x/2,-(this.y/2),-(this.z/2)));
         coordinates[6]=(new Coordinate(-(this.x/2),this.y/2,-(this.z/2)));
         coordinates[7]=(new Coordinate(this.x/2,this.y/2,-(this.z/2)));
+
+        /*coordinates[0]=(new Coordinate(0,0,0));
+        coordinates[1]=(new Coordinate(this.x,0,0));
+        coordinates[2]=(new Coordinate(0,this.y,0));
+        coordinates[3]=(new Coordinate(this.x,this.y,0));
+        coordinates[4]=(new Coordinate(0,0,this.z));
+        coordinates[5]=(new Coordinate(this.x,0,this.z));
+        coordinates[6]=(new Coordinate(0,this.y,this.z));
+        coordinates[7]=(new Coordinate(this.x,this.y,this.z/2));
+        */
+
     }
 
     public boolean isDenseLayer() {
