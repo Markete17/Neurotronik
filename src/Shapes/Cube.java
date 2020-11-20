@@ -2,7 +2,7 @@ package Shapes;
 
 import Data.Coordinate;
 
-public class Cube{
+public class Cube {
 
     final int NUM_COORDINATES = 8;
 

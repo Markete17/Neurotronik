@@ -1,14 +1,12 @@
 package Matrix;
 
-import Data.Coordinate;
+public interface Matrix {
 
-public abstract class Matrix {
+    final double [][] matrix=new double[3][3];
 
-    protected final double [][] matrix=new double[3][3];
+    public void initializeMatrix(double alfa);
 
-    public abstract void initializeMatrix(double alfa);
-
-    public double[][] getMatrix() {
+    public default double[][] getMatrix() {
         return matrix;
     }
 

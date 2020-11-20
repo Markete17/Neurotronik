@@ -1,6 +1,6 @@
 package Matrix;
 
-public class RotationMatrixY extends Matrix {
+public class RotationMatrixY implements Matrix {
 
     public RotationMatrixY(double alfa) {
         this.initializeMatrix(alfa);
