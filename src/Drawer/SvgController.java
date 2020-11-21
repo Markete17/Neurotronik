@@ -78,7 +78,9 @@ public class SvgController {
     }
 
     private void drawArrow(Arrow arrow) {
-        svgString += "\t\t<path opacity=\"0.75\" d=\" "+"M"+ arrow.getCoordinates()[0].getX()+" "+ arrow.getCoordinates()[0].getY()  +" L"+ arrow.getCoordinates()[1].getX()  +" "+ arrow.getCoordinates()[1].getY()  +" L"+ arrow.getCoordinates()[2].getX() +" "+ arrow.getCoordinates()[2].getY()+" M"+ arrow.getCoordinates()[1].getX() +" "+arrow.getCoordinates()[1].getY()+" L"+ arrow.getCoordinates()[3].getX()  +" "+ arrow.getCoordinates()[3].getY()  +"\"/>" + "\n\n";
+
+        svgString += "\t\t<path opacity=\"0.75\" d=\" "+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n\n";
+        svgString += "\t\t<circle opacity=\"0.75\" cx=\""+arrow.getVertex2().getX()+"\" cy=\""+arrow.getVertex2().getY()+"\" r=\"2\" stroke=\"black\" stroke-width=\"1\" fill=\"black\" />\n";
     }
 
     /**
