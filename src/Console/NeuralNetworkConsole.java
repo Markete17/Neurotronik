@@ -25,11 +25,11 @@ public class NeuralNetworkConsole {
         try {
             Model model = new Models().Sequential();
             Layers layers = new Layers();
-            model.add(layers.Conv2D(32, new Tuple(3, 3), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            model.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
             model.add(layers.MaxPooling2D(new Tuple(2, 2)));
-            model.add(layers.Conv2D(64, new Tuple(3, 3), new Tuple(1, 1), "same"));
+            model.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
             model.add(layers.MaxPooling2D(new Tuple(2, 2)));
-            model.add(layers.Conv2D(64, new Tuple(3, 3), new Tuple(1, 1), "same"));
+            model.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
             model.add(layers.Dense(200));
             model.add(layers.Dense(400));
 

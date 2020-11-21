@@ -9,20 +9,9 @@ import Shapes.Pyramid;
 import java.util.Arrays;
 import java.util.List;
 
-/** CON POLYLINE
- * pathBase +="<polyline points=\""+x[0].getX()+","+x[0].getY()+" "+x[1].getX()+","+x[1].getY()+" "+x[3].getX()+","+x[3].getY()+" "+x[2].getX()+","+x[2].getY()+" "+x[0].getX()+","+x[0].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:2\"/>\n";
- *                 pathBase +="<polyline points=\""+x[4].getX()+","+x[4].getY()+" "+x[5].getX()+","+x[5].getY()+" "+x[7].getX()+","+x[7].getY()+" "+x[6].getX()+","+x[6].getY()+" "+x[4].getX()+","+x[4].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:2\"/>\n";
- *                 pathBase +="<polyline points=\""+x[0].getX()+","+x[0].getY()+" "+x[4].getX()+","+x[4].getY()+" "+x[6].getX()+","+x[6].getY()+" "+x[2].getX()+","+x[2].getY()+" "+x[0].getX()+","+x[0].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:2\"/>\n";
- *
- *                 pathBase +="<polyline points=\""+x[1].getX()+","+x[1].getY()+" "+x[5].getX()+","+x[5].getY()+" "+x[7].getX()+","+x[7].getY()+" "+x[3].getX()+","+x[3].getY()+" "+x[1].getX()+","+x[1].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:3\"/>\n";
- *                 pathBase +="<polyline points=\""+x[0].getX()+","+x[0].getY()+" "+x[1].getX()+","+x[1].getY()+" "+x[5].getX()+","+x[5].getY()+" "+x[4].getX()+","+x[4].getY()+" "+x[0].getX()+","+x[0].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:3\"/>\n";
- *                 pathBase +="<polyline points=\""+x[2].getX()+","+x[2].getY()+" "+x[3].getX()+","+x[3].getY()+" "+x[7].getX()+","+x[7].getY()+" "+x[6].getX()+","+x[6].getY()+" "+x[2].getX()+","+x[2].getY()+"\" "+"style=\"fill:"+color+";stroke:black;stroke-width:3\"/>\n";
- * Notas: meter variable length al crear los cubos para transladarlos en el layers mientras se van añadiendo los cubos
- *                 */
-
 public class SvgController {
     //CONSTANTS
-    final double ALFA=30;
+    final double ALFA=40;
     final int SHIFT=75;
     double length=0;
     double lengthAux=0;
@@ -44,10 +33,10 @@ public class SvgController {
                 if(activate){
 
                     Cube kernelCube=modelQueue.get(i-1);
-                    Coordinate vertex=calculateCenter(Arrays.copyOfRange(cube.getCoordinates(),4,8));
+                    Coordinate vertex=calculateRandomPoint(cube.getCoordinates());
 
                     Pyramid pyramid=new Pyramid(Arrays.copyOf(kernelCube.getCoordinates(),4),new Coordinate(vertex.getX(),vertex.getY(),vertex.getZ()));
-                    color="green";
+                    color="silver";
                     drawPyramid(pyramid);
                     activate=false;
                 }
@@ -82,7 +71,7 @@ public class SvgController {
     }
 
     private void drawPyramid(Pyramid pyramid) {
-        svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
+        svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
@@ -134,6 +123,18 @@ public class SvgController {
         return new Coordinate(x,y,z);
     }
 
+    private Coordinate calculateRandomPoint(Coordinate[] coordinates) {
+        double x1=coordinates[4].getZ();
+        double x2=coordinates[5].getZ();
+
+        double y1=coordinates[4].getY();
+        double y2=coordinates[6].getY();
+
+        double x_random=x2 + (Math.random() * ((x1 -x2) + 1)); //[-x,x]
+        double y_random=y2 + (Math.random() * ((y1 -y2) + 1)); //[-y,y]
+        return new Coordinate(coordinates[4].getX(),y_random,x_random);
+    }
+
     private void addHeader(){
         this.svgString="<svg width=\"1000px\" height=\"1000px\" viewBox=\"-300 -400 1000 1000\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                         "\t<g stroke=\"black\" stroke-width=\"1\">\n";
@@ -153,10 +154,25 @@ public class SvgController {
                 length=l+SHIFT;
             }
             matrixController.move("x",cube.getCoordinates(),length);
+
             if(!cube.isKernel()) {
                 lengthAux = cube.getCoordinates()[0].getX();
             }
+            if(cube.isKernel()){
+                Cube cube_actual=modelQueue.get(i-1);
+                moveKernel(cube_actual,cube);
+            }
         }
+    }
+    private void moveKernel(Cube cube_actual,Cube kernel){
+        MatrixController matrixController=new MatrixController();
+        double dif=(cube_actual.getCoordinates()[3].getY()-kernel.getCoordinates()[3].getY());
+
+        double x_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-x,x]
+        double y_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-y,y]
+
+        matrixController.move("z",kernel.getCoordinates(),x_random);
+        matrixController.move("y",kernel.getCoordinates(),y_random);
     }
 
 }

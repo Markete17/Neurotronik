@@ -15,7 +15,7 @@ public class Layers {
         List<Cube> cubeList=new ArrayList<>();
         cube_actual=input;
         cubeList.add(input);
-        Cube CNNCube=this.createKernel(this.cube_actual.getZ(),kernel_size);
+        Cube CNNCube=createKernel(this.cube_actual.getZ(),kernel_size);
         cubeList.add(CNNCube);
         setConvolution(filters,kernel_size,strides,padding);
         cubeList.add(this.cube_actual);
