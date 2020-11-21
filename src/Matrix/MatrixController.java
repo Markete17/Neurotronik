@@ -7,6 +7,12 @@ public class MatrixController {
     public MatrixController() {
     }
 
+    /**
+     * Rotate the coordinates given an axis and degrees
+     * @param axis
+     * @param coordinates
+     * @param degrees
+     */
     public void rotate(String axis, Coordinate [] coordinates, double degrees){
         switch (axis){
             case "x":{
@@ -29,6 +35,12 @@ public class MatrixController {
         }
     }
 
+    /**
+     * Move the coordinates given an axis and length
+     * @param axis
+     * @param coordinates
+     * @param length
+     */
     public void move(String axis,Coordinate [] coordinates, double length){
         switch (axis){
             case "x":{
@@ -68,18 +80,6 @@ public class MatrixController {
 
     }
 
-    private void setNewCoordinates(Matrix rotateMatrix, Coordinate[] coordinates) {
-        coordinates[0]=multiply(rotateMatrix.getMatrix(),coordinates[0].getCoordinateMatrix());
-        coordinates[1]=multiply(rotateMatrix.getMatrix(),coordinates[1].getCoordinateMatrix());
-        coordinates[2]=multiply(rotateMatrix.getMatrix(),coordinates[2].getCoordinateMatrix());
-        coordinates[3]=multiply(rotateMatrix.getMatrix(),coordinates[3].getCoordinateMatrix());
-        coordinates[4]=multiply(rotateMatrix.getMatrix(),coordinates[4].getCoordinateMatrix());
-        coordinates[5]=multiply(rotateMatrix.getMatrix(),coordinates[5].getCoordinateMatrix());
-        coordinates[6]=multiply(rotateMatrix.getMatrix(),coordinates[6].getCoordinateMatrix());
-        coordinates[7]=multiply(rotateMatrix.getMatrix(),coordinates[7].getCoordinateMatrix());
-    }
-
-
     /**
      * Multiply matrices A and B to generate a new point c
      * @param a
@@ -99,6 +99,17 @@ public class MatrixController {
 
         Coordinate output=new Coordinate(c[0][0],c[1][0],c[2][0]);
         return output;
+    }
+
+    private void setNewCoordinates(Matrix rotateMatrix, Coordinate[] coordinates) {
+        coordinates[0]=multiply(rotateMatrix.getMatrix(),coordinates[0].getCoordinateMatrix());
+        coordinates[1]=multiply(rotateMatrix.getMatrix(),coordinates[1].getCoordinateMatrix());
+        coordinates[2]=multiply(rotateMatrix.getMatrix(),coordinates[2].getCoordinateMatrix());
+        coordinates[3]=multiply(rotateMatrix.getMatrix(),coordinates[3].getCoordinateMatrix());
+        coordinates[4]=multiply(rotateMatrix.getMatrix(),coordinates[4].getCoordinateMatrix());
+        coordinates[5]=multiply(rotateMatrix.getMatrix(),coordinates[5].getCoordinateMatrix());
+        coordinates[6]=multiply(rotateMatrix.getMatrix(),coordinates[6].getCoordinateMatrix());
+        coordinates[7]=multiply(rotateMatrix.getMatrix(),coordinates[7].getCoordinateMatrix());
     }
 
 }

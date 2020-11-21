@@ -6,6 +6,10 @@ import Layers.*;
 import Drawer.*;
 import Shapes.*;
 
+            /*****************************
+             *****NEUROTRONIK CONSOLE*****
+             ****************************/
+
 public class NeuralNetworkConsole {
 
     public boolean run(){

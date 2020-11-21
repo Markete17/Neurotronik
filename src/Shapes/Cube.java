@@ -25,11 +25,8 @@ public class Cube {
     private boolean isDenseLayer=false;
     private Coordinate [] coordinates =new Coordinate[NUM_COORDINATES];
 
-
-
     public Cube() {
     }
-
 
     //input image
     public Cube(Coordinate coordinates) {
@@ -59,6 +56,11 @@ public class Cube {
     public Coordinate[] getCoordinates() {
         return coordinates;
     }
+
+    /**
+     * Initialize the cube given coordinates
+     * @param coordinate
+     */
     private void initializeCube(Coordinate coordinate){
         this.x=coordinate.getX();
         this.y=coordinate.getY();
@@ -75,6 +77,10 @@ public class Cube {
 
     }
 
+    /**
+     *
+     * @return true if the cube is a dense layer, false otherwise
+     */
     public boolean isDenseLayer() {
         return isDenseLayer;
     }

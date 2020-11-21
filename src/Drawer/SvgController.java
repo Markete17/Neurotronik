@@ -10,17 +10,25 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SvgController {
+
     //CONSTANTS
-    final double ALFA=40;
+    final double ALFA=30;
     final int SHIFT=75;
+
+    //GLOBAL VARIABLES
     double length=0;
     double lengthAux=0;
     boolean activate=false;
     String color;
 
-    //final svg file
+    //FINAL SVG FILE
     String svgString="";
 
+    /**
+     * Draw the Neural Network with a SVG file
+     * @param modelQueue
+     * @return
+     */
 
     public String draw(List<Cube> modelQueue) {
         this.addHeader();
@@ -60,6 +68,10 @@ public class SvgController {
         return this.svgString;
     }
 
+    /**
+     * Draw a cube
+     * @param cube
+     */
     private void drawCube(Cube cube) {
         //Cube Path
         svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+ cube.getCoordinates()[0].getX() +" "+ cube.getCoordinates()[0].getY() +" L"+ cube.getCoordinates()[1].getX() +" "+ cube.getCoordinates()[1].getY() +" L"+ cube.getCoordinates()[3].getX() +" "+ cube.getCoordinates()[3].getY() +" L"+ cube.getCoordinates()[2].getX() +" "+cube.getCoordinates()[2].getY()+" L"+ cube.getCoordinates()[0].getX() +" "+cube.getCoordinates()[0].getY()+"\"/>" + "\n";
@@ -70,6 +82,10 @@ public class SvgController {
         svgString += "\t\t<path opacity=\"0.5\" fill=\"" + color + "\" d=\" "+"M"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+" L"+cube.getCoordinates()[3].getX()+" "+cube.getCoordinates()[3].getY()+" L"+cube.getCoordinates()[7].getX()+" "+cube.getCoordinates()[7].getY()+" L"+cube.getCoordinates()[6].getX()+" "+cube.getCoordinates()[6].getY()+" L"+cube.getCoordinates()[2].getX()+" "+cube.getCoordinates()[2].getY()+"\"/>"+"\n\n";
     }
 
+    /**
+     * Draw a pyramid
+     * @param pyramid
+     */
     private void drawPyramid(Pyramid pyramid) {
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
@@ -77,6 +93,10 @@ public class SvgController {
         svgString += "\t\t<path opacity=\"0.75\" fill=\"" + color + "\" d=\" "+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
     }
 
+    /**
+     * Draw an arrow
+     * @param arrow
+     */
     private void drawArrow(Arrow arrow) {
 
         svgString += "\t\t<path opacity=\"0.75\" d=\" "+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n\n";
@@ -118,6 +138,11 @@ public class SvgController {
         matrixController.rotate("x",coordinates,ALFA);
     }
 
+    /**
+     * Compute the center of a square
+     * @param coordinates
+     * @return
+     */
     private Coordinate calculateCenter(Coordinate [] coordinates){
         double x=(coordinates[0].getX()+coordinates[1].getX()+coordinates[2].getX()+coordinates[3].getX())/4;
         double y=(coordinates[0].getY()+coordinates[1].getY()+coordinates[2].getY()+coordinates[3].getY())/4;
@@ -125,6 +150,11 @@ public class SvgController {
         return new Coordinate(x,y,z);
     }
 
+    /**
+     * Compute a random point for the kernel
+     * @param coordinates
+     * @return
+     */
     private Coordinate calculateRandomPoint(Coordinate[] coordinates) {
         double x1=coordinates[4].getZ();
         double x2=coordinates[5].getZ();
@@ -137,14 +167,25 @@ public class SvgController {
         return new Coordinate(coordinates[4].getX(),y_random,x_random);
     }
 
+    /**
+     * SVG header
+     */
     private void addHeader(){
         this.svgString="<svg width=\"1000px\" height=\"1000px\" viewBox=\"-300 -400 1000 1000\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                         "\t<g stroke=\"black\" stroke-width=\"1\">\n";
     }
+
+    /**
+     * SVG Footer
+     */
     private void addFooter(){
         this.svgString+="\t </g>\n"+"</svg>";
     }
 
+    /**
+     * Shift the Neural Network
+     * @param modelQueue
+     */
     private void shift(List<Cube> modelQueue){
         MatrixController matrixController=new MatrixController();
         for(int i=0;i<modelQueue.size();i++){
@@ -166,6 +207,12 @@ public class SvgController {
             }
         }
     }
+
+    /**
+     * Move the kernel to a random position
+     * @param cube_actual
+     * @param kernel
+     */
     private void moveKernel(Cube cube_actual,Cube kernel){
         MatrixController matrixController=new MatrixController();
         double dif=(cube_actual.getCoordinates()[3].getY()-kernel.getCoordinates()[3].getY());

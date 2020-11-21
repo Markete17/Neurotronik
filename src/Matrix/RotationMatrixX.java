@@ -6,10 +6,6 @@ public class RotationMatrixX implements Matrix {
         this.initializeMatrix(alfa);
     }
 
-    public double[][] getMatrix() {
-        return matrix;
-    }
-
     /**
      * Initialize the rotation matrix in X
      * @param alfa

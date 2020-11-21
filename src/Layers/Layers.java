@@ -11,6 +11,15 @@ public class Layers {
 
     private Cube cube_actual=new Cube();
 
+    /** CONV2D Layer
+     *  Is a 2D Convolution Layer, this layer creates a convolution kernel that is wind with layers input which helps produce a tensor of outputs.
+     * @param filters
+     * @param kernel_size
+     * @param strides
+     * @param input
+     * @param padding
+     * @return
+     */
     public List<Cube> Conv2D(int filters, Tuple kernel_size, Tuple strides, Cube input, String padding){
         List<Cube> cubeList=new ArrayList<>();
         cube_actual=input;
@@ -32,13 +41,24 @@ public class Layers {
         return cubeList;
     }
 
-    //Pooling
+    /** MAX POOLING 2D
+     * Max pooling operation for 2D spatial data.
+     * Downsamples the input representation by taking the maximum value over the window defined by pool_size for
+     * each dimension along the features axis. The window is shifted by strides in each dimension.
+     * @param tuple
+     * @return
+     */
     public Cube MaxPooling2D(Tuple tuple){
         setPooling(tuple);
         return this.cube_actual;
     }
 
-    //Dense Layer
+    /** DENSE LAYER
+     * A dense layer is just a regular layer of neurons in a neural network.
+     * Each neuron recieves input from all the neurons in the previous layer, thus densely connected
+     * @param vector
+     * @return
+     */
     public List<Cube> Dense(double vector){
         List<Cube> cubeList=new ArrayList<>();
         Cube cube =new Cube(new Coordinate(10,vector,10));
@@ -52,7 +72,7 @@ public class Layers {
         double x= (this.cube_actual.getX())/tuple.getN1();
         double y=(this.cube_actual.getY())/tuple.getN2();
 
-        this.setNewDimensions(x,y);
+        this.setNewDimensions(x,y,this.cube_actual.getZ());
     }
 
     private void setConvolution(int filters,Tuple kernel_size,Tuple strides,String padding) {
@@ -67,6 +87,12 @@ public class Layers {
 
     }
 
+    /**
+     * Create new Kernel
+     * @param z
+     * @param tuple
+     * @return
+     */
     private Cube createKernel(double z,Tuple tuple){
         Coordinate coordinates=new Coordinate(tuple.getN1(),tuple.getN2(),z);
         Cube kernel=new Cube(coordinates);
@@ -76,13 +102,6 @@ public class Layers {
 
     private void setNewDimensions(double x,double y,double z){
         Coordinate coordinate=new Coordinate(x,y,z);
-        Cube newCube=new Cube(coordinate);
-        this.cube_actual=newCube;
-
-    }
-
-    private void setNewDimensions(double x,double y){
-        Coordinate coordinate=new Coordinate(x,y,this.cube_actual.getZ());
         Cube newCube=new Cube(coordinate);
         this.cube_actual=newCube;
 

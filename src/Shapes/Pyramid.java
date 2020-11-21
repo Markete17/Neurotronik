@@ -12,6 +12,11 @@ public class Pyramid {
         this.initializePyramid(coordinates,point);
     }
 
+    /**
+     * Initialize the pyramid
+     * @param coordinates
+     * @param point
+     */
     private void initializePyramid(Coordinate [] coordinates, Coordinate point){
         this.vertex=new Coordinate(point.getX(),point.getY(),point.getZ());
         this.coordinates[0]=(new Coordinate(coordinates[0].getX(),coordinates[0].getY(),coordinates[0].getZ()));

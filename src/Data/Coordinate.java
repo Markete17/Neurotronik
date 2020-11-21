@@ -1,6 +1,7 @@
 package Data;
 
 public class Coordinate {
+
     private double [][] coordinateMatrix=new double[3][1];
 
     public Coordinate(double x, double y, double z) {
@@ -8,9 +9,6 @@ public class Coordinate {
         this.coordinateMatrix[0][0]=x;
         this.coordinateMatrix[1][0]=y;
         this.coordinateMatrix[2][0]=z;
-    }
-
-    public Coordinate() {
     }
 
     public double getX() {
