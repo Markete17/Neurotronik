@@ -3,8 +3,10 @@ package Layers;
 import Data.Coordinate;
 import Data.Tuple;
 import Shapes.Cube;
+import Tree.Node;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Layers {
@@ -48,9 +50,8 @@ public class Layers {
      * @param tuple
      * @return
      */
-    public Cube MaxPooling2D(Tuple tuple){
+    public void MaxPooling2D(Tuple tuple){
         setPooling(tuple);
-        return this.cube_actual;
     }
 
     /** DENSE LAYER
@@ -105,5 +106,24 @@ public class Layers {
         Cube newCube=new Cube(coordinate);
         this.cube_actual=newCube;
 
+    }
+
+    public List<Cube> concatenate(int mode,Node... nodes) {
+        //to concatenate layers, they have to have the same dimensions
+        Node node = (Node) Arrays.stream(nodes).toArray()[0];
+        boolean error=Arrays.stream(nodes).allMatch(n->n.getLastCube().getX()!= node.getLastCube().getX() || n.getLastCube().getY()!= node.getLastCube().getY() || n.getLastCube().getZ()!= node.getLastCube().getZ());
+
+        if(!error){
+            if(mode==0){
+                return new ArrayList<>();
+            }
+            List<Cube> cubeList=new ArrayList<>();
+            Cube newCube= new Cube(new Coordinate(node.getLastCube().getX(), node.getLastCube().getY(), node.getLastCube().getZ()));
+                cubeList.add(newCube);
+                this.cube_actual = newCube;
+
+            return cubeList;
+        }
+        throw new RuntimeException("The outputs are not the same size");
     }
 }

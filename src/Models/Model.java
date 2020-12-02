@@ -1,24 +1,21 @@
 package Models;
 
-import Shapes.Cube;
-
-import java.util.ArrayList;
-import java.util.List;
+import Tree.NeuralNetworkTree;
+import Tree.Node;
 
 public class Model {
-    List<Cube> modelQueue=new ArrayList<>();
 
-    public void add(Cube cube){ //Max Pooling not add any cube
-        return;
+    private NeuralNetworkTree modelTree=new NeuralNetworkTree();
+
+    public NeuralNetworkTree getModelTree() {
+        return modelTree;
     }
 
-    public void add(List<Cube> cubeList){
-        for(Cube cube:cubeList){
-            this.modelQueue.add(cube);
-        }
+    public void add(Node x1) {
+        modelTree.addRoot(x1);
     }
 
-    public List<Cube> getModelQueue() {
-        return modelQueue;
+    public void add(Node child,Node parent){
+        modelTree.add(child,parent);
     }
 }
