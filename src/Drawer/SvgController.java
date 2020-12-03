@@ -5,34 +5,104 @@ import Matrix.*;
 import Shapes.Arrow;
 import Shapes.Cube;
 import Shapes.Pyramid;
-
+import Tree.NeuralNetworkTree;
+import Tree.Node;
 import java.util.Arrays;
 import java.util.List;
 
 public class SvgController {
 
     //CONSTANTS
-    final double ALFA=30;
-    final int SHIFT=75;
+    final double ALFAX=60;
+    final double ALFAY=60;
+    final int SHIFTZ =75;
+    final int SHIFTX =100;
 
     //GLOBAL VARIABLES
     double length=0;
     double lengthAux=0;
     boolean activate=false;
     String color;
+    double length2=0;
+    double length2Aux=0;
 
     //FINAL SVG FILE
     String svgString="";
 
+    public String draw(NeuralNetworkTree modelTree) {
+        this.shiftTree(modelTree);
+        this.addHeader();
+        for (int i = 0; i < modelTree.getNodes().length; i++) {
+            for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
+                Node node=modelTree.getNodes()[i].get(j);
+                drawNode(node);
+                if(modelTree.isParent(node)){
+                    drawUnions(node);
+                }
+            }
+        }
+        this.addFooter();
+        return svgString;
+    }
+
+    public void shiftTree(NeuralNetworkTree modelTree) {
+        modelTree.initializeNodes();
+        for(int i=0;i<modelTree.getNodes().length;i++){
+            //First Level
+            if(i==0) {
+                for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
+                    Node node = modelTree.getNodes()[i].get(j);
+                    if(j!=0){
+                        double l;
+                        if(node.getCubeList().get(0).getX()>modelTree.getNodes()[i].get(j-1).getCubeList().get(0).getX()) {
+
+                            l = Math.abs(node.getCubeList().get(0).getCoordinates()[0].getX() - length2Aux);
+                        }
+                        else{
+                            l = Math.abs(length2Aux-node.getCubeList().get(0).getCoordinates()[0].getX());
+                        }
+                        length2=l+ SHIFTX;
+
+                    }
+                    length2Aux = node.getCubeList().get(0).getCoordinates()[1].getX();
+                    this.shiftNode(node);
+                    length=0;
+                    lengthAux=0;
+                }
+            }
+            //Other levels
+            else{
+                for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
+                    Node node = modelTree.getNodes()[i].get(j);
+                    Node firstChild=node.getChildren().get(0);
+                    Node lastChild=node.getChildren().get(node.getChildren().size()-1);
+                    Coordinate centerChild1=calculateCenter(firstChild.getCubeList().get(0).getCoordinates());
+                    Coordinate centerChild2=calculateCenter(lastChild.getCubeList().get(0).getCoordinates());
+                    Cube lastCube1=firstChild.getLastCube();
+                    Cube lastCube2=firstChild.getLastCube();
+                    double depth1=lastCube1.getCoordinates()[0].getZ();
+                    double depth2=lastCube2.getCoordinates()[0].getZ();
+                    length2=(Math.abs(centerChild1.getX()-centerChild2.getX())/2);
+                    double depth=Math.max(depth1,depth2);
+                    double depthCube=node.getCubeList().get(0).getCoordinates()[1].getZ();
+                    double l=Math.abs(depth+depthCube);
+                    length=l+SHIFTZ;
+                    this.shiftNode(node);
+                }
+                length=0;
+                lengthAux=0;
+            }
+            length2=0;
+        }
+    }
+
     /**
-     * Draw the Neural Network with a SVG file
-     * @param modelQueue
+     * Draw a node with SVG
+     * @param node
      * @return
      */
-
-    public String draw(List<Cube> modelQueue) {
-        this.addHeader();
-        this.shift(modelQueue);
+    public void drawNode(Node node) {
+        List<Cube> modelQueue=node.getCubeList();
             for(int i=0;i<modelQueue.size();i++) {
                 Cube cube=modelQueue.get(i);
                 color=selectColor(cube);
@@ -50,13 +120,17 @@ public class SvgController {
                 }
 
                 if(cube.isDenseLayer()){
-                    Cube lastCube=modelQueue.get(i-1);
+                    try {
+                        Cube lastCube = modelQueue.get(i - 1);
 
-                    Coordinate vertex1=calculateCenter(Arrays.copyOfRange(lastCube.getCoordinates(),0,4));
-                    Coordinate vertex2=calculateCenter(Arrays.copyOfRange(cube.getCoordinates(),4,8));
+                        Coordinate vertex1 = calculateCenter(Arrays.copyOfRange(lastCube.getCoordinates(), 0, 4));
+                        Coordinate vertex2 = calculateCenter(Arrays.copyOfRange(cube.getCoordinates(), 4, 8));
 
-                    Arrow arrow=new Arrow(vertex1,vertex2);
-                    drawArrow(arrow);
+                        Arrow arrow = new Arrow(vertex1, vertex2);
+                        drawArrow(arrow);
+                    }catch(Exception e){
+
+                    }
                 }
 
                 if(cube.isKernel()){
@@ -64,8 +138,18 @@ public class SvgController {
                 }
             }
 
-        this.addFooter();
-        return this.svgString;
+
+    }
+
+    private void drawUnions(Node parent) {
+        for(Node child:parent.getChildren()){
+            Cube lastCube = child.getLastCube();
+            Coordinate vertex1 = calculateCenter(Arrays.copyOfRange(lastCube.getCoordinates(), 0, 4));
+            Coordinate vertex2 = calculateCenter(Arrays.copyOfRange(parent.getCubeList().get(0).getCoordinates(), 4, 8));
+            Arrow arrow = new Arrow(vertex1, vertex2);
+            drawArrow(arrow);
+        }
+
     }
 
     /**
@@ -132,10 +216,10 @@ public class SvgController {
         MatrixController matrixController=new MatrixController();
 
         //Rotation on the Y-axis
-        matrixController.rotate("y",coordinates,ALFA);
+        matrixController.rotate("y",coordinates,ALFAY);
 
         //Rotation on the X-axis
-        matrixController.rotate("x",coordinates,ALFA);
+        matrixController.rotate("x",coordinates,ALFAX);
     }
 
     /**
@@ -156,15 +240,15 @@ public class SvgController {
      * @return
      */
     private Coordinate calculateRandomPoint(Coordinate[] coordinates) {
-        double x1=coordinates[4].getZ();
-        double x2=coordinates[5].getZ();
+        double x1=coordinates[4].getX();
+        double x2=coordinates[5].getX();
 
         double y1=coordinates[4].getY();
         double y2=coordinates[6].getY();
 
         double x_random=x2 + (Math.random() * ((x1 -x2) + 1)); //[-x,x]
         double y_random=y2 + (Math.random() * ((y1 -y2) + 1)); //[-y,y]
-        return new Coordinate(coordinates[4].getX(),y_random,x_random);
+        return new Coordinate(x_random,y_random,coordinates[4].getZ());
     }
 
     /**
@@ -184,22 +268,26 @@ public class SvgController {
 
     /**
      * Shift the Neural Network
-     * @param modelQueue
+     * @param node
      */
-    private void shift(List<Cube> modelQueue){
+    private void shiftNode(Node node){
+        List<Cube> modelQueue=node.getCubeList();
         MatrixController matrixController=new MatrixController();
         for(int i=0;i<modelQueue.size();i++){
             Cube cube=modelQueue.get(i);
-            matrixController.rotate("y",cube.getCoordinates(),90);
+
+            matrixController.move("x",cube.getCoordinates(),length2);
+
             //Difference in length between the Z of the previous cube (it is X because it is rotated) and the Z of the current cube
+
             if(!cube.isKernel() && i!=0){
-                double l=Math.abs(lengthAux-cube.getCoordinates()[4].getX());
-                length=l+SHIFT;
+                double l=Math.abs(lengthAux-cube.getCoordinates()[4].getZ());
+                length=l+ SHIFTZ;
             }
-            matrixController.move("x",cube.getCoordinates(),length);
+            matrixController.move("z",cube.getCoordinates(),length);
 
             if(!cube.isKernel()) {
-                lengthAux = cube.getCoordinates()[0].getX();
+                lengthAux = cube.getCoordinates()[0].getZ();
             }
             if(cube.isKernel()){
                 Cube cube_actual=modelQueue.get(i-1);
@@ -220,8 +308,7 @@ public class SvgController {
         double x_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-x,x]
         double y_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-y,y]
 
-        matrixController.move("z",kernel.getCoordinates(),x_random);
+        matrixController.move("x",kernel.getCoordinates(),x_random);
         matrixController.move("y",kernel.getCoordinates(),y_random);
     }
-
 }

@@ -7,7 +7,7 @@ import Drawer.*;
 import Shapes.*;
 import Tree.*;
 
-/*****************************
+            /*****************************
              *****NEUROTRONIK CONSOLE*****
              ****************************/
 
@@ -50,8 +50,7 @@ public class NeuralNetworkConsole {
 
             x3.add(layers.concatenate(0,x1,x2));;
             x3.add(layers.Dense(200));
-            x3.add(layers.Dense(400));
-
+            x3.add(layers.Dense(200));
             //Create Tree
             model.add(x3);
             model.add(x2,x3);
@@ -59,7 +58,7 @@ public class NeuralNetworkConsole {
             //
 
             SvgController svg = new SvgController();
-            //System.out.println(svg.draw(model.getModelQueue()));
+            System.out.println(svg.draw(model.getModelTree()));
 
             return true;
         }
