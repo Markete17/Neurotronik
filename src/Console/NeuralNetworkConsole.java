@@ -33,6 +33,8 @@ public class NeuralNetworkConsole {
             Node x1=new Node();
             Node x2=new Node();
             Node x3=new Node();
+            Node x4=new Node();
+            Node xp1=new Node();
 
             x1.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
@@ -47,14 +49,28 @@ public class NeuralNetworkConsole {
             layers.MaxPooling2D(new Tuple(2, 2));
             x2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
+            x3.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            layers.MaxPooling2D(new Tuple(2, 2));
+            x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
+            layers.MaxPooling2D(new Tuple(2, 2));
+            x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x3.add(layers.concatenate(0,x1,x2));;
-            x3.add(layers.Dense(200));
-            x3.add(layers.Dense(200));
+            x4.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 200)), "same"));
+            layers.MaxPooling2D(new Tuple(2, 2));
+            x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
+            layers.MaxPooling2D(new Tuple(2, 2));
+            x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
+
+
+            xp1.add(layers.concatenate(0,x1,x2));;
+            xp1.add(layers.Dense(200));
+            xp1.add(layers.Dense(200));
             //Create Tree
-            model.add(x3);
-            model.add(x2,x3);
-            model.add(x1,x3);
+            model.add(xp1);
+            model.add(x1,xp1);
+            model.add(x2,xp1);
+            model.add(x3,xp1);
+            model.add(x4,xp1);
             //
 
             SvgController svg = new SvgController();
