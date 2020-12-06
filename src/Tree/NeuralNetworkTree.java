@@ -67,16 +67,21 @@ public class NeuralNetworkTree {
         for(int i=0;i<maxDepth;i++){
             this.nodes[i]=new ArrayList<>();
         }
-        levels(root(),0);
+        levels(root(),0,maxDepth);
         Collections.reverse(Arrays.asList(this.nodes));
     }
 
-    public void levels(Node node,int level){
+    public void levels(Node node,int level,int maxDepth){
         if(node!=null){
-            this.nodes[level].add(node);
+            if(this.isLeaf(node)){
+                this.nodes[maxDepth-1].add(node);
+            }
+            else {
+                this.nodes[level].add(node);
+            }
             if(!isLeaf(node)) {
                 for (Node child :node.getChildren()){
-                    levels(child,level+1);
+                    levels(child,level+1,maxDepth);
                 }
             }
         }

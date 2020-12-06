@@ -111,8 +111,12 @@ public class Layers {
     public List<Cube> concatenate(int mode,Node... nodes) {
         //to concatenate layers, they have to have the same dimensions
         Node node = (Node) Arrays.stream(nodes).toArray()[0];
-        boolean error=Arrays.stream(nodes).allMatch(n->n.getLastCube().getX()!= node.getLastCube().getX() || n.getLastCube().getY()!= node.getLastCube().getY() || n.getLastCube().getZ()!= node.getLastCube().getZ());
-
+        boolean error=false;
+        for(Node n:nodes){
+            if(n.getLastCube().getX()!=node.getLastCube().getX() || n.getLastCube().getY()!=node.getLastCube().getY() || n.getLastCube().getZ()!=node.getLastCube().getZ()){
+                error=true;
+            }
+        }
         if(!error){
             if(mode==0){
                 return new ArrayList<>();
@@ -124,6 +128,6 @@ public class Layers {
 
             return cubeList;
         }
-        throw new RuntimeException("The outputs are not the same size");
+        throw new RuntimeException("The outputs are not the same size.");
     }
 }
