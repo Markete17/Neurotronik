@@ -14,22 +14,12 @@ import Tree.*;
 public class NeuralNetworkConsole {
 
     public boolean run(){
-        // First a basic CNN in Keras  (Input)
-        // https://www.tensorflow.org/tutorials/images/cnn
-        // model = models.Sequential()
-
-        //model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(32, 32, 3)))
-        //model.add(layers.MaxPooling2D((2, 2)))
-        //model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-        //model.add(layers.MaxPooling2D((2, 2)))
-        //model.add(layers.Conv2D(64, (3, 3), activation='relu'))
-        //model.add(layers.Dense(200))
-        //model.add(layers.Dense(400))
 
         //Input
         try {
+            DrawSettings drawSettings=new DrawSettings();
             Model model = new Models().Sequential();
-            Layers layers = new Layers();
+            Layers layers = new Layers(drawSettings);
             Node x1a=new Node();
             Node x1b=new Node();
             Node x1=new Node();
@@ -40,11 +30,13 @@ public class NeuralNetworkConsole {
             Node xp2=new Node();
             Node xp3=new Node();
 
-            x1a.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            x1a.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
+            x1a.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x1a.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x1b.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            x1b.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
+            x1b.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1),"same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x1b.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
@@ -52,19 +44,22 @@ public class NeuralNetworkConsole {
             layers.MaxPooling2D(new Tuple(2, 2));
             x1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x2.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            x2.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
+            x2.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x3.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            x3.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
+            x3.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x4.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), new Cube(new Coordinate(32, 32, 20)), "same"));
+            x4.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
+            x4.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
             x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
@@ -93,7 +88,7 @@ public class NeuralNetworkConsole {
             model.add(xp1,xp3);
             model.add(xp2,xp3);
             //
-            DrawSettings drawSettings=new DrawSettings();
+
             SvgController svg = new SvgController(drawSettings);
             System.out.println(svg.draw(model.getModelTree()));
 

@@ -2,6 +2,7 @@ package Layers;
 
 import Data.Coordinate;
 import Data.Tuple;
+import Drawer.DrawSettings;
 import Shapes.Cube;
 import Tree.Node;
 
@@ -12,6 +13,18 @@ import java.util.List;
 public class Layers {
 
     private Cube cube_actual=new Cube();
+    private DrawSettings drawSettings;
+
+    public Layers(DrawSettings drawSettings) {
+        this.drawSettings = drawSettings;
+    }
+
+    public List<Cube> Input(Cube input){
+        List<Cube> cubeList=new ArrayList<>();
+        cube_actual=input;
+        cubeList.add(input);
+        return cubeList;
+    }
 
     /** CONV2D Layer
      *  Is a 2D Convolution Layer, this layer creates a convolution kernel that is wind with layers input which helps produce a tensor of outputs.
@@ -22,7 +35,7 @@ public class Layers {
      * @param padding
      * @return
      */
-    public List<Cube> Conv2D(int filters, Tuple kernel_size, Tuple strides, Cube input, String padding){
+    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding){
         List<Cube> cubeList=new ArrayList<>();
         cube_actual=input;
         cubeList.add(input);
@@ -34,7 +47,7 @@ public class Layers {
     }
 
     //Conv2D function without input
-    public List<Cube> Conv2D(int filters,Tuple kernel_size,Tuple strides,String padding){
+    public List<Cube> Conv2D(double filters,Tuple kernel_size,Tuple strides,String padding){
         List<Cube> cubeList=new ArrayList<>();
         Cube CNNCube=createKernel(this.cube_actual.getZ(),kernel_size);
         cubeList.add(CNNCube);
@@ -62,7 +75,7 @@ public class Layers {
      */
     public List<Cube> Dense(double vector){
         List<Cube> cubeList=new ArrayList<>();
-        Cube cube =new Cube(new Coordinate(10,vector,10));
+        Cube cube =new Cube(new Coordinate(10,vector,10),drawSettings);
         cube.setDenseLayer(true);
         this.cube_actual=cube;
         cubeList.add(cube);
@@ -76,7 +89,7 @@ public class Layers {
         this.setNewDimensions(x,y,this.cube_actual.getZ());
     }
 
-    private void setConvolution(int filters,Tuple kernel_size,Tuple strides,String padding) {
+    private void setConvolution(double filters,Tuple kernel_size,Tuple strides,String padding) {
         double output_w=this.cube_actual.getX();
         double output_h=this.cube_actual.getY();
         if(padding=="valid"){
@@ -96,14 +109,14 @@ public class Layers {
      */
     private Cube createKernel(double z,Tuple tuple){
         Coordinate coordinates=new Coordinate(tuple.getN1(),tuple.getN2(),z);
-        Cube kernel=new Cube(coordinates);
+        Cube kernel=new Cube(coordinates,drawSettings);
         kernel.setKernel(true);
         return kernel;
     }
 
     private void setNewDimensions(double x,double y,double z){
         Coordinate coordinate=new Coordinate(x,y,z);
-        Cube newCube=new Cube(coordinate);
+        Cube newCube=new Cube(coordinate,drawSettings);
         this.cube_actual=newCube;
 
     }
@@ -122,7 +135,7 @@ public class Layers {
                 return new ArrayList<>();
             }
             List<Cube> cubeList=new ArrayList<>();
-            Cube newCube= new Cube(new Coordinate(node.getLastCube().getX(), node.getLastCube().getY(), node.getLastCube().getZ()));
+            Cube newCube= new Cube(new Coordinate(node.getLastCube().getX(), node.getLastCube().getY(), node.getLastCube().getZ()),drawSettings);
                 cubeList.add(newCube);
                 this.cube_actual = newCube;
 

@@ -2,22 +2,22 @@ package Drawer;
 
 public class Shift {
 
-    private double shiftNodesZ;//SHIFT Nodes
-    private double shiftNodesX;//SHIFT between nodes
-    private double shiftParent;//SHIFT Parent
+    private double shiftLayers;//Spacing between layers
+    private double shiftNodes;//Spacing between nodes
+    private double shiftParent;//Spacing between parent and child
 
-    public Shift(double shiftNodesZ, double shiftNodesX, double shiftParent) {
-        this.shiftNodesZ = shiftNodesZ;
-        this.shiftNodesX = shiftNodesX;
+    public Shift(double shiftNodes, double shiftLayers, double shiftParent) {
+        this.shiftNodes = shiftNodes;
+        this.shiftLayers = shiftLayers;
         this.shiftParent = shiftParent;
     }
 
-    public double getShiftNodesZ() {
-        return shiftNodesZ;
+    public double getShiftLayers() {
+        return shiftLayers;
     }
 
-    public double getShiftNodesX() {
-        return shiftNodesX;
+    public double getShiftNodes() {
+        return shiftNodes;
     }
 
     public double getShiftParent() {

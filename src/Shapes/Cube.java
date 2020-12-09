@@ -1,6 +1,7 @@
 package Shapes;
 
 import Data.Coordinate;
+import Drawer.DrawSettings;
 
 public class Cube {
 
@@ -29,8 +30,8 @@ public class Cube {
     }
 
     //input image
-    public Cube(Coordinate coordinates) {
-        this.initializeCube(coordinates);
+    public Cube(Coordinate coordinates, DrawSettings drawSettings) {
+        this.initializeCube(coordinates,drawSettings);
     }
 
     public double getX() {
@@ -61,19 +62,23 @@ public class Cube {
      * Initialize the cube given coordinates
      * @param coordinate
      */
-    private void initializeCube(Coordinate coordinate){
+    private void initializeCube(Coordinate coordinate,DrawSettings drawSettings){
         this.x=coordinate.getX();
         this.y=coordinate.getY();
         this.z=coordinate.getZ();
 
-        coordinates[0]=(new Coordinate(-(this.x/2),-(this.y/2),this.z/2));
-        coordinates[1]=(new Coordinate(this.x/2,-(this.y/2),this.z/2));
-        coordinates[2]=(new Coordinate(-(this.x/2),(this.y/2),this.z/2));
-        coordinates[3]=(new Coordinate(this.x/2,this.y/2,this.z/2));
-        coordinates[4]=(new Coordinate(-(this.x/2),-(this.y/2),-(this.z/2)));
-        coordinates[5]=(new Coordinate(this.x/2,-(this.y/2),-(this.z/2)));
-        coordinates[6]=(new Coordinate(-(this.x/2),this.y/2,-(this.z/2)));
-        coordinates[7]=(new Coordinate(this.x/2,this.y/2,-(this.z/2)));
+        double x_aux=drawSettings.logWidth(this.x);
+        double y_aux=drawSettings.logWidth(this.y);
+        double z_aux=drawSettings.logDepth(this.z);
+
+        coordinates[0]=(new Coordinate(-(x_aux/2),-(y_aux/2),z_aux/2));
+        coordinates[1]=(new Coordinate(x_aux/2,-(y_aux/2),z_aux/2));
+        coordinates[2]=(new Coordinate(-(x_aux/2),(y_aux/2),z_aux/2));
+        coordinates[3]=(new Coordinate(x_aux/2,y_aux/2,z_aux/2));
+        coordinates[4]=(new Coordinate(-(x_aux/2),-(y_aux/2),-(z_aux/2)));
+        coordinates[5]=(new Coordinate(x_aux/2,-(y_aux/2),-(z_aux/2)));
+        coordinates[6]=(new Coordinate(-(x_aux/2),y_aux/2,-(z_aux/2)));
+        coordinates[7]=(new Coordinate(x_aux/2,y_aux/2,-(z_aux/2)));
 
     }
 
