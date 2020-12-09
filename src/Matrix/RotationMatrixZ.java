@@ -10,9 +10,9 @@ public class RotationMatrixZ implements Matrix {
      * Initialize the rotation matrix in Z
      * @param alfa
      *
-     *  ( cos(a)    0   sin(a) )
-     *  ( 0         1   0      )
-     *  ( -sin(a)   0   cos(a) )
+     *  ( cos(a)    -sin(a)   0 )
+     *  ( sin(a)     cos(a)   0 )
+     *  ( 0          0        1 )
      */
 
     @Override

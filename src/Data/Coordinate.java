@@ -2,7 +2,7 @@ package Data;
 
 public class Coordinate {
 
-    private double [][] coordinateMatrix=new double[3][1];
+    private final double [][] coordinateMatrix=new double[3][1];
 
     public Coordinate(double x, double y, double z) {
 

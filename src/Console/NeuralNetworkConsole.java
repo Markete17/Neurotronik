@@ -71,10 +71,10 @@ public class NeuralNetworkConsole {
             x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
 
-            xp1.add(layers.concatenate(1,x1,x2));;
+            xp1.add(layers.concatenate(1,x1,x2));
             xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            xp2.add(layers.concatenate(1,x2,x3));;
+            xp2.add(layers.concatenate(1,x2,x3));
             xp2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
             xp3.add(layers.concatenate(0,xp1,xp2));
@@ -93,8 +93,8 @@ public class NeuralNetworkConsole {
             model.add(xp1,xp3);
             model.add(xp2,xp3);
             //
-
-            SvgController svg = new SvgController();
+            DrawSettings drawSettings=new DrawSettings();
+            SvgController svg = new SvgController(drawSettings);
             System.out.println(svg.draw(model.getModelTree()));
 
             return true;

@@ -1,37 +1,37 @@
 package Drawer;
 
 public class Color {
-    private String cube;
-    private String kernel;
-    private String dense;
-    private String pyramid;
-    private String arrow;
+    private String cubeColor;
+    private String kernelColor;
+    private String denseColor;
+    private String pyramidColor;
+    private String arrowColor;
 
     public Color(String cube, String kernel, String dense, String pyramid, String arrow) {
-        this.cube = cube;
-        this.kernel = kernel;
-        this.dense = dense;
-        this.pyramid = pyramid;
-        this.arrow = arrow;
+        this.cubeColor = cube;
+        this.kernelColor = kernel;
+        this.denseColor = dense;
+        this.pyramidColor = pyramid;
+        this.arrowColor = arrow;
     }
 
     public String getCube() {
-        return cube;
+        return cubeColor;
     }
 
     public String getKernel() {
-        return kernel;
+        return kernelColor;
     }
 
     public String getDense() {
-        return dense;
+        return denseColor;
     }
 
     public String getPyramid() {
-        return pyramid;
+        return pyramidColor;
     }
 
     public String getArrow() {
-        return arrow;
+        return arrowColor;
     }
 }
