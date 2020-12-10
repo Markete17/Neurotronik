@@ -14,8 +14,8 @@ public class DrawSettings {
 
     //Default Settings
     public DrawSettings(){
-        this.color=new Color("beige","red","darkturquoise","pink","black",0.5,0.5,0.75,1,0.75);
-        this.alfa=new Alfa(30,60,0);
+        this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,1,0.75);
+        this.alfa=new Alfa(30,180,0);
         this.shift=new Shift(30,50,50);
         this.font=new Font(4,"calibri");
         this.stroke=new Stroke("black",0.3);
@@ -57,10 +57,6 @@ public class DrawSettings {
 
     public ViewBox getViewBox() {
         return viewBox;
-    }
-
-    public String getPadding() {
-        return padding;
     }
 
     public double logWidth(double num){
