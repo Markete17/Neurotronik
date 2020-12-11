@@ -20,12 +20,7 @@ public class SvgController {
     //Vista normal AlfaX=30 AlfaY=60
     //SHIFTZ = 30 SHIFTX = 100 SHIFTP = 75
 
-    private Alfa alfa;
-    private Color color;
-    private Font font;
-    private Shift shift;
-    private Stroke stroke;
-    private ViewBox viewBox;
+    DrawSettings drawSettings;
 
     //GLOBAL VARIABLES
     double length=0;
@@ -37,11 +32,13 @@ public class SvgController {
     //FINAL SVG FILE
     List<SortNode> drawOrderList=new ArrayList<>();
     String svgString="";
-    String kernelString="";
+    String aux;
+    double z;
 
     private class SortNode implements Comparable<SortNode>{
         private String svgString;
         private double z;
+        DrawSettings drawSettings;
 
         public String getSvgString() {
             return svgString;
@@ -51,33 +48,55 @@ public class SvgController {
             return z;
         }
 
-        public SortNode(String svgString, double z) {
+        public SortNode(String svgString, double z,DrawSettings drawSettings) {
             this.svgString = svgString;
             this.z = z;
+            this.drawSettings=drawSettings;
         }
 
         // Compare method
         @Override
         public int compareTo(SortNode sn) {
-            if(this.z<sn.getZ()){
-                return 1;
+            if(drawSettings.getAlfa().getAlfaX()<0){
+                if(this.z<sn.getZ()){
+                    return -1;
+                }
+                else if(this.z==sn.getZ()){
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
+
             }
-            else if(this.z==sn.getZ()){
-                return -1;
+            else if(drawSettings.getAlfa().getAlfaX()>0){
+                if(this.z<sn.getZ()){
+                    return 1;
+                }
+                else if(this.z==sn.getZ()){
+                    return 0;
+                }
+                else{
+                    return -1;
+                }
             }
             else{
-                return -1;
+                if(this.z<sn.getZ()){
+                    return 1;
+                }
+                else if(this.z==sn.getZ()){
+                    return 0;
+                }
+                else{
+                    return -1;
+                }
             }
+
         }
     }
 
     public SvgController(DrawSettings settings) {
-        this.alfa=settings.getAlfa();
-        this.color=settings.getColor();
-        this.font=settings.getFont();
-        this.shift=settings.getShift();
-        this.stroke=settings.getStroke();
-        this.viewBox=settings.getViewBox();
+        this.drawSettings=settings;
     }
 
     public String draw(NeuralNetworkTree modelTree) {
@@ -93,9 +112,10 @@ public class SvgController {
             }
         }
         Collections.sort(drawOrderList);
-        svgString+=kernelString;
+
         for(int i = 0;i<drawOrderList.size();i++){
-            svgString+=drawOrderList.get(i).getSvgString();
+            SortNode n=drawOrderList.get(i);
+            svgString+=n.getSvgString();
         }
         this.addFooter();
         return svgString;
@@ -117,7 +137,7 @@ public class SvgController {
                         else{
                             l = Math.abs(length2Aux-node.getCubeList().get(0).getCoordinates()[0].getX());
                         }
-                        length2+=l+ shift.getShiftNodes();
+                        length2+=l+ drawSettings.getShift().getShiftNodes();
 
                     }
                     length2Aux = node.getCubeList().get(0).getCoordinates()[1].getX();
@@ -138,7 +158,7 @@ public class SvgController {
                     double depth=maxDepth(node.getChildren());
                     double depthCube=node.getCubeList().get(0).getCoordinates()[1].getZ();
                     double l=Math.abs(depth+depthCube);
-                    length=l+shift.getShiftParent();
+                    length=l+drawSettings.getShift().getShiftParent();
                     this.shiftNode(node);
                 }
                 length=0;
@@ -167,7 +187,12 @@ public class SvgController {
             for(int i=0;i<modelQueue.size();i++) {
                 Cube cube=modelQueue.get(i);
                 doTransformations(cube.getCoordinates());
-
+                if(i==modelQueue.size()-1 || cube.isDenseLayer()){
+                    drawSingleCube(cube);
+                }
+                else {
+                    drawCube(cube);
+                }
                 if(activate){
 
                     Cube kernelCube=modelQueue.get(i-1);
@@ -177,7 +202,7 @@ public class SvgController {
                     drawPyramid(pyramid);
                     activate=false;
                 }
-                drawCube(cube);
+
 
                 if(cube.isDenseLayer()){
                     try {
@@ -198,6 +223,26 @@ public class SvgController {
                 }
             }
     }
+
+    private void drawSingleCube(Cube cube) {
+        //Cube Path
+        String color=selectColor(cube);
+        double opacity=selectOpacity(cube);
+        String svg="";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\"/>" + "\n";
+
+            if(drawSettings.isActivateLayerDimensions()){
+                svg+=drawText(cube);
+            }
+            double z = calculateAverageZ(cube.getCoordinates());
+            SortNode sn=new SortNode(svg,z,drawSettings);
+            this.drawOrderList.add(sn);
+        }
 
     /**
      * Draw the junction between the parent and child nodes.
@@ -224,25 +269,37 @@ public class SvgController {
         String color=selectColor(cube);
         double opacity=selectOpacity(cube);
         String svg="";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + "\"/>" + "\n";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + "\"/>" + "\n";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
-            svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\"/>" + "\n";
-            svg += "\t\t<text x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2  + "\" font-family=\""+font.getFont_family()+"\" font-size=\""+font.getFont_size()+"\">" + (int) (cube.getY()) + "</text>\n";
-            svg += "\t\t<text x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" font-family=\""+font.getFont_family()+"\" font-size=\""+font.getFont_size()+"\">" + (int) (cube.getX()) + "</text>\n";
-            svg += "\t\t<text x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" font-family=\""+font.getFont_family()+"\" font-size=\""+font.getFont_size()+"\">" + (int) (cube.getZ()) + "</text>\n\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+opacity+"\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\"/>" + "\n";
 
        if(cube.isKernel()){
-           kernelString+=svg;
+           if(drawSettings.isActivateKernelDimensions()){
+               svg+=drawText(cube);
+           }
+           aux=svg+aux;
+           SortNode sn = new SortNode(aux, z,drawSettings);
+           this.drawOrderList.add(sn);
+           aux="";
        }
        else {
-           double z = calculateAverageZ(cube.getCoordinates());
-
-           SortNode sn = new SortNode(svg, z);
-           this.drawOrderList.add(sn);
+           if(drawSettings.isActivateLayerDimensions()){
+               svg+=drawText(cube);
+           }
+           aux=svg;
+           z = calculateAverageZ(cube.getCoordinates());
        }
+    }
+
+    private String drawText(Cube cube){
+        String svg="";
+        svg += "\t\t<text x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2  + "\" font-family=\""+drawSettings.getFont().getFont_family()+"\" font-size=\""+drawSettings.getFont().getFont_size()+"\">" + (int) (cube.getY()) + "</text>\n";
+        svg += "\t\t<text x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" font-family=\""+drawSettings.getFont().getFont_family()+"\" font-size=\""+drawSettings.getFont().getFont_size()+"\">" + (int) (cube.getX()) + "</text>\n";
+        svg += "\t\t<text x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" font-family=\""+drawSettings.getFont().getFont_family()+"\" font-size=\""+drawSettings.getFont().getFont_size()+"\">" + (int) (cube.getZ()) + "</text>\n\n";
+        return svg;
     }
 
     /**
@@ -251,12 +308,12 @@ public class SvgController {
      */
     private void drawPyramid(Pyramid pyramid) {
         String svg="";
-        svg += "\t\t<path opacity=\""+color.getConvOpacity()+"\" fill=\"" + color.getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
-        svg += "\t\t<path opacity=\""+color.getConvOpacity()+"\" fill=\"" + color.getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
-        svg += "\t\t<path opacity=\""+color.getConvOpacity()+"\" fill=\"" + color.getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
-        svg += "\t\t<path opacity=\""+color.getConvOpacity()+"\" fill=\"" + color.getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
+        svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[1].getX()  +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[0].getX() +" "+ pyramid.getCoordinates()[0].getY()  +" L"+ pyramid.getCoordinates()[2].getX()  +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[0].getX() +" "+pyramid.getCoordinates()[0].getY()+"\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
+        svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
         double z=calculateAverageZ(pyramid.getCoordinates());
-        SortNode sn=new SortNode(svg,z);
+        SortNode sn=new SortNode(svg,z,drawSettings);
         this.drawOrderList.add(sn);
     }
 
@@ -267,10 +324,10 @@ public class SvgController {
     private void drawArrow(Arrow arrow) {
         String svg="";
         svg +="<!-- Arrow -->\n";
-        svg += "\t\t<path opacity=\""+color.getArrowOpacity()+"\" stroke=\""+ color.getArrowColor() + "\" d=\""+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n";
-        svg += "\t\t<circle opacity=\""+color.getArrowOpacity()+"\" cx=\""+arrow.getVertex2().getX()+"\" cy=\""+arrow.getVertex2().getY()+"\" r=\"1\" fill=\""+color.getArrowColor()+"\" />\n";
+        svg += "\t\t<path opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" stroke=\""+ drawSettings.getColor().getArrowColor() + "\" d=\""+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n";
+        svg += "\t\t<circle opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" cx=\""+arrow.getVertex2().getX()+"\" cy=\""+arrow.getVertex2().getY()+"\" r=\"1\" fill=\""+drawSettings.getColor().getArrowColor()+"\" />\n";
         double z=calculateAverageZ(arrow.getCoordinates());
-        SortNode sn=new SortNode(svg,z);
+        SortNode sn=new SortNode(svg,z,drawSettings);
         this.drawOrderList.add(sn);
     }
 
@@ -282,13 +339,13 @@ public class SvgController {
 
     private String selectColor(Cube cube) {
         if (cube.isKernel()) {
-            return color.getKernelColor();
+            return drawSettings.getColor().getKernelColor();
         }
         else if(!cube.isKernel() && !cube.isDenseLayer()){
-            return color.getCubeColor();
+            return drawSettings.getColor().getCubeColor();
         }
         else{
-            return color.getDenseColor();
+            return drawSettings.getColor().getDenseColor();
         }
     }
 
@@ -300,13 +357,13 @@ public class SvgController {
 
     private double selectOpacity(Cube cube) {
         if (cube.isKernel()) {
-            return color.getKernelOpacity();
+            return drawSettings.getColor().getKernelOpacity();
         }
         else if(!cube.isKernel() && !cube.isDenseLayer()){
-            return color.getLayerOpacity();
+            return drawSettings.getColor().getLayerOpacity();
         }
         else{
-            return color.getDenseOpacity();
+            return drawSettings.getColor().getDenseOpacity();
         }
     }
 
@@ -319,10 +376,14 @@ public class SvgController {
         MatrixController matrixController=new MatrixController();
 
         //Rotation on the Y-axis
-        matrixController.rotate("y",coordinates,alfa.getAlfaY());
+        matrixController.rotate("y",coordinates,drawSettings.getAlfa().getAlfaY());
 
         //Rotation on the X-axis
-        matrixController.rotate("x",coordinates,alfa.getAlfaX());
+        matrixController.rotate("x",coordinates,drawSettings.getAlfa().getAlfaX());
+
+        //Rotation on the Z-axis
+        matrixController.rotate("z",coordinates,drawSettings.getAlfa().getAlfaZ());
+
     }
 
     /**
@@ -343,23 +404,18 @@ public class SvgController {
      * @return the random coordinate
      */
     private Coordinate calculateRandomPoint(Coordinate[] coordinates) {
-        double x1=coordinates[4].getX();
-        double x2=coordinates[5].getX();
-
-        double y1=coordinates[4].getY();
-        double y2=coordinates[6].getY();
-
-        double x_random=x2 + (Math.random() * ((x1 -x2) + 1)); //[-x,x]
-        double y_random=y2 + (Math.random() * ((y1 -y2) + 1)); //[-y,y]
-        return new Coordinate(x_random,y_random,coordinates[4].getZ());
+        double x=(coordinates[4].getX()+coordinates[5].getX()+coordinates[6].getX()+coordinates[7].getX())/4;
+        double y=(coordinates[4].getY()+coordinates[5].getY()+coordinates[6].getY()+coordinates[7].getY())/4;
+        double z=(coordinates[4].getZ()+coordinates[5].getZ()+coordinates[6].getZ()+coordinates[7].getZ())/4;
+        return new Coordinate(x,y,z);
     }
 
     /**
      * SVG header
      */
     private void addHeader(){
-        this.svgString="<svg width=\""+viewBox.getWidth()+"px\" height=\""+viewBox.getHeight()+"px\" viewBox=\""+viewBox.getX1()+" "+viewBox.getY1()+" "+viewBox.getX2()+" "+viewBox.getY2()+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-                        "\t<g stroke=\""+stroke.getStroke_color()+"\" stroke-width=\""+stroke.getStroke_width()+"\">\n";
+        this.svgString="<svg width=\""+drawSettings.getViewBox().getWidth()+"px\" height=\""+drawSettings.getViewBox().getHeight()+"px\" viewBox=\""+drawSettings.getViewBox().getX1()+" "+drawSettings.getViewBox().getY1()+" "+drawSettings.getViewBox().getX2()+" "+drawSettings.getViewBox().getY2()+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+                "\t<g stroke=\""+drawSettings.getStroke().getStroke_color()+"\" stroke-width=\""+drawSettings.getStroke().getStroke_width()+"\">\n";
     }
 
     /**
@@ -385,7 +441,7 @@ public class SvgController {
 
             if(!cube.isKernel() && i!=0){
                 double l=Math.abs(lengthAux-cube.getCoordinates()[4].getZ());
-                length=l+ shift.getShiftLayers();
+                length=l+ drawSettings.getShift().getShiftLayers();
             }
             matrixController.move("z",cube.getCoordinates(),length);
 
@@ -406,17 +462,18 @@ public class SvgController {
      */
     private void moveKernel(Cube cube_actual,Cube kernel){
         MatrixController matrixController=new MatrixController();
-        double dif=(cube_actual.getCoordinates()[3].getY()-kernel.getCoordinates()[3].getY());
+        double difY=Math.abs((cube_actual.getCoordinates()[3].getY()-kernel.getCoordinates()[3].getY()));
+        double difX=Math.abs((cube_actual.getCoordinates()[3].getX()-kernel.getCoordinates()[3].getX()));
 
-        double x_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-x,x]
-        double y_random=-dif + (Math.random() * ((dif +dif) + 1)); //[-y,y]
+        double x_random=-difX + (Math.random() * ((difX +difX))); //[-x,x]
+        double y_random=-difY + (Math.random() * ((difY +difY))); //[-y,y]
 
         matrixController.move("x",kernel.getCoordinates(),x_random);
         matrixController.move("y",kernel.getCoordinates(),y_random);
     }
 
     private double calculateAverageZ(Coordinate[] coordinates) {
-        double total=coordinates.length;
+       double total=coordinates.length;
         double sum=0;
         for(int i=0;i<total;i++){
             double coord=coordinates[i].getZ();
