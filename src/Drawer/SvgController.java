@@ -196,7 +196,7 @@ public class SvgController {
                 if(activate){
 
                     Cube kernelCube=modelQueue.get(i-1);
-                    Coordinate vertex=calculateRandomPoint(cube.getCoordinates());
+                    Coordinate vertex=cube.getCoordinates()[8];
 
                     Pyramid pyramid=new Pyramid(Arrays.copyOf(kernelCube.getCoordinates(),4),new Coordinate(vertex.getX(),vertex.getY(),vertex.getZ()));
                     drawPyramid(pyramid);
@@ -395,18 +395,6 @@ public class SvgController {
         double x=(coordinates[0].getX()+coordinates[1].getX()+coordinates[2].getX()+coordinates[3].getX())/4;
         double y=(coordinates[0].getY()+coordinates[1].getY()+coordinates[2].getY()+coordinates[3].getY())/4;
         double z=(coordinates[0].getZ()+coordinates[1].getZ()+coordinates[2].getZ()+coordinates[3].getZ())/4;
-        return new Coordinate(x,y,z);
-    }
-
-    /**
-     * Compute a random point for the kernel
-     * @param coordinates the coordinates to calculate random point
-     * @return the random coordinate
-     */
-    private Coordinate calculateRandomPoint(Coordinate[] coordinates) {
-        double x=(coordinates[4].getX()+coordinates[5].getX()+coordinates[6].getX()+coordinates[7].getX())/4;
-        double y=(coordinates[4].getY()+coordinates[5].getY()+coordinates[6].getY()+coordinates[7].getY())/4;
-        double z=(coordinates[4].getZ()+coordinates[5].getZ()+coordinates[6].getZ()+coordinates[7].getZ())/4;
         return new Coordinate(x,y,z);
     }
 

@@ -24,7 +24,7 @@ public class Cube {
     private double z;
     private boolean isKernel=false;
     private boolean isDenseLayer=false;
-    private Coordinate [] coordinates =new Coordinate[NUM_COORDINATES];
+    private Coordinate [] coordinates =new Coordinate[NUM_COORDINATES+1];
 
     public Cube() {
     }
@@ -80,6 +80,9 @@ public class Cube {
         coordinates[6]=(new Coordinate(-(x_aux/2),y_aux/2,-(z_aux/2)));
         coordinates[7]=(new Coordinate(x_aux/2,y_aux/2,-(z_aux/2)));
 
+        double x_random=Math.random()*(coordinates[5].getX()-coordinates[4].getX())+coordinates[4].getX();
+        double y_random=Math.random()*(coordinates[6].getY()-coordinates[4].getY())+coordinates[4].getY();
+        coordinates[8]=new Coordinate(x_random,y_random,coordinates[4].getZ());
     }
 
     /**

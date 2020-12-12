@@ -52,6 +52,7 @@ public class MatrixController {
                 coordinates[5].setX(coordinates[5].getX()+length);
                 coordinates[6].setX(coordinates[6].getX()+length);
                 coordinates[7].setX(coordinates[7].getX()+length);
+                coordinates[8].setX(coordinates[8].getX()+length);
                 break;
             }
             case "y":{
@@ -63,6 +64,7 @@ public class MatrixController {
                 coordinates[5].setY(coordinates[5].getY()+length);
                 coordinates[6].setY(coordinates[6].getY()+length);
                 coordinates[7].setY(coordinates[7].getY()+length);
+                coordinates[8].setY(coordinates[8].getY()+length);
                 break;
             }
             case "z":{
@@ -74,6 +76,7 @@ public class MatrixController {
                 coordinates[5].setZ(coordinates[5].getZ()+length);
                 coordinates[6].setZ(coordinates[6].getZ()+length);
                 coordinates[7].setZ(coordinates[7].getZ()+length);
+                coordinates[8].setZ(coordinates[8].getZ()+length);
                 break;
             }
         }
@@ -110,6 +113,7 @@ public class MatrixController {
         coordinates[5]=multiply(rotateMatrix.getMatrix(),coordinates[5].getCoordinateMatrix());
         coordinates[6]=multiply(rotateMatrix.getMatrix(),coordinates[6].getCoordinateMatrix());
         coordinates[7]=multiply(rotateMatrix.getMatrix(),coordinates[7].getCoordinateMatrix());
+        coordinates[8]=multiply(rotateMatrix.getMatrix(),coordinates[8].getCoordinateMatrix());
     }
 
 }

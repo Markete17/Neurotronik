@@ -40,10 +40,6 @@ public class NeuralNetworkConsole {
             layers.MaxPooling2D(new Tuple(2, 2));
             x1b.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-            x1.add(layers.concatenate(1,x1a,x1b));
-            layers.MaxPooling2D(new Tuple(2, 2));
-            x1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-
             x2.add(layers.Input(new Cube(new Coordinate(32,32,20),drawSettings)));
             x2.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
             layers.MaxPooling2D(new Tuple(2, 2));
@@ -65,6 +61,9 @@ public class NeuralNetworkConsole {
             layers.MaxPooling2D(new Tuple(2, 2));
             x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
+            x1.add(layers.concatenate(1,x1a,x1b));
+            layers.MaxPooling2D(new Tuple(2, 2));
+            x1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
             xp1.add(layers.concatenate(1,x1,x2));
             xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
