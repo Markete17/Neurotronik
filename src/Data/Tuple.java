@@ -2,8 +2,8 @@ package Data;
 
 public class Tuple {
 
-    double n1;
-    double n2;
+    private final double n1;
+    private final double n2;
 
     public Tuple(double n1, double n2) {
         this.n1 = n1;

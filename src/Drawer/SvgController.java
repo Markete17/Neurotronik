@@ -28,14 +28,15 @@ public class SvgController {
     boolean activate=false;
     double length2=0;
     double length2Aux=0;
+    String aux;
+    double z;
 
     //FINAL SVG FILE
     List<SortNode> drawOrderList=new ArrayList<>();
     String svgString="";
-    String aux;
-    double z;
 
-    private class SortNode implements Comparable<SortNode>{
+
+    private static class SortNode implements Comparable<SortNode>{
         private String svgString;
         private double z;
         DrawSettings drawSettings;
@@ -58,40 +59,12 @@ public class SvgController {
         @Override
         public int compareTo(SortNode sn) {
             if(drawSettings.getAlfa().getAlfaX()<0){
-                if(this.z<sn.getZ()){
-                    return -1;
-                }
-                else if(this.z==sn.getZ()){
-                    return 0;
-                }
-                else{
-                    return 1;
-                }
+                return Double.compare(this.z, sn.getZ());
 
-            }
-            else if(drawSettings.getAlfa().getAlfaX()>0){
-                if(this.z<sn.getZ()){
-                    return 1;
-                }
-                else if(this.z==sn.getZ()){
-                    return 0;
-                }
-                else{
-                    return -1;
-                }
             }
             else{
-                if(this.z<sn.getZ()){
-                    return 1;
-                }
-                else if(this.z==sn.getZ()){
-                    return 0;
-                }
-                else{
-                    return -1;
-                }
+                return Double.compare(sn.getZ(), this.z);
             }
-
         }
     }
 
@@ -113,9 +86,8 @@ public class SvgController {
         }
         Collections.sort(drawOrderList);
 
-        for(int i = 0;i<drawOrderList.size();i++){
-            SortNode n=drawOrderList.get(i);
-            svgString+=n.getSvgString();
+        for (SortNode n : drawOrderList) {
+            svgString += n.getSvgString();
         }
         this.addFooter();
         return svgString;
@@ -240,7 +212,7 @@ public class SvgController {
                 svg+=drawText(cube);
             }
             double z = calculateAverageZ(cube.getCoordinates());
-            SortNode sn=new SortNode(svg,z,drawSettings);
+            SortNode sn= new SortNode(svg, z, drawSettings);
             this.drawOrderList.add(sn);
         }
 
@@ -281,7 +253,7 @@ public class SvgController {
                svg+=drawText(cube);
            }
            aux=svg+aux;
-           SortNode sn = new SortNode(aux, z,drawSettings);
+           SortNode sn = new SortNode(aux, z, drawSettings);
            this.drawOrderList.add(sn);
            aux="";
        }
@@ -313,7 +285,7 @@ public class SvgController {
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
         double z=calculateAverageZ(pyramid.getCoordinates());
-        SortNode sn=new SortNode(svg,z,drawSettings);
+        SortNode sn= new SortNode(svg, z, drawSettings);
         this.drawOrderList.add(sn);
     }
 
@@ -327,7 +299,7 @@ public class SvgController {
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" stroke=\""+ drawSettings.getColor().getArrowColor() + "\" d=\""+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n";
         svg += "\t\t<circle opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" cx=\""+arrow.getVertex2().getX()+"\" cy=\""+arrow.getVertex2().getY()+"\" r=\"1\" fill=\""+drawSettings.getColor().getArrowColor()+"\" />\n";
         double z=calculateAverageZ(arrow.getCoordinates());
-        SortNode sn=new SortNode(svg,z,drawSettings);
+        SortNode sn= new SortNode(svg, z, drawSettings);
         this.drawOrderList.add(sn);
     }
 
@@ -463,9 +435,9 @@ public class SvgController {
     private double calculateAverageZ(Coordinate[] coordinates) {
        double total=coordinates.length;
         double sum=0;
-        for(int i=0;i<total;i++){
-            double coord=coordinates[i].getZ();
-            sum+=coord;
+        for (Coordinate coordinate : coordinates) {
+            double coord = coordinate.getZ();
+            sum += coord;
         }
         return sum/total;
     }

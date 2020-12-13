@@ -1,7 +1,5 @@
 package Tree;
 
-import Shapes.Cube;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,7 +7,7 @@ import java.util.List;
 
 public class NeuralNetworkTree {
     private Node root;
-    private List<Node> [] nodes;
+    private List[] nodes;
 
     public List<Node>[] getNodes() {
         return nodes;
@@ -24,10 +22,6 @@ public class NeuralNetworkTree {
 
     public boolean isEmpty() {
         return (root==null);
-    }
-
-    public boolean isInternal(Node node) {
-        return !isLeaf(node);
     }
 
     public boolean isLeaf(Node node) {

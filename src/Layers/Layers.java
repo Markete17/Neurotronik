@@ -92,7 +92,7 @@ public class Layers {
     private void setConvolution(double filters,Tuple kernel_size,Tuple strides,String padding) {
         double output_w=this.cube_actual.getX();
         double output_h=this.cube_actual.getY();
-        if(padding=="valid"){
+        if(padding.equals("valid")){
             output_w= (this.cube_actual.getX()-kernel_size.getN1()+1)/strides.getN1();
             output_h= (this.cube_actual.getY()-kernel_size.getN2()+1)/strides.getN2();
 
@@ -116,8 +116,7 @@ public class Layers {
 
     private void setNewDimensions(double x,double y,double z){
         Coordinate coordinate=new Coordinate(x,y,z);
-        Cube newCube=new Cube(coordinate,drawSettings);
-        this.cube_actual=newCube;
+        this.cube_actual= new Cube(coordinate,drawSettings);
 
     }
 
@@ -126,8 +125,9 @@ public class Layers {
         Node node = (Node) Arrays.stream(nodes).toArray()[0];
         boolean error=false;
         for(Node n:nodes){
-            if(n.getLastCube().getX()!=node.getLastCube().getX() || n.getLastCube().getY()!=node.getLastCube().getY() || n.getLastCube().getZ()!=node.getLastCube().getZ()){
-                error=true;
+            if (n.getLastCube().getX() != node.getLastCube().getX() || n.getLastCube().getY() != node.getLastCube().getY() || n.getLastCube().getZ() != node.getLastCube().getZ()) {
+                error = true;
+                break;
             }
         }
         if(!error){

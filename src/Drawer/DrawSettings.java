@@ -16,10 +16,10 @@ public class DrawSettings {
 
     //Default Settings
     public DrawSettings(){
-        this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,1,0.75);
-        Alfa alfa=new Alfa(5,80,0);
+        this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
+        Alfa alfa=new Alfa(50,80,0);
         this.alfa=alfa.checkAlfa();
-        this.shift=new Shift(30,50,50);
+        this.shift=new Shift(25,50,35);
         this.font=new Font(4,"calibri");
         this.stroke=new Stroke("black",0.3);
         this.viewBox=new ViewBox(1000,1000,-100,-400,1000,1000);

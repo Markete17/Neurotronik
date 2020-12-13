@@ -13,7 +13,7 @@ import Tree.*;
 
 public class NeuralNetworkConsole {
 
-    public boolean run(){
+    public void run(){
 
         //Input
         try {
@@ -86,16 +86,12 @@ public class NeuralNetworkConsole {
             model.add(x4,xp2);
             model.add(xp1,xp3);
             model.add(xp2,xp3);
-            //
 
             SvgController svg = new SvgController(drawSettings);
             System.out.println(svg.draw(model.getModelTree()));
-
-            return true;
         }
         catch(Exception e){
             System.out.println("Error: "+e.getMessage());
-            return false;
         }
     }
 }

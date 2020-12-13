@@ -26,10 +26,6 @@ public class Node {
         this.lastCube = lastCube;
     }
 
-    public Node getParent() {
-        return parent;
-    }
-
     public void setParent(Node parent) {
         this.parent = parent;
     }
