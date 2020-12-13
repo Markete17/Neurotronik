@@ -34,30 +34,6 @@ public class Cube {
         this.initializeCube(coordinates,drawSettings);
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public boolean isKernel() {
-        return isKernel;
-    }
-
-    public void setKernel(boolean kernel) {
-        isKernel = kernel;
-    }
-
-    public Coordinate[] getCoordinates() {
-        return coordinates;
-    }
-
     /**
      * Initialize the cube given coordinates
      * @param coordinate
@@ -83,6 +59,30 @@ public class Cube {
         double x_random=Math.random()*(coordinates[5].getX()-coordinates[4].getX())+coordinates[4].getX();
         double y_random=Math.random()*(coordinates[6].getY()-coordinates[4].getY())+coordinates[4].getY();
         coordinates[8]=new Coordinate(x_random,y_random,coordinates[4].getZ());
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
+    }
+
+    public boolean isKernel() {
+        return isKernel;
+    }
+
+    public void setKernel(boolean kernel) {
+        isKernel = kernel;
+    }
+
+    public Coordinate[] getCoordinates() {
+        return coordinates;
     }
 
     /**

@@ -2,6 +2,8 @@ package Matrix;
 
 public class RotationMatrixX implements Matrix {
 
+    private double [][]matrix=new double[3][3];
+
     public RotationMatrixX(double alfa) {
         this.initializeMatrix(alfa);
     }
@@ -27,5 +29,10 @@ public class RotationMatrixX implements Matrix {
         this.matrix[0][2] = 0;
         this.matrix[1][2] = -(Math.sin(Math.toRadians(alfa)));
         this.matrix[2][2] = Math.cos(Math.toRadians(alfa));
+    }
+
+    @Override
+    public double[][] getMatrix() {
+        return this.matrix;
     }
 }

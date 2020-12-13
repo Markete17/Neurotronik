@@ -3,36 +3,16 @@ package Matrix;
 import Data.Coordinate;
 
 public class MatrixController {
+    private double [][] matrix;
 
-    public MatrixController() {
+    public MatrixController(double alfaX,double alfaY) {
+        RotationMatrixX rotationMatrixX=new RotationMatrixX(alfaX);
+        RotationMatrixY rotationMatrixY=new RotationMatrixY(alfaY);
+        this.matrix=multiply(rotationMatrixX.getMatrix(),rotationMatrixY.getMatrix());
     }
 
-    /**
-     * Rotate the coordinates given an axis and degrees
-     * @param axis
-     * @param coordinates
-     * @param degrees
-     */
-    public void rotate(String axis, Coordinate [] coordinates, double degrees){
-        switch (axis){
-            case "x":{
-                Matrix rotationMatrixX=new RotationMatrixX(degrees);
-                setNewCoordinates(rotationMatrixX,coordinates);
-                break;
-
-            }
-            case "y":{
-                Matrix rotationMatrixY=new RotationMatrixY(degrees);
-                setNewCoordinates(rotationMatrixY,coordinates);
-                break;
-
-            }
-            case "z":{
-                Matrix rotationMatrixZ=new RotationMatrixZ(degrees);
-                setNewCoordinates(rotationMatrixZ,coordinates);
-                break;
-            }
-        }
+    public void rotate(Coordinate [] coordinates){
+        setNewCoordinates(this.matrix,coordinates);
     }
 
     /**
@@ -90,8 +70,8 @@ public class MatrixController {
      * @return
      */
 
-    public Coordinate multiply(double[][] a, double[][] b) {
-        double[][] c = new double[3][1];
+    public double [][] multiply(double[][] a, double[][] b) {
+        double[][] c = new double[a.length][b[0].length];
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < b[0].length; j++) {
                 for (int k = 0; k < a[0].length; k++) {
@@ -99,21 +79,29 @@ public class MatrixController {
                 }
             }
         }
-
-        Coordinate output=new Coordinate(c[0][0],c[1][0],c[2][0]);
-        return output;
+        return c;
     }
 
-    private void setNewCoordinates(Matrix rotateMatrix, Coordinate[] coordinates) {
-        coordinates[0]=multiply(rotateMatrix.getMatrix(),coordinates[0].getCoordinateMatrix());
-        coordinates[1]=multiply(rotateMatrix.getMatrix(),coordinates[1].getCoordinateMatrix());
-        coordinates[2]=multiply(rotateMatrix.getMatrix(),coordinates[2].getCoordinateMatrix());
-        coordinates[3]=multiply(rotateMatrix.getMatrix(),coordinates[3].getCoordinateMatrix());
-        coordinates[4]=multiply(rotateMatrix.getMatrix(),coordinates[4].getCoordinateMatrix());
-        coordinates[5]=multiply(rotateMatrix.getMatrix(),coordinates[5].getCoordinateMatrix());
-        coordinates[6]=multiply(rotateMatrix.getMatrix(),coordinates[6].getCoordinateMatrix());
-        coordinates[7]=multiply(rotateMatrix.getMatrix(),coordinates[7].getCoordinateMatrix());
-        coordinates[8]=multiply(rotateMatrix.getMatrix(),coordinates[8].getCoordinateMatrix());
+    private void setNewCoordinates(double [][] matrix, Coordinate[] coordinates) {
+        double[][] c0 =multiply(matrix, coordinates[0].getCoordinateMatrix());
+        double[][] c1=multiply(matrix,coordinates[1].getCoordinateMatrix());
+        double[][] c2=multiply(matrix,coordinates[2].getCoordinateMatrix());
+        double[][] c3=multiply(matrix,coordinates[3].getCoordinateMatrix());
+        double[][] c4=multiply(matrix,coordinates[4].getCoordinateMatrix());
+        double[][] c5=multiply(matrix,coordinates[5].getCoordinateMatrix());
+        double[][] c6=multiply(matrix,coordinates[6].getCoordinateMatrix());
+        double[][] c7=multiply(matrix,coordinates[7].getCoordinateMatrix());
+        double[][] c8=multiply(matrix,coordinates[8].getCoordinateMatrix());
+
+        coordinates[0]=new Coordinate(c0[0][0],c0[1][0],c0[2][0]);
+        coordinates[1]=new Coordinate(c1[0][0],c1[1][0],c1[2][0]);
+        coordinates[2]=new Coordinate(c2[0][0],c2[1][0],c2[2][0]);
+        coordinates[3]=new Coordinate(c3[0][0],c3[1][0],c3[2][0]);
+        coordinates[4]=new Coordinate(c4[0][0],c4[1][0],c4[2][0]);
+        coordinates[5]=new Coordinate(c5[0][0],c5[1][0],c5[2][0]);
+        coordinates[6]=new Coordinate(c6[0][0],c6[1][0],c6[2][0]);
+        coordinates[7]=new Coordinate(c7[0][0],c7[1][0],c7[2][0]);
+        coordinates[8]=new Coordinate(c8[0][0],c8[1][0],c8[2][0]);
     }
 
 }

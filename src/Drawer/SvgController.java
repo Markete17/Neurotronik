@@ -21,6 +21,7 @@ public class SvgController {
     //SHIFTZ = 30 SHIFTX = 100 SHIFTP = 75
 
     DrawSettings drawSettings;
+    MatrixController matrixController;
 
     //GLOBAL VARIABLES
     double length=0;
@@ -70,6 +71,7 @@ public class SvgController {
 
     public SvgController(DrawSettings settings) {
         this.drawSettings=settings;
+        this.matrixController=new MatrixController(this.drawSettings.getAlfa().getAlfaX(),this.drawSettings.getAlfa().getAlfaY());
     }
 
     public String draw(NeuralNetworkTree modelTree) {
@@ -87,7 +89,7 @@ public class SvgController {
         Collections.sort(drawOrderList);
 
         for (SortNode n : drawOrderList) {
-            svgString += n.getSvgString();
+            svgString = svgString + n.getSvgString();
         }
         this.addFooter();
         return svgString;
@@ -159,12 +161,6 @@ public class SvgController {
             for(int i=0;i<modelQueue.size();i++) {
                 Cube cube=modelQueue.get(i);
                 doTransformations(cube.getCoordinates());
-                if(i==modelQueue.size()-1 || cube.isDenseLayer()){
-                    drawSingleCube(cube);
-                }
-                else {
-                    drawCube(cube);
-                }
                 if(activate){
 
                     Cube kernelCube=modelQueue.get(i-1);
@@ -174,7 +170,12 @@ public class SvgController {
                     drawPyramid(pyramid);
                     activate=false;
                 }
-
+                if(i==modelQueue.size()-1 || cube.isDenseLayer()){
+                    drawSingleCube(cube);
+                }
+                else {
+                    drawCube(cube);
+                }
 
                 if(cube.isDenseLayer()){
                     try {
@@ -345,17 +346,8 @@ public class SvgController {
      */
     private void doTransformations(Coordinate[] coordinates) {
 
-        MatrixController matrixController=new MatrixController();
-
-        //Rotation on the Y-axis
-        matrixController.rotate("y",coordinates,drawSettings.getAlfa().getAlfaY());
-
-        //Rotation on the X-axis
-        matrixController.rotate("x",coordinates,drawSettings.getAlfa().getAlfaX());
-
-        //Rotation on the Z-axis
-        matrixController.rotate("z",coordinates,drawSettings.getAlfa().getAlfaZ());
-
+        //Rotation on the X-axis AND Y-axis
+        this.matrixController.rotate(coordinates);
     }
 
     /**
@@ -391,7 +383,6 @@ public class SvgController {
      */
     private void shiftNode(Node node){
         List<Cube> modelQueue=node.getCubeList();
-        MatrixController matrixController=new MatrixController();
         for(int i=0;i<modelQueue.size();i++){
             Cube cube=modelQueue.get(i);
 
@@ -421,7 +412,6 @@ public class SvgController {
      * @param kernel kernel cube
      */
     private void moveKernel(Cube cube_actual,Cube kernel){
-        MatrixController matrixController=new MatrixController();
         double difY=Math.abs((cube_actual.getCoordinates()[3].getY()-kernel.getCoordinates()[3].getY()));
         double difX=Math.abs((cube_actual.getCoordinates()[3].getX()-kernel.getCoordinates()[3].getX()));
 
