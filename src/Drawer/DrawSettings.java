@@ -17,8 +17,8 @@ public class DrawSettings {
     //Default Settings
     public DrawSettings(){
         this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
-        Alfa alfa=new Alfa(5,75,0);
-        this.alfa=alfa.checkAlfa();
+        this.alfa=new Alfa(-5,80,0);
+        alfa.checkAlfa();
         this.shift=new Shift(25,50,35);
         this.font=new Font(4,"calibri");
         this.stroke=new Stroke("black",0.3);
@@ -31,7 +31,8 @@ public class DrawSettings {
 
     public DrawSettings(Color color, Alfa alfa, Shift shift, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs,boolean activateLayerDimensions, boolean activateKernelDimensions) {
         this.color = color;
-        this.alfa = alfa.checkAlfa();
+        this.alfa=alfa;
+        this.alfa.checkAlfa();
         this.shift = shift;
         this.font = font;
         this.stroke=stroke;

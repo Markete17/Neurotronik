@@ -72,8 +72,6 @@ public class NeuralNetworkTree {
             }
             else {
                 this.nodes[level].add(node);
-            }
-            if(!isLeaf(node)) {
                 for (Node child :node.getChildren()){
                     levels(child,level+1,maxDepth);
                 }

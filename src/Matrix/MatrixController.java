@@ -12,7 +12,7 @@ public class MatrixController {
     }
 
     public void rotate(Coordinate [] coordinates){
-        setNewCoordinates(this.matrix,coordinates);
+        setNewCoordinates(coordinates);
     }
 
     /**
@@ -82,7 +82,7 @@ public class MatrixController {
         return c;
     }
 
-    private void setNewCoordinates(double [][] matrix, Coordinate[] coordinates) {
+    private void setNewCoordinates(Coordinate[] coordinates) {
         double[][] c0 =multiply(matrix, coordinates[0].getCoordinateMatrix());
         double[][] c1=multiply(matrix,coordinates[1].getCoordinateMatrix());
         double[][] c2=multiply(matrix,coordinates[2].getCoordinateMatrix());

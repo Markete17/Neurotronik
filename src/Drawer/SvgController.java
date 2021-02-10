@@ -15,26 +15,25 @@ import java.util.List;
 
 public class SvgController {
 
-    //CONSTANTS
     //Vista aerea AlfaX=90 AlfaY=90
     //Vista normal AlfaX=30 AlfaY=60
     //SHIFTZ = 30 SHIFTX = 100 SHIFTP = 75
 
-    DrawSettings drawSettings;
-    MatrixController matrixController;
+    private DrawSettings drawSettings;
+    private MatrixController matrixController;
 
     //GLOBAL VARIABLES
-    double length=0;
-    double lengthAux=0;
-    boolean activate=false;
-    double length2=0;
-    double length2Aux=0;
-    String aux;
-    double z;
+    private double length=0;
+    private double lengthAux=0;
+    private boolean activate=false;
+    private double length2=0;
+    private double length2Aux=0;
+    private String aux;
+    private double z;
 
     //FINAL SVG FILE
-    List<SortNode> drawOrderList=new ArrayList<>();
-    String svgString="";
+    private List<SortNode> drawOrderList=new ArrayList<>();
+    private String svgString="";
 
 
     private static class SortNode implements Comparable<SortNode>{
@@ -170,9 +169,11 @@ public class SvgController {
                     drawPyramid(pyramid);
                     activate=false;
                 }
+                //The cube has not kernel (last cube or dense layers)
                 if(i==modelQueue.size()-1 || cube.isDenseLayer()){
                     drawSingleCube(cube);
                 }
+                //The cube has kernel
                 else {
                     drawCube(cube);
                 }
@@ -256,7 +257,6 @@ public class SvgController {
            aux=svg+aux;
            SortNode sn = new SortNode(aux, z, drawSettings);
            this.drawOrderList.add(sn);
-           aux="";
        }
        else {
            if(drawSettings.isActivateLayerDimensions()){
@@ -407,7 +407,7 @@ public class SvgController {
     }
 
     /**
-     * Move the kernel to a random position
+     * Moves the kernel to a random position
      * @param cube_actual the actual cube
      * @param kernel kernel cube
      */
@@ -422,10 +422,15 @@ public class SvgController {
         matrixController.move("y",kernel.getCoordinates(),y_random);
     }
 
+    /**
+     * Calculates the z-mean over a list of coordinates
+     * @param coordinates
+     * @return
+     */
     private double calculateAverageZ(Coordinate[] coordinates) {
        double total=coordinates.length;
         double sum=0;
-        for (Coordinate coordinate : coordinates) {
+        for(Coordinate coordinate:coordinates){
             double coord = coordinate.getZ();
             sum += coord;
         }
