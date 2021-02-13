@@ -22,7 +22,7 @@ public class DrawSettings {
         this.shift=new Shift(25,50,35);
         this.font=new Font(4,"calibri");
         this.stroke=new Stroke("black",0.3);
-        this.viewBox=new ViewBox(1000,1000,-100,-400,1000,1000);
+        this.viewBox=new ViewBox(1000,1000,-500,-500,1000,1000);
         this.activateWidhtLogs=false;
         this.activateDepthLogs=false;
         this.activateLayerDimensions=true;

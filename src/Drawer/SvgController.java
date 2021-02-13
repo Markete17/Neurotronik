@@ -31,6 +31,10 @@ public class SvgController {
     private String aux;
     private double z;
 
+    private Coordinate imageCenter;
+    private double x_max=-Double.MAX_VALUE;private double y_max=-Double.MAX_VALUE;private double z_max=-Double.MAX_VALUE;
+    private double x_min=Double.MAX_VALUE;private double y_min=Double.MAX_VALUE;private double z_min=Double.MAX_VALUE;
+
     //FINAL SVG FILE
     private List<SortNode> drawOrderList=new ArrayList<>();
     private String svgString="";
@@ -75,6 +79,7 @@ public class SvgController {
 
     public String draw(NeuralNetworkTree modelTree) {
         this.shiftTree(modelTree);
+        calculateImageCenter(modelTree);
         this.addHeader();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
@@ -92,6 +97,14 @@ public class SvgController {
         }
         this.addFooter();
         return svgString;
+    }
+
+    private void calculateImageCenter(NeuralNetworkTree modelTree) {
+        double center_x = ((x_max-x_min) / 2) + x_min;
+        double center_y = ((y_max-y_min) / 2) + y_min;
+        double center_z = ((z_max-z_min) / 2) + z_min;
+
+        imageCenter=new Coordinate(center_x,center_y,center_z);
     }
 
     public void shiftTree(NeuralNetworkTree modelTree) {
@@ -346,8 +359,18 @@ public class SvgController {
      */
     private void doTransformations(Coordinate[] coordinates) {
 
+        //rotate the image in the center
+        this.matrixController.move("x",coordinates,-imageCenter.getX());
+        this.matrixController.move("y",coordinates,-imageCenter.getY());
+        this.matrixController.move("z",coordinates,-imageCenter.getZ());
+
         //Rotation on the X-axis AND Y-axis
         this.matrixController.rotate(coordinates);
+
+        this.matrixController.move("x",coordinates,imageCenter.getX());
+        this.matrixController.move("y",coordinates,imageCenter.getY());
+        this.matrixController.move("z",coordinates,imageCenter.getZ());
+
     }
 
     /**
@@ -402,6 +425,27 @@ public class SvgController {
             if(cube.isKernel()){
                 Cube cube_actual=modelQueue.get(i-1);
                 moveKernel(cube_actual,cube);
+            }
+
+            for(Coordinate coordinate: cube.getCoordinates()){
+                if(coordinate.getX()>x_max){
+                    x_max=coordinate.getX();
+                }
+                if(coordinate.getX()<x_min){
+                    x_min=coordinate.getX();
+                }
+                if(coordinate.getY()>y_max){
+                    y_max=coordinate.getY();
+                }
+                if(coordinate.getY()<y_min){
+                    y_min=coordinate.getY();
+                }
+                if(coordinate.getZ()>z_max){
+                    z_max=coordinate.getZ();
+                }
+                if(coordinate.getZ()<z_min){
+                    z_min=coordinate.getZ();
+                }
             }
         }
     }
