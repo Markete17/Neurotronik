@@ -17,7 +17,7 @@ public class DrawSettings {
     //Default Settings
     public DrawSettings(){
         this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
-        this.alfa=new Alfa(-5,80,0);
+        this.alfa=new Alfa(30,60,0);
         alfa.checkAlfa();
         this.shift=new Shift(25,50,35);
         this.font=new Font(4,"calibri");
