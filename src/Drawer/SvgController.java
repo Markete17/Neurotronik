@@ -19,8 +19,8 @@ public class SvgController {
     //Vista normal AlfaX=30 AlfaY=60
     //SHIFTZ = 30 SHIFTX = 100 SHIFTP = 75
 
-    private DrawSettings drawSettings;
-    private MatrixController matrixController;
+    private final DrawSettings drawSettings;
+    private final MatrixController matrixController;
 
     //GLOBAL VARIABLES
     private double length=0;
@@ -36,14 +36,13 @@ public class SvgController {
     private double x_min=Double.MAX_VALUE;private double y_min=Double.MAX_VALUE;private double z_min=Double.MAX_VALUE;
 
     //FINAL SVG FILE
-    private List<SortNode> drawOrderList=new ArrayList<>();
+    private final List<SortNode> drawOrderList=new ArrayList<>();
     private String svgString="";
 
 
     private static class SortNode implements Comparable<SortNode>{
-        private String svgString;
-        private double z;
-        DrawSettings drawSettings;
+        private final String svgString;
+        private final double z;
 
         public String getSvgString() {
             return svgString;
@@ -53,33 +52,26 @@ public class SvgController {
             return z;
         }
 
-        public SortNode(String svgString, double z,DrawSettings drawSettings) {
+        public SortNode(String svgString, double z) {
             this.svgString = svgString;
             this.z = z;
-            this.drawSettings=drawSettings;
         }
 
         // Compare method
         @Override
         public int compareTo(SortNode sn) {
-            if(drawSettings.getAlfa().getAlfaX()<0){
-                return Double.compare(this.z, sn.getZ());
-
-            }
-            else{
-                return Double.compare(sn.getZ(), this.z);
-            }
+            return Double.compare(sn.getZ(), this.z);
         }
     }
 
     public SvgController(DrawSettings settings) {
         this.drawSettings=settings;
-        this.matrixController=new MatrixController(this.drawSettings.getAlfa().getAlfaX(),this.drawSettings.getAlfa().getAlfaY());
+        this.matrixController=new MatrixController(this.drawSettings.getAlfa().getAlfaX(),this.drawSettings.getAlfa().getAlfaY(),this.drawSettings.getAlfa().getAlfaZ());
     }
 
     public String draw(NeuralNetworkTree modelTree) {
         this.shiftTree(modelTree);
-        calculateImageCenter(modelTree);
+        calculateImageCenter();
         this.addHeader();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
@@ -93,13 +85,13 @@ public class SvgController {
         Collections.sort(drawOrderList);
 
         for (SortNode n : drawOrderList) {
-            svgString = svgString + n.getSvgString();
+            svgString +=  n.getSvgString();
         }
         this.addFooter();
         return svgString;
     }
 
-    private void calculateImageCenter(NeuralNetworkTree modelTree) {
+    private void calculateImageCenter() {
         double center_x = ((x_max-x_min) / 2) + x_min;
         double center_y = ((y_max-y_min) / 2) + y_min;
         double center_z = ((z_max-z_min) / 2) + z_min;
@@ -227,7 +219,7 @@ public class SvgController {
                 svg+=drawText(cube);
             }
             double z = calculateAverageZ(cube.getCoordinates());
-            SortNode sn= new SortNode(svg, z, drawSettings);
+            SortNode sn= new SortNode(svg, z);
             this.drawOrderList.add(sn);
         }
 
@@ -268,7 +260,7 @@ public class SvgController {
                svg+=drawText(cube);
            }
            aux=svg+aux;
-           SortNode sn = new SortNode(aux, z, drawSettings);
+           SortNode sn = new SortNode(aux, z);
            this.drawOrderList.add(sn);
        }
        else {
@@ -299,7 +291,7 @@ public class SvgController {
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[1].getX() +" "+ pyramid.getCoordinates()[1].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[1].getX() +" "+pyramid.getCoordinates()[1].getY()+"\"/>" + "\n";
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getConvOpacity()+"\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\""+"M"+ pyramid.getCoordinates()[2].getX() +" "+ pyramid.getCoordinates()[2].getY()  +" L"+ pyramid.getCoordinates()[3].getX()  +" "+ pyramid.getCoordinates()[3].getY()  +" L"+ pyramid.getVertex().getX() +" "+ pyramid.getVertex().getY()+" L"+ pyramid.getCoordinates()[2].getX() +" "+pyramid.getCoordinates()[2].getY()+"\"/>" + "\n\n";
         double z=calculateAverageZ(pyramid.getCoordinates());
-        SortNode sn= new SortNode(svg, z, drawSettings);
+        SortNode sn= new SortNode(svg, z);
         this.drawOrderList.add(sn);
     }
 
@@ -313,7 +305,7 @@ public class SvgController {
         svg += "\t\t<path opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" stroke=\""+ drawSettings.getColor().getArrowColor() + "\" d=\""+"M"+ arrow.getVertex1().getX()+" "+ arrow.getVertex1().getY()  +" L"+ arrow.getVertex2().getX() +" "+ arrow.getVertex2().getY() +"\"/>" + "\n";
         svg += "\t\t<circle opacity=\""+drawSettings.getColor().getArrowOpacity()+"\" cx=\""+arrow.getVertex2().getX()+"\" cy=\""+arrow.getVertex2().getY()+"\" r=\"1\" fill=\""+drawSettings.getColor().getArrowColor()+"\" />\n";
         double z=calculateAverageZ(arrow.getCoordinates());
-        SortNode sn= new SortNode(svg, z, drawSettings);
+        SortNode sn= new SortNode(svg, z);
         this.drawOrderList.add(sn);
     }
 
@@ -359,7 +351,7 @@ public class SvgController {
      */
     private void doTransformations(Coordinate[] coordinates) {
 
-        //rotate the image in the center
+        //move the image in the center
         this.matrixController.move("x",coordinates,-imageCenter.getX());
         this.matrixController.move("y",coordinates,-imageCenter.getY());
         this.matrixController.move("z",coordinates,-imageCenter.getZ());
@@ -367,6 +359,7 @@ public class SvgController {
         //Rotation on the X-axis AND Y-axis
         this.matrixController.rotate(coordinates);
 
+        //return to the original position
         this.matrixController.move("x",coordinates,imageCenter.getX());
         this.matrixController.move("y",coordinates,imageCenter.getY());
         this.matrixController.move("z",coordinates,imageCenter.getZ());
@@ -468,8 +461,8 @@ public class SvgController {
 
     /**
      * Calculates the z-mean over a list of coordinates
-     * @param coordinates
-     * @return
+     * @param coordinates image coordinates
+     * @return average Z
      */
     private double calculateAverageZ(Coordinate[] coordinates) {
        double total=coordinates.length;

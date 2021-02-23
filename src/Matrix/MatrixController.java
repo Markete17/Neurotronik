@@ -5,10 +5,12 @@ import Data.Coordinate;
 public class MatrixController {
     private double [][] matrix;
 
-    public MatrixController(double alfaX,double alfaY) {
+    public MatrixController(double alfaX,double alfaY, double alfaZ) {
         RotationMatrixX rotationMatrixX=new RotationMatrixX(alfaX);
         RotationMatrixY rotationMatrixY=new RotationMatrixY(alfaY);
-        this.matrix=multiply(rotationMatrixX.getMatrix(),rotationMatrixY.getMatrix());
+        RotationMatrixZ rotationMatrixZ=new RotationMatrixZ(alfaZ);
+        this.matrix=multiply(rotationMatrixZ.getMatrix(),rotationMatrixX.getMatrix());
+        this.matrix=multiply(this.matrix,rotationMatrixY.getMatrix());
     }
 
     public void rotate(Coordinate [] coordinates){
@@ -72,18 +74,15 @@ public class MatrixController {
 
     public double [][] multiply(double[][] a, double[][] b) {
         double[][] c = new double[a.length][b[0].length];
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < b[0].length; j++) {
-                for (int k = 0; k < a[0].length; k++) {
+        for (int i = 0; i < c.length; i++)
+            for (int j = 0; j < c[0].length; j++)
+                for (int k = 0; k < b.length; k++)
                     c[i][j] += a[i][k] * b[k][j];
-                }
-            }
-        }
         return c;
     }
 
     private void setNewCoordinates(Coordinate[] coordinates) {
-        double[][] c0 =multiply(matrix, coordinates[0].getCoordinateMatrix());
+        double[][] c0 =multiply(matrix,coordinates[0].getCoordinateMatrix());
         double[][] c1=multiply(matrix,coordinates[1].getCoordinateMatrix());
         double[][] c2=multiply(matrix,coordinates[2].getCoordinateMatrix());
         double[][] c3=multiply(matrix,coordinates[3].getCoordinateMatrix());
