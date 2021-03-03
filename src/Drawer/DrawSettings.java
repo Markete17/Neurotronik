@@ -2,26 +2,26 @@ package Drawer;
 
 public class DrawSettings {
 
-    private Color color;
-    private Alfa alfa;
-    private Shift shift;
-    private Font font;
-    private Stroke stroke;
-    private ViewBox viewBox;
-    private boolean activateWidhtLogs;
-    private boolean activateDepthLogs;
-    private boolean activateLayerDimensions;
-    private boolean activateKernelDimensions;
+    private final Color color;
+    private final Alfa alfa;
+    private final Shift shift;
+    private final Font font;
+    private final Stroke stroke;
+    private final ViewBox viewBox;
+    private final boolean activateWidhtLogs;
+    private final boolean activateDepthLogs;
+    private final boolean activateLayerDimensions;
+    private final boolean activateKernelDimensions;
 
 
     //Default Settings
     public DrawSettings(){
         this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
         this.alfa=new Alfa(30,60,0);
-        this.shift=new Shift(25,50,35);
+        this.shift=new Shift(80,50,35);
         this.font=new Font(4,"calibri");
         this.stroke=new Stroke("black",0.3);
-        this.viewBox=new ViewBox(1000,1000,-500,-500,1000,1000);
+        this.viewBox=new ViewBox(2000,1000,-500,-500,1000,1000);
         this.activateWidhtLogs=false;
         this.activateDepthLogs=false;
         this.activateLayerDimensions=true;

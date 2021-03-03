@@ -7,10 +7,15 @@ import java.util.List;
 
 public class NeuralNetworkTree {
     private Node root;
-    private List[] nodes;
+    private List<Node>[] nodes;
+    private List<List<Node>> jumps=new ArrayList<>();
 
     public List<Node>[] getNodes() {
         return nodes;
+    }
+
+    public List<List<Node>> getJumps() {
+        return jumps;
     }
 
     /**

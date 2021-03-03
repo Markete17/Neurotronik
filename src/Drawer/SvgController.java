@@ -80,6 +80,7 @@ public class SvgController {
                 drawUnions(node);
             }
         }
+        drawJumps(modelTree.getJumps());
         Collections.sort(drawOrderList);
 
         for (SortNode n : drawOrderList) {
@@ -184,12 +185,7 @@ public class SvgController {
                 if(cube.isDenseLayer()){
                     try {
                         Cube lastCube = modelQueue.get(i - 1);
-
-                        Coordinate vertex1 = calculateCenter(Arrays.copyOfRange(lastCube.getCoordinates(), 0, 4));
-                        Coordinate vertex2 = calculateCenter(Arrays.copyOfRange(cube.getCoordinates(), 4, 8));
-
-                        Arrow arrow = new Arrow(vertex1, vertex2);
-                        drawArrow(arrow);
+                        lineTo(lastCube,cube);
                     }catch(Exception e){
                         //continue
                     }
@@ -229,10 +225,7 @@ public class SvgController {
     private void drawUnions(Node parent) {
         for(Node child:parent.getChildren()){
             Cube lastCube = child.getLastCube();
-            Coordinate vertex1 = calculateCenter(Arrays.copyOfRange(lastCube.getCoordinates(), 0, 4));
-            Coordinate vertex2 = calculateCenter(Arrays.copyOfRange(parent.getCubeList().get(0).getCoordinates(), 4, 8));
-            Arrow arrow = new Arrow(vertex1, vertex2);
-            drawArrow(arrow);
+            lineTo(lastCube,parent.getCubeList().get(0));
         }
 
     }
@@ -305,6 +298,18 @@ public class SvgController {
         double z=calculateAverageZ(arrow.getCoordinates());
         SortNode sn= new SortNode(svg, z);
         this.drawOrderList.add(sn);
+    }
+
+    /**
+     * Draw a node jump
+     * @param jumps
+     */
+    private void drawJumps(List<List<Node>> jumps) {
+        for(List<Node> jump:jumps){
+            Cube lastCube=jump.get(0).getLastCube();
+            Cube firstCube=jump.get(1).getCubeList().get(0);
+            lineTo(lastCube,firstCube);
+        }
     }
 
     /**
@@ -470,5 +475,12 @@ public class SvgController {
             sum += coord;
         }
         return sum/total;
+    }
+
+
+    private void lineTo(Cube cube1,Cube cube2){
+        Coordinate vertex1 = calculateCenter(Arrays.copyOfRange(cube1.getCoordinates(), 0, 4));
+        Coordinate vertex2 = calculateCenter(Arrays.copyOfRange(cube2.getCoordinates(), 4, 8));
+        drawArrow(new Arrow(vertex1,vertex2));
     }
 }

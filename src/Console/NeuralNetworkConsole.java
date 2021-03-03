@@ -92,6 +92,10 @@ public class NeuralNetworkConsole {
                         model.add(xp1, xp3);
                         model.add(xp2, xp3);
 
+                        //Jumps
+                        model.addJump(x1b,xp1);
+                        model.addJump(x1b,xp3);
+
                         SvgController svg = new SvgController(drawSettings);
                         writeFile(svg.draw(model.getModelTree()));
                     } catch (Exception e) {
