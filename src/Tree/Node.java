@@ -8,6 +8,11 @@ import java.util.List;
 public class Node {
     private List<Cube> cubeList=new ArrayList<>();
     private Cube lastCube;
+
+    public Node getParent() {
+        return parent;
+    }
+
     private Node parent;
     private List<Node> children=new ArrayList<>();
 

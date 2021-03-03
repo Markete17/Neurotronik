@@ -77,9 +77,7 @@ public class SvgController {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
                 Node node=modelTree.getNodes()[i].get(j);
                 drawNode(node);
-                if(modelTree.isParent(node)){
-                    drawUnions(node);
-                }
+                drawUnions(node);
             }
         }
         Collections.sort(drawOrderList);

@@ -71,7 +71,7 @@ public class NeuralNetworkTree {
                 this.nodes[maxDepth-1].add(node);
             }
             else {
-                this.nodes[level].add(node);
+                this.nodes[level(node)].add(node);
                 for (Node child :node.getChildren()){
                     levels(child,level+1,maxDepth);
                 }
@@ -93,7 +93,16 @@ public class NeuralNetworkTree {
         return 1 + Math.max(max, 0);
     }
 
+    public int level(Node node){
+        int l=0;
+        while(!isParent(node)){
+            node=node.getParent();
+            l++;
+        }
+        return l;
+    }
+
     public boolean isParent(Node node){
-        return !node.getChildren().isEmpty() && node.getChildren()!=null;
+        return node.getParent()==null;
     }
 }
