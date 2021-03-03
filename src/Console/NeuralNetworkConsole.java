@@ -95,6 +95,7 @@ public class NeuralNetworkConsole {
                         //Jumps
                         model.addJump(x1b,xp1);
                         model.addJump(x1b,xp3);
+                        model.addJump(x2,xp3);
 
                         SvgController svg = new SvgController(drawSettings);
                         writeFile(svg.draw(model.getModelTree()));

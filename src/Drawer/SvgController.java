@@ -72,7 +72,7 @@ public class SvgController {
     public String draw(NeuralNetworkTree modelTree) {
         this.shiftTree(modelTree);
         calculateImageCenter();
-        this.addHeader();
+
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
                 Node node=modelTree.getNodes()[i].get(j);
@@ -82,7 +82,7 @@ public class SvgController {
         }
         drawJumps(modelTree.getJumps());
         Collections.sort(drawOrderList);
-
+        this.addHeader();
         for (SortNode n : drawOrderList) {
             svgString +=  n.getSvgString();
         }
@@ -96,6 +96,8 @@ public class SvgController {
         double center_z = ((z_max-z_min) / 2) + z_min;
 
         imageCenter=new Coordinate(center_x,center_y,center_z);
+        x_max=-Double.MAX_VALUE;y_max=-Double.MAX_VALUE;
+        x_min=Double.MAX_VALUE;y_min=Double.MAX_VALUE;
     }
 
     public void shiftTree(NeuralNetworkTree modelTree) {
@@ -194,6 +196,7 @@ public class SvgController {
                 if(cube.isKernel()){
                     activate=true;
                 }
+                updateMaxMin(cube.getCoordinates());
             }
     }
 
@@ -385,7 +388,7 @@ public class SvgController {
      * SVG header
      */
     private void addHeader(){
-        this.svgString="<svg width=\""+drawSettings.getViewBox().getWidth()+"px\" height=\""+drawSettings.getViewBox().getHeight()+"px\" viewBox=\""+drawSettings.getViewBox().getX1()+" "+drawSettings.getViewBox().getY1()+" "+drawSettings.getViewBox().getX2()+" "+drawSettings.getViewBox().getY2()+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+        this.svgString="<svg width=\""+drawSettings.getViewBox().getWidth()+"px\" height=\""+drawSettings.getViewBox().getHeight()+"px\" viewBox=\""+(x_min-drawSettings.getFont().getFont_size())+" "+(y_min-drawSettings.getFont().getFont_size())+" "+drawSettings.getViewBox().getWidth()+" "+drawSettings.getViewBox().getHeight()+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                 "\t<g stroke=\""+drawSettings.getStroke().getStroke_color()+"\" stroke-width=\""+drawSettings.getStroke().getStroke_width()+"\">\n";
     }
 
@@ -422,26 +425,29 @@ public class SvgController {
                 Cube cube_actual=modelQueue.get(i-1);
                 moveKernel(cube_actual,cube);
             }
+            updateMaxMin(cube.getCoordinates());
+        }
+    }
 
-            for(Coordinate coordinate: cube.getCoordinates()){
-                if(coordinate.getX()>x_max){
-                    x_max=coordinate.getX();
-                }
-                if(coordinate.getX()<x_min){
-                    x_min=coordinate.getX();
-                }
-                if(coordinate.getY()>y_max){
-                    y_max=coordinate.getY();
-                }
-                if(coordinate.getY()<y_min){
-                    y_min=coordinate.getY();
-                }
-                if(coordinate.getZ()>z_max){
-                    z_max=coordinate.getZ();
-                }
-                if(coordinate.getZ()<z_min){
-                    z_min=coordinate.getZ();
-                }
+    private void updateMaxMin(Coordinate[] coordinates){
+        for(Coordinate coordinate: coordinates){
+            if(coordinate.getX()>x_max){
+                x_max=coordinate.getX();
+            }
+            if(coordinate.getX()<x_min){
+                x_min=coordinate.getX();
+            }
+            if(coordinate.getY()>y_max){
+                y_max=coordinate.getY();
+            }
+            if(coordinate.getY()<y_min){
+                y_min=coordinate.getY();
+            }
+            if(coordinate.getZ()>z_max){
+                z_max=coordinate.getZ();
+            }
+            if(coordinate.getZ()<z_min){
+                z_min=coordinate.getZ();
             }
         }
     }
