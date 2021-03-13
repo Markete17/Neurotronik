@@ -21,7 +21,7 @@ public class DrawSettings {
         this.shift=new Shift(80,50,35);
         this.font=new Font(6,"calibri");
         this.stroke=new Stroke("black",0.3);
-        this.viewBox=new ViewBox(1000,500);
+        this.viewBox=new ViewBox(2000,2000,0);
         this.activateWidhtLogs=false;
         this.activateDepthLogs=false;
         this.activateLayerDimensions=true;

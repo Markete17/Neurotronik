@@ -1,31 +1,3 @@
-package Console;
-
-import Data.*;
-import Models.*;
-import Layers.*;
-import Drawer.*;
-import Shapes.*;
-import Tree.*;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-/*****************************
-             *****NEUROTRONIK CONSOLE*****
-             ****************************/
-
-public class NeuralNetworkConsole {
-
-                public void run() {
-
-                    //Input
-                    try {
-                        DrawSettings drawSettings = new DrawSettings();
-                        Model model = new Models().Sequential();
-                        Layers layers = new Layers(drawSettings);
-
                         Node x1a = new Node();
                         Node x1b = new Node();
                         Node x3a = new Node();
@@ -73,7 +45,6 @@ public class NeuralNetworkConsole {
                         x5.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
                         layers.MaxPooling2D(new Tuple(2, 2));
                         x5.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        x5.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
                         x6.add(layers.Input(new Cube(new Coordinate(32, 32, 20), drawSettings)));
                         x6.add(layers.Conv2D(32, new Tuple(10, 10), new Tuple(1, 1), "same"));
@@ -81,7 +52,6 @@ public class NeuralNetworkConsole {
                         x6.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
                         layers.MaxPooling2D(new Tuple(2, 2));
                         x6.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        x6.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
                         x1.add(layers.concatenate(1, x1a, x1b));
                         layers.MaxPooling2D(new Tuple(2, 2));
@@ -90,13 +60,9 @@ public class NeuralNetworkConsole {
                         x3.add(layers.concatenate(1, x3a, x3b));
                         layers.MaxPooling2D(new Tuple(2, 2));
                         x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        x3.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
                         xp1.add(layers.concatenate(1, x1, x2));
                         xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-                        xp1.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
                         xp2.add(layers.concatenate(1, xp1, x3));
                         xp2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
@@ -107,9 +73,7 @@ public class NeuralNetworkConsole {
 
                         xp3.add(layers.concatenate(0, xp1,x3,x5));
                         xp3.add(layers.Dense(200));
-                        xp3.add(layers.Dense(400));
-                        xp3.add(layers.Dense(600));
-                        xp3.add(layers.Dense(800));
+                        xp3.add(layers.Dense(200));
                         xp3.add(layers.Dense(200));
 
                         //Create Tree
@@ -127,19 +91,3 @@ public class NeuralNetworkConsole {
 
                         model.add(xp2,xp3);
                         model.add(aux,xp3);
-
-                        SvgController svg = new SvgController(drawSettings);
-                        writeFile(svg.draw(model.getModelTree()));
-                    } catch (Exception e) {
-                        System.out.println("Error: " + e.getMessage());
-                    }
-                }
-
-                private void writeFile(String draw) throws IOException {
-                    File file = new File("C:\\Users\\Marcos\\Desktop\\URJC\\Neurotronik\\src\\neurotronik.svg");
-                    BufferedWriter bw;
-                    bw = new BufferedWriter(new FileWriter(file));
-                    bw.write(draw);
-                    bw.close();
-                }
-            }

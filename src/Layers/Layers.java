@@ -92,10 +92,16 @@ public class Layers {
     private void setConvolution(double filters,Tuple kernel_size,Tuple strides,String padding) {
         double output_w=this.cube_actual.getX();
         double output_h=this.cube_actual.getY();
-        if(padding.equals("valid")){
-            output_w= (this.cube_actual.getX()-kernel_size.getN1()+1)/strides.getN1();
-            output_h= (this.cube_actual.getY()-kernel_size.getN2()+1)/strides.getN2();
+        if(strides!=null && padding!=null){
+            if(padding.equals("valid")) {
+                output_w = (this.cube_actual.getX() - kernel_size.getN1() + 1) / strides.getN1();
+                output_h = (this.cube_actual.getY() - kernel_size.getN2() + 1) / strides.getN2();
+            }
+            if(padding.equals("same")){
+                output_w = (this.cube_actual.getX())/ strides.getN1();
+                output_h = (this.cube_actual.getY())/ strides.getN2();
 
+            }
         }
         this.setNewDimensions(output_w,output_h,filters);
 

@@ -129,6 +129,7 @@ public class SvgController {
             else{
                 for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
                     Node node = modelTree.getNodes()[i].get(j);
+                    //Arreglar
                     Node firstChild=node.getChildren().get(0);
                     Node lastChild=node.getChildren().get(node.getChildren().size()-1);
                     Coordinate centerChild1=calculateCenter(firstChild.getCubeList().get(0).getCoordinates());
@@ -176,6 +177,11 @@ public class SvgController {
                     activate=false;
                 }
                 //The cube has not kernel (last cube or dense layers)
+                if(i!=modelQueue.size()-1 ){
+                    if(modelQueue.get(i+1).isDenseLayer()){
+                        drawSingleCube(cube);
+                    }
+                }
                 if(i==modelQueue.size()-1 || cube.isDenseLayer()){
                     drawSingleCube(cube);
                 }
@@ -388,7 +394,7 @@ public class SvgController {
      * SVG header
      */
     private void addHeader(){
-        this.svgString="<svg width=\""+drawSettings.getViewBox().getWidth()+"px\" height=\""+drawSettings.getViewBox().getHeight()+"px\" viewBox=\""+(x_min-drawSettings.getFont().getFont_size())+" "+(y_min-drawSettings.getFont().getFont_size())+" "+drawSettings.getViewBox().getWidth()+" "+drawSettings.getViewBox().getHeight()+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+        this.svgString="<svg width=\""+(drawSettings.getViewBox().getWidth())+"px\" height=\""+(drawSettings.getViewBox().getHeight())+"px\" viewBox=\""+(x_min-drawSettings.getFont().getFont_size())+" "+(y_min-drawSettings.getFont().getFont_size())+" "+(drawSettings.getViewBox().getWidth()+drawSettings.getViewBox().getZoom())+" "+(drawSettings.getViewBox().getHeight()+drawSettings.getViewBox().getZoom())+"\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                 "\t<g stroke=\""+drawSettings.getStroke().getStroke_color()+"\" stroke-width=\""+drawSettings.getStroke().getStroke_width()+"\">\n";
     }
 
