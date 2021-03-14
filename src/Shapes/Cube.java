@@ -22,43 +22,44 @@ public class Cube {
     private double x;
     private double y;
     private double z;
-    private boolean isKernel=false;
-    private boolean isDenseLayer=false;
-    private Coordinate [] coordinates =new Coordinate[NUM_COORDINATES+1];
+    private boolean isKernel = false;
+    private boolean isDenseLayer = false;
+    private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 1];
 
     public Cube() {
     }
 
     //input image
     public Cube(Coordinate coordinates, DrawSettings drawSettings) {
-        this.initializeCube(coordinates,drawSettings);
+        this.initializeCube(coordinates, drawSettings);
     }
 
     /**
      * Initialize the cube given coordinates
-     * @param coordinate
+     *
+     * @param coordinate the coordinates of the cube
      */
-    private void initializeCube(Coordinate coordinate,DrawSettings drawSettings){
-        this.x=coordinate.getX();
-        this.y=coordinate.getY();
-        this.z=coordinate.getZ();
+    private void initializeCube(Coordinate coordinate, DrawSettings drawSettings) {
+        this.x = coordinate.getX();
+        this.y = coordinate.getY();
+        this.z = coordinate.getZ();
 
-        double x_aux=drawSettings.logWidth(this.x);
-        double y_aux=drawSettings.logWidth(this.y);
-        double z_aux=drawSettings.logDepth(this.z);
+        double x_aux = drawSettings.logWidth(this.x);
+        double y_aux = drawSettings.logWidth(this.y);
+        double z_aux = drawSettings.logDepth(this.z);
 
-        coordinates[0]=(new Coordinate(-(x_aux/2),-(y_aux/2),z_aux/2));
-        coordinates[1]=(new Coordinate(x_aux/2,-(y_aux/2),z_aux/2));
-        coordinates[2]=(new Coordinate(-(x_aux/2),(y_aux/2),z_aux/2));
-        coordinates[3]=(new Coordinate(x_aux/2,y_aux/2,z_aux/2));
-        coordinates[4]=(new Coordinate(-(x_aux/2),-(y_aux/2),-(z_aux/2)));
-        coordinates[5]=(new Coordinate(x_aux/2,-(y_aux/2),-(z_aux/2)));
-        coordinates[6]=(new Coordinate(-(x_aux/2),y_aux/2,-(z_aux/2)));
-        coordinates[7]=(new Coordinate(x_aux/2,y_aux/2,-(z_aux/2)));
+        coordinates[0] = (new Coordinate(-(x_aux / 2), -(y_aux / 2), z_aux / 2));
+        coordinates[1] = (new Coordinate(x_aux / 2, -(y_aux / 2), z_aux / 2));
+        coordinates[2] = (new Coordinate(-(x_aux / 2), (y_aux / 2), z_aux / 2));
+        coordinates[3] = (new Coordinate(x_aux / 2, y_aux / 2, z_aux / 2));
+        coordinates[4] = (new Coordinate(-(x_aux / 2), -(y_aux / 2), -(z_aux / 2)));
+        coordinates[5] = (new Coordinate(x_aux / 2, -(y_aux / 2), -(z_aux / 2)));
+        coordinates[6] = (new Coordinate(-(x_aux / 2), y_aux / 2, -(z_aux / 2)));
+        coordinates[7] = (new Coordinate(x_aux / 2, y_aux / 2, -(z_aux / 2)));
 
-        double x_random=Math.random()*(coordinates[5].getX()-coordinates[4].getX())+coordinates[4].getX();
-        double y_random=Math.random()*(coordinates[6].getY()-coordinates[4].getY())+coordinates[4].getY();
-        coordinates[8]=new Coordinate(x_random,y_random,coordinates[4].getZ());
+        double x_random = Math.random() * (coordinates[5].getX() - coordinates[4].getX()) + coordinates[4].getX();
+        double y_random = Math.random() * (coordinates[6].getY() - coordinates[4].getY()) + coordinates[4].getY();
+        coordinates[8] = new Coordinate(x_random, y_random, coordinates[4].getZ());
     }
 
     public double getX() {
@@ -86,7 +87,6 @@ public class Cube {
     }
 
     /**
-     *
      * @return true if the cube is a dense layer, false otherwise
      */
     public boolean isDenseLayer() {

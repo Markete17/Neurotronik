@@ -15,30 +15,32 @@ public class DrawSettings {
 
 
     //Default Settings
-    public DrawSettings(){
-        this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
-        this.alfa=new Alfa(30,60,0);
-        this.shift=new Shift(100,50,35);
-        this.font=new Font(6,"calibri");
-        this.stroke=new Stroke("black",0.3);
-        this.viewBox=new ViewBox(2000,2000,-3500);
-        this.activateWidhtLogs=false;
-        this.activateDepthLogs=false;
-        this.activateLayerDimensions=true;
-        this.activateKernelDimensions=true;
+    public DrawSettings() {
+        //Vista aerea AlfaX=90 AlfaY=90
+        //Vista normal AlfaX=30 AlfaY=60
+        this.color = new Color("orange", "darkturquoise", "darkturquoise", "pink", "black", 0.5, 0.75, 0.75, 0.5, 0.75);
+        this.alfa = new Alfa(30, 60, 0);
+        this.shift = new Shift(100, 50, 35);
+        this.font = new Font(6, "calibri", "black");
+        this.stroke = new Stroke("black", 0.3);
+        this.viewBox = new ViewBox(2000, 2000, -3500);
+        this.activateWidhtLogs = false;
+        this.activateDepthLogs = false;
+        this.activateLayerDimensions = true;
+        this.activateKernelDimensions = true;
     }
 
-    public DrawSettings(Color color, Alfa alfa, Shift shift, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs,boolean activateLayerDimensions, boolean activateKernelDimensions) {
+    public DrawSettings(Color color, Alfa alfa, Shift shift, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs, boolean activateLayerDimensions, boolean activateKernelDimensions) {
         this.color = color;
-        this.alfa=alfa;
+        this.alfa = alfa;
         this.shift = shift;
         this.font = font;
-        this.stroke=stroke;
-        this.viewBox=viewBox;
-        this.activateDepthLogs=activateDepthLogs;
-        this.activateWidhtLogs=activateWidhtLogs;
-        this.activateLayerDimensions=activateLayerDimensions;
-        this.activateKernelDimensions=activateKernelDimensions;
+        this.stroke = stroke;
+        this.viewBox = viewBox;
+        this.activateDepthLogs = activateDepthLogs;
+        this.activateWidhtLogs = activateWidhtLogs;
+        this.activateLayerDimensions = activateLayerDimensions;
+        this.activateKernelDimensions = activateKernelDimensions;
     }
 
     public Color getColor() {
@@ -73,15 +75,15 @@ public class DrawSettings {
         return activateKernelDimensions;
     }
 
-    public double logWidth(double num){
-        if(activateWidhtLogs) {
+    public double logWidth(double num) {
+        if (activateWidhtLogs) {
             return Math.log(num) / Math.log(2);
         }
         return num;
     }
 
-    public double logDepth(double num){
-        if(activateDepthLogs){
+    public double logDepth(double num) {
+        if (activateDepthLogs) {
             return Math.log(num) / Math.log(2);
         }
         return num;

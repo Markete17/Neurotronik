@@ -2,7 +2,7 @@ package Matrix;
 
 public class RotationMatrixY implements Matrix {
 
-    private double [][]matrix=new double[3][3];
+    private final double[][] matrix = new double[3][3];
 
     public RotationMatrixY(double alfa) {
         this.initializeMatrix(alfa);
@@ -10,11 +10,10 @@ public class RotationMatrixY implements Matrix {
 
     /**
      * Initialize the rotation matrix in Y
-     * @param alfa
      *
-     *  ( cos(a)    0   sin(a) )
-     *  ( 0         1   0      )
-     *  ( -sin(a)   0   cos(a) )
+     * @param alfa ( cos(a)    0   sin(a) )
+     *             ( 0         1   0      )
+     *             ( -sin(a)   0   cos(a) )
      */
     @Override
     public void initializeMatrix(double alfa) {

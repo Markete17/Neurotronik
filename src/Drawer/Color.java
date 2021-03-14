@@ -2,29 +2,29 @@ package Drawer;
 
 public class Color {
     //COLOR
-    private String cubeColor;
-    private String kernelColor;
-    private String denseColor;
-    private String pyramidColor;
-    private String arrowColor;
+    private final String cubeColor;
+    private final String kernelColor;
+    private final String denseColor;
+    private final String pyramidColor;
+    private final String arrowColor;
     //OPACITY
-    private double layerOpacity;
-    private double kernelOpacity;
-    private double convOpacity; //pyramid
-    private double arrowOpacity;
-    private double denseOpacity;
+    private final double layerOpacity;
+    private final double kernelOpacity;
+    private final double convOpacity; //pyramid
+    private final double arrowOpacity;
+    private final double denseOpacity;
 
-    public Color(String cube, String kernel, String dense, String pyramid, String arrow,double layerOpacity,double kernelOpacity,double convOpacity,double arrowOpacity,double denseOpacity) {
+    public Color(String cube, String kernel, String dense, String pyramid, String arrow, double layerOpacity, double kernelOpacity, double convOpacity, double arrowOpacity, double denseOpacity) {
         this.cubeColor = cube;
         this.kernelColor = kernel;
         this.denseColor = dense;
         this.pyramidColor = pyramid;
         this.arrowColor = arrow;
-        this.layerOpacity=layerOpacity;
-        this.kernelOpacity=kernelOpacity;
-        this.convOpacity=convOpacity;
-        this.arrowOpacity=arrowOpacity;
-        this.denseOpacity=denseOpacity;
+        this.layerOpacity = layerOpacity;
+        this.kernelOpacity = kernelOpacity;
+        this.convOpacity = convOpacity;
+        this.arrowOpacity = arrowOpacity;
+        this.denseOpacity = denseOpacity;
     }
 
     public String getCubeColor() {

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
-    private List<Cube> cubeList=new ArrayList<>();
+    private final List<Cube> cubeList = new ArrayList<>();
     private Cube lastCube;
     private Node parent;
-    private List<Node> children=new ArrayList<>();
+    private final List<Node> children = new ArrayList<>();
 
     public Node() {
     }
@@ -33,13 +33,14 @@ public class Node {
     public List<Node> getChildren() {
         return children;
     }
+
     public Node getParent() {
         return parent;
     }
 
-    public void add(List<Cube> cubeList){
+    public void add(List<Cube> cubeList) {
         this.getCubeList().addAll(cubeList);
-        if(!this.getCubeList().isEmpty()) {
+        if (!this.getCubeList().isEmpty()) {
             this.setLastCube(this.cubeList.get(this.cubeList.size() - 1));
         }
     }

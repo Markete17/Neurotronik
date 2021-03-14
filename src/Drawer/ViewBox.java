@@ -2,9 +2,9 @@ package Drawer;
 
 public class ViewBox {
 
-    private double width;
-    private double height;
-    private double zoom;
+    private final double width;
+    private final double height;
+    private final double zoom;
 
     public ViewBox(double width, double height, double zoom) {
         this.width = width;

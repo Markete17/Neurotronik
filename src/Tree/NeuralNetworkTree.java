@@ -1,5 +1,7 @@
 package Tree;
 
+import Shapes.Cube;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -8,7 +10,7 @@ import java.util.List;
 public class NeuralNetworkTree {
     private Node root;
     private List<Node>[] nodes;
-    private List<List<Node>> jumps=new ArrayList<>();
+    private final List<List<Node>> jumps = new ArrayList<>();
 
     public List<Node>[] getNodes() {
         return nodes;
@@ -26,7 +28,7 @@ public class NeuralNetworkTree {
     }
 
     public boolean isEmpty() {
-        return (root==null);
+        return (root == null);
     }
 
     public boolean isLeaf(Node node) {
@@ -44,45 +46,43 @@ public class NeuralNetworkTree {
         return root;
     }
 
-    public void addRoot(Node node){
-        if(isEmpty()) {
+    public void addRoot(Node node) {
+        if (isEmpty()) {
             this.root = node;
-        }
-        else {
+        } else {
             throw new RuntimeException("Tree already has a root");
         }
 
 
     }
 
-    public void add(Node child,Node parent) {
+    public void add(Node child, Node parent) {
         parent.getChildren().add(child);
         child.setParent(parent);
     }
 
-    public void initializeNodes(){
-        int maxDepth=maxDepth(root());
-        this.nodes=new List[maxDepth];
-        for(int i=0;i<maxDepth;i++){
-            this.nodes[i]=new ArrayList<>();
+    public void initializeNodes() {
+        int maxDepth = maxDepth(root());
+        this.nodes = new List[maxDepth];
+        for (int i = 0; i < maxDepth; i++) {
+            this.nodes[i] = new ArrayList<>();
         }
-        levels(root(),maxDepth);
+        levels(root(), maxDepth);
         Collections.reverse(Arrays.asList(this.nodes));
     }
 
-    public void levels(Node node,int maxDepth){
-        if(node!=null){
-            if(this.isLeaf(node)){
-                if(!this.nodes[maxDepth-1].contains(node))
-                this.nodes[maxDepth-1].add(node);
-            }
-            else {
+    public void levels(Node node, int maxDepth) {
+        if (node != null) {
+            if (this.isLeaf(node)) {
+                if (!this.nodes[maxDepth - 1].contains(node))
+                    this.nodes[maxDepth - 1].add(node);
+            } else {
                 int level = level(node);
-                if(!this.nodes[level].contains(node)){
+                if (!this.nodes[level].contains(node)) {
                     this.nodes[level].add(node);
                 }
-                for (Node child :node.getChildren()){
-                    levels(child,maxDepth);
+                for (Node child : node.getChildren()) {
+                    levels(child, maxDepth);
                 }
             }
         }
@@ -102,16 +102,52 @@ public class NeuralNetworkTree {
         return 1 + Math.max(max, 0);
     }
 
-    public int level(Node node){
-        int l=0;
-        while(!isParent(node)){
-            node=node.getParent();
+    public int level(Node node) {
+        int l = 0;
+        while (!isParent(node)) {
+            node = node.getParent();
             l++;
         }
         return l;
     }
 
-    public boolean isParent(Node node){
-        return node.getParent()==null;
+    public double greaterDepthChild(List<Node> children) {
+        double max = Double.MIN_VALUE;
+        for (Node child : children) {
+            if (child.getLastCube().getCoordinates()[0].getZ() > max) {
+                max = child.getLastCube().getCoordinates()[0].getZ();
+            }
+        }
+        return max;
+    }
+
+    public Node findLastChild(List<Node> nodes) {
+        double max = Double.MIN_VALUE;
+        Node lastChild = null;
+        for (Node node : nodes) {
+            Cube cube = node.getCubeList().get(0);
+            if (cube.getCoordinates()[1].getX() > max) {
+                max = cube.getCoordinates()[1].getX();
+                lastChild = node;
+            }
+        }
+        return lastChild;
+    }
+
+    public Node findFirstChild(List<Node> nodes) {
+        double min = Double.MAX_VALUE;
+        Node firstChild = null;
+        for (Node node : nodes) {
+            Cube cube = node.getCubeList().get(0);
+            if (cube.getCoordinates()[1].getX() < min) {
+                min = cube.getCoordinates()[1].getX();
+                firstChild = node;
+            }
+        }
+        return firstChild;
+    }
+
+    public boolean isParent(Node node) {
+        return node.getParent() == null;
     }
 }

@@ -1,8 +1,8 @@
 package Drawer;
 
 public class Stroke {
-    private String stroke_color;
-    private double stroke_width;
+    private final String stroke_color;
+    private final double stroke_width;
 
     public Stroke(String stroke_color, double stroke_width) {
         this.stroke_color = stroke_color;
