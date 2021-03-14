@@ -129,9 +129,8 @@ public class SvgController {
             else{
                 for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
                     Node node = modelTree.getNodes()[i].get(j);
-                    //Arreglar
-                    Node firstChild=node.getChildren().get(0);
-                    Node lastChild=node.getChildren().get(node.getChildren().size()-1);
+                    Node firstChild=findFirstChild(node.getChildren());
+                    Node lastChild=findLastChild(node.getChildren());
                     Coordinate centerChild1=calculateCenter(firstChild.getCubeList().get(0).getCoordinates());
                     Coordinate centerChild2=calculateCenter(lastChild.getCubeList().get(0).getCoordinates());
                     length2=(Math.abs(centerChild1.getX()+centerChild2.getX())/2);
@@ -146,6 +145,32 @@ public class SvgController {
             }
             length2=0;
         }
+    }
+
+    private Node findLastChild(List<Node> nodes) {
+        double max = Double.MIN_VALUE;
+        Node lastChild = null;
+        for(Node node:nodes){
+            Cube cube =node.getCubeList().get(0);
+            if(cube.getCoordinates()[1].getX()>max){
+                max = cube.getCoordinates()[1].getX();
+                lastChild = node;
+            }
+        }
+        return lastChild;
+    }
+
+    private Node findFirstChild(List<Node> nodes) {
+        double min = Double.MAX_VALUE;
+        Node firstChild = null;
+        for(Node node:nodes){
+            Cube cube =node.getCubeList().get(0);
+            if(cube.getCoordinates()[1].getX()<min){
+                min = cube.getCoordinates()[1].getX();
+                firstChild = node;
+            }
+        }
+        return firstChild;
     }
 
     private double maxDepth(List<Node> children) {
@@ -479,7 +504,7 @@ public class SvgController {
      * @param coordinates image coordinates
      * @return average Z
      */
-    private double calculateAverageZ(Coordinate[] coordinates) {
+    public double calculateAverageZ(Coordinate[] coordinates) {
        double total=coordinates.length;
         double sum=0;
         for(Coordinate coordinate:coordinates){

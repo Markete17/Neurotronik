@@ -14,6 +14,7 @@ public class Layers {
 
     private Cube cube_actual=new Cube();
     private DrawSettings drawSettings;
+    private boolean denseLayer = false;
 
     public Layers(DrawSettings drawSettings) {
         this.drawSettings = drawSettings;
@@ -126,21 +127,23 @@ public class Layers {
 
     }
 
-    public List<Cube> concatenate(int mode,Node... nodes) {
+    public List<Cube> concatenate(Node... nodes) {
         //to concatenate layers, they have to have the same dimensions
-        Node node = (Node) Arrays.stream(nodes).toArray()[0];
+        Node node = (Node) Arrays.stream(nodes).toArray()[1];
         boolean error=false;
         for(Node n:nodes){
-            if (n.getLastCube().getX() != node.getLastCube().getX() || n.getLastCube().getY() != node.getLastCube().getY() || n.getLastCube().getZ() != node.getLastCube().getZ()) {
-                error = true;
-                break;
+            if(n!=null && !n.getCubeList().isEmpty()) {
+                if (n.getLastCube().getX() != node.getLastCube().getX() || n.getLastCube().getY() != node.getLastCube().getY() || n.getLastCube().getZ() != node.getLastCube().getZ()) {
+                    error = true;
+                    break;
+                }
             }
         }
         if(!error){
-            if(mode==0){
-                return new ArrayList<>();
-            }
             List<Cube> cubeList=new ArrayList<>();
+            if(denseLayer){
+                return cubeList;
+            }
             Cube newCube= new Cube(new Coordinate(node.getLastCube().getX(), node.getLastCube().getY(), node.getLastCube().getZ()),drawSettings);
                 cubeList.add(newCube);
                 this.cube_actual = newCube;
@@ -148,5 +151,9 @@ public class Layers {
             return cubeList;
         }
         throw new RuntimeException("The outputs are not the same size.");
+    }
+
+    public void setDenseLayer(boolean denseLayer) {
+        this.denseLayer = denseLayer;
     }
 }

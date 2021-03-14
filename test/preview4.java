@@ -55,28 +55,29 @@ layers.MaxPooling2D(new Tuple(2, 2));
 x6.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 x6.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-x1.add(layers.concatenate(1, x1a, x1b));
+x1.add(layers.concatenate(x1,x1a, x1b));
 layers.MaxPooling2D(new Tuple(2, 2));
 x1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-x3.add(layers.concatenate(1, x3a, x3b));
+x3.add(layers.concatenate(x3,x3a, x3b));
 layers.MaxPooling2D(new Tuple(2, 2));
 x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 x3.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 x3.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-xp1.add(layers.concatenate(1, x1, x2));
+xp1.add(layers.concatenate(xp1,x1, x2));
 xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 xp1.add(layers.Conv2D(100, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-xp2.add(layers.concatenate(1, xp1, x3));
+xp2.add(layers.concatenate(xp2,xp1, x3));
 xp2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-aux.add(layers.concatenate(1,x5,x6));
+aux.add(layers.concatenate(aux,x5,x6));
 layers.MaxPooling2D(new Tuple(2, 2));
 aux.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
+layers.setDenseLayer(true);
 xp3.add(layers.concatenate(0, xp1,x3,x5));
 xp3.add(layers.Dense(200));
 xp3.add(layers.Dense(400));

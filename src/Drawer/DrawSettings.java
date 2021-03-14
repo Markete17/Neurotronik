@@ -18,10 +18,10 @@ public class DrawSettings {
     public DrawSettings(){
         this.color=new Color("orange","darkturquoise","darkturquoise","pink","black",0.5,0.75,0.75,0.5,0.75);
         this.alfa=new Alfa(30,60,0);
-        this.shift=new Shift(80,50,35);
+        this.shift=new Shift(100,50,35);
         this.font=new Font(6,"calibri");
         this.stroke=new Stroke("black",0.3);
-        this.viewBox=new ViewBox(2000,2000,0);
+        this.viewBox=new ViewBox(2000,2000,-3500);
         this.activateWidhtLogs=false;
         this.activateDepthLogs=false;
         this.activateLayerDimensions=true;
