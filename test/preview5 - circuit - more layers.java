@@ -1,30 +1,3 @@
-package Console;
-
-import Data.*;
-import Models.*;
-import Layers.*;
-import Drawer.*;
-import Shapes.*;
-import Tree.*;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-/*****************************
- *****NEUROTRONIK CONSOLE*****
- ****************************/
-
-public class NeuralNetworkConsole {
-
-    public void run() {
-
-        //Input
-        try {
-            DrawSettings drawSettings = new DrawSettings();
-            Model model = new Models().Sequential();
-            Layers layers = new Layers(drawSettings);
             Node x1a = new Node();
             Node x1b = new Node();
             Node x1 = new Node();
@@ -140,19 +113,3 @@ public class NeuralNetworkConsole {
             model.add(xp4, xp3);
             model.add(aux, xp3);
             model.add(xp5, xp3);
-
-            SvgController svg = new SvgController(drawSettings);
-            writeFile(svg.draw(model.getModelTree()));
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void writeFile(String draw) throws IOException {
-        File file = new File("C:\\Users\\Marcos\\Desktop\\URJC\\Neurotronik\\src\\neurotronik.svg");
-        BufferedWriter bw;
-        bw = new BufferedWriter(new FileWriter(file));
-        bw.write(draw);
-        bw.close();
-    }
-}
