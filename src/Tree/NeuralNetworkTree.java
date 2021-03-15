@@ -68,6 +68,7 @@ public class NeuralNetworkTree {
             this.nodes[i] = new ArrayList<>();
         }
         levels(root(), maxDepth);
+        check();
         Collections.reverse(Arrays.asList(this.nodes));
     }
 
@@ -149,5 +150,18 @@ public class NeuralNetworkTree {
 
     public boolean isParent(Node node) {
         return node.getParent() == null;
+    }
+
+    /**
+     * Check if the Neural network has been poorly defined.
+     */
+    public void check() {
+        for(List<Node> nodes:this.getNodes()){
+            for(Node node: nodes){
+                if(node.getCubeList().isEmpty() || node.getCubeList()==null){
+                    throw new RuntimeException("The neural network has been poorly defined.");
+                }
+            }
+        }
     }
 }

@@ -78,14 +78,13 @@ public class SvgController {
     public String draw(NeuralNetworkTree modelTree) {
         shiftTree(modelTree);
         calculateImageCenter();
-
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
                 Node node = modelTree.getNodes()[i].get(j);
                 drawNode(node);
-                drawUnions(node);
             }
         }
+        drawUnions(modelTree);
         drawJumps(modelTree.getJumps());
         Collections.sort(drawOrderList);
         this.addHeader();
@@ -219,15 +218,19 @@ public class SvgController {
     /**
      * Draw the junction between the parent and child nodes.
      *
-     * @param parent node
+     * @param modelTree neural network tree
      */
 
-    private void drawUnions(Node parent) {
-        for (Node child : parent.getChildren()) {
-            Cube lastCube = child.getLastCube();
-            lineTo(lastCube, parent.getCubeList().get(0));
+    private void drawUnions(NeuralNetworkTree modelTree) {
+        for (int i = 0; i < modelTree.getNodes().length; i++) {
+            for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
+                Node parent = modelTree.getNodes()[i].get(j);
+                for (Node child : parent.getChildren()) {
+                    Cube lastCube = child.getLastCube();
+                    lineTo(lastCube, parent.getCubeList().get(0));
+                }
+            }
         }
-
     }
 
     /**
@@ -265,9 +268,9 @@ public class SvgController {
 
     private String drawText(Cube cube) {
         String svg = "";
-        svg += "\t\t<text style=\"fill:"+drawSettings.getFont().getFont_color()+"\" "+"x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getY()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:"+drawSettings.getFont().getFont_color()+"\" "+"x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getX()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:"+drawSettings.getFont().getFont_color()+"\" "+"x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getZ()) + "</text>\n\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getY()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getX()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getZ()) + "</text>\n\n";
         return svg;
     }
 

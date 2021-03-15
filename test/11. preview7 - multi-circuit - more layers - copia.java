@@ -1,31 +1,4 @@
-package Console;
-
-import Data.*;
-import Models.*;
-import Layers.*;
-import Drawer.*;
-import Shapes.*;
-import Tree.*;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-/*****************************
- *****NEUROTRONIK CONSOLE*****
- ****************************/
-
-public class NeuralNetworkConsole {
-
-    public void run() {
-
-        //Input
-        try {
-            DrawSettings drawSettings = new DrawSettings();
-            Model model = new Models().Sequential();
-            Layers layers = new Layers(drawSettings);
-            Node x1a = new Node();
+Node x1a = new Node();
             Node x1b = new Node();
             Node x1 = new Node();
             Node x2 = new Node();
@@ -134,6 +107,7 @@ public class NeuralNetworkConsole {
             xp3.add(layers.concatenate(xp3, xp1, xp2, aux, xp4, xp5));
             xp3.add(layers.Dense(200));
             xp3.add(layers.Dense(200));
+            xp3.add(layers.Dense(200));
 
             layers.setDenseLayer(false);
 
@@ -214,11 +188,12 @@ public class NeuralNetworkConsole {
             xp3z.add(layers.concatenate(xp3z, xp1z, xp2z, auxz, xp4z, xp5z));
             xp3z.add(layers.Dense(200));
             xp3z.add(layers.Dense(200));
+            xp3z.add(layers.Dense(200));
 
-            parent.add(layers.Dense(200));
-            parent.add(layers.Dense(400));
-            parent.add(layers.Dense(600));
-            parent.add(layers.Dense(800));
+           parent.add(layers.Dense(200));
+           parent.add(layers.Dense(400));
+           parent.add(layers.Dense(600));
+           parent.add(layers.Dense(800));
 
 
             //Create Tree
@@ -259,26 +234,5 @@ public class NeuralNetworkConsole {
             model.add(auxz, xp3z);
             model.add(xp5z, xp3z);
 
-            model.add(xp3, parent);
-            model.add(aux, parent);
-            model.add(xp1z, parent);
-            model.add(xp4, parent);
-            model.add(xp5, parent);
-            model.add(xp2z, parent);
-            model.add(xp3z, parent);
-
-            SvgController svg = new SvgController(drawSettings);
-            writeFile(svg.draw(model.getModelTree()));
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-    }
-
-    private void writeFile(String draw) throws IOException {
-        File file = new File("C:\\Users\\Marcos\\Desktop\\URJC\\Neurotronik\\src\\neurotronik.svg");
-        BufferedWriter bw;
-        bw = new BufferedWriter(new FileWriter(file));
-        bw.write(draw);
-        bw.close();
-    }
-}
+            model.add(xp3,parent);
+            model.add(xp3z,parent);
