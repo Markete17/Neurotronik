@@ -39,7 +39,7 @@ public class NeuralNetworkTree {
         return (node == this.root());
     }
 
-    public Node root() throws RuntimeException {
+    private Node root() throws RuntimeException {
         if (root == null) {
             throw new RuntimeException("The tree is empty");
         }
@@ -72,7 +72,7 @@ public class NeuralNetworkTree {
         Collections.reverse(Arrays.asList(this.nodes));
     }
 
-    public void levels(Node node, int maxDepth) {
+    private void levels(Node node, int maxDepth) {
         if (node != null) {
             if (this.isLeaf(node)) {
                 if (!this.nodes[maxDepth - 1].contains(node))
@@ -89,7 +89,7 @@ public class NeuralNetworkTree {
         }
     }
 
-    public int maxDepth(Node root) {
+    private int maxDepth(Node root) {
         if (root == null) {
             return 0;
         }
@@ -103,7 +103,7 @@ public class NeuralNetworkTree {
         return 1 + Math.max(max, 0);
     }
 
-    public int level(Node node) {
+    private int level(Node node) {
         int l = 0;
         while (!isParent(node)) {
             node = node.getParent();
@@ -148,14 +148,14 @@ public class NeuralNetworkTree {
         return firstChild;
     }
 
-    public boolean isParent(Node node) {
+    private boolean isParent(Node node) {
         return node.getParent() == null;
     }
 
     /**
      * Check if the Neural network has been poorly defined.
      */
-    public void check() {
+    private void check() {
         for(List<Node> nodes:this.getNodes()){
             for(Node node: nodes){
                 if(node.getCubeList().isEmpty() || node.getCubeList()==null){
