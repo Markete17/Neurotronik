@@ -7,7 +7,6 @@ import Shapes.Cube;
 import Tree.Node;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Layers {
@@ -37,11 +36,11 @@ public class Layers {
      * CONV2D Layer
      * Is a 2D Convolution Layer, this layer creates a convolution kernel that is wind with layers input which helps produce a tensor of outputs.
      *
-     * @param filters number of filters
+     * @param filters     number of filters
      * @param kernel_size size of the kernel
-     * @param strides strides tuple
-     * @param input input image
-     * @param padding padding of cnn
+     * @param strides     strides tuple
+     * @param input       input image
+     * @param padding     padding of cnn
      * @return the list of cubes
      */
     public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding) {
@@ -101,29 +100,22 @@ public class Layers {
      * @return the cube concatenated
      */
     public List<Cube> concatenate(Node... nodes) {
-        //to concatenate layers, they have to have the same dimensions
-        Node node = (Node) Arrays.stream(nodes).toArray()[1];
-        boolean error = false;
-        for (Node n : nodes) {
-            if (n != null && !n.getCubeList().isEmpty()) {
-                if (n.getLastCube().getX() != node.getLastCube().getX() || n.getLastCube().getY() != node.getLastCube().getY() || n.getLastCube().getZ() != node.getLastCube().getZ()) {
-                    error = true;
-                    break;
-                }
-            }
-        }
-        if (!error) {
-            List<Cube> cubeList = new ArrayList<>();
-            if (denseLayer) {
-                return cubeList;
-            }
-            Cube newCube = new Cube(new Coordinate(node.getLastCube().getX(), node.getLastCube().getY(), node.getLastCube().getZ()), drawSettings);
-            cubeList.add(newCube);
-            this.cube_actual = newCube;
-
+        List<Cube> cubeList = new ArrayList<>();
+        if (denseLayer) {
             return cubeList;
         }
-        throw new RuntimeException("The outputs are not the same size.");
+        double x = 0;
+        double y = 0;
+        double z = 0;
+        for (Node n : nodes) {
+            x += n.getLastCube().getX();
+            y += n.getLastCube().getY();
+            z += n.getLastCube().getZ();
+        }
+        Cube newCube = new Cube(new Coordinate(x, y, z), drawSettings);
+        cubeList.add(newCube);
+        this.cube_actual = newCube;
+        return cubeList;
     }
 
     public void setDenseLayer(boolean denseLayer) {
@@ -158,7 +150,7 @@ public class Layers {
     /**
      * Create new Kernel
      *
-     * @param z depth of previous cube
+     * @param z     depth of previous cube
      * @param tuple kernel tuple
      * @return kernel
      */

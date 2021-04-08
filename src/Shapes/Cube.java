@@ -45,7 +45,7 @@ public class Cube {
         this.z = coordinate.getZ();
 
         double x_aux = drawSettings.logWidth(this.x);
-        double y_aux = drawSettings.logWidth(this.y);
+        double y_aux = this.y;
         double z_aux = drawSettings.logDepth(this.z);
 
         coordinates[0] = (new Coordinate(-(x_aux / 2), -(y_aux / 2), z_aux / 2));

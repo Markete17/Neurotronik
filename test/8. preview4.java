@@ -78,7 +78,7 @@ layers.MaxPooling2D(new Tuple(2, 2));
 aux.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
 layers.setDenseLayer(true);
-xp3.add(layers.concatenate(0, xp1,x3,x5));
+xp3.add(layers.concatenate(xp3,xp1,x3,x5));
 xp3.add(layers.Dense(200));
 xp3.add(layers.Dense(400));
 xp3.add(layers.Dense(600));

@@ -268,9 +268,9 @@ public class SvgController {
 
     private String drawText(Cube cube) {
         String svg = "";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getY()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getX()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" font-family=\"" + drawSettings.getFont().getFont_family() + "\" font-size=\"" + drawSettings.getFont().getFont_size() + "\">" + (int) (cube.getZ()) + "</text>\n\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" " + ">" + (int) (cube.getY()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" " + ">" + (int) (cube.getX()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" " + ">" + (int) (cube.getZ()) + "</text>\n\n";
         return svg;
     }
 
@@ -390,8 +390,8 @@ public class SvgController {
      * SVG header
      */
     private void addHeader() {
-        this.svgString = "<svg width=\"" + (drawSettings.getViewBox().getWidth()) + "px\" height=\"" + (drawSettings.getViewBox().getHeight()) + "px\" viewBox=\"" + (x_min - drawSettings.getFont().getFont_size()) + " " + (y_min - drawSettings.getFont().getFont_size()) + " " + (drawSettings.getViewBox().getWidth() + drawSettings.getViewBox().getZoom()) + " " + (drawSettings.getViewBox().getHeight() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-                "\t<g stroke=\"" + drawSettings.getStroke().getStroke_color() + "\" stroke-width=\"" + drawSettings.getStroke().getStroke_width() + "\">\n";
+        this.svgString = "<svg width=\"" + (x_max - x_min + this.drawSettings.getFont().getFont_size()) + "px\" height=\"" + (y_max - y_min + this.drawSettings.getFont().getFont_size()) + "px\" viewBox=\"" + (this.x_min - this.drawSettings.getFont().getFont_size()) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+                "\t<g stroke=\"" + drawSettings.getStroke().getStroke_color() + "\" stroke-width=\"" + drawSettings.getStroke().getStroke_width() + "\">\n\n";
     }
 
     /**

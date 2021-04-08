@@ -16,14 +16,14 @@ public class DrawSettings {
 
     //Default Settings
     public DrawSettings() {
-        //Vista aerea AlfaX=90 AlfaY=90
-        //Vista normal AlfaX=30 AlfaY=60
+        //AlfaX=90 AlfaY=90
+        //AlfaX=30 AlfaY=60
         this.color = new Color("orange", "darkturquoise", "darkturquoise", "pink", "black", 0.5, 0.75, 0.75, 0.5, 0.75);
         this.alfa = new Alfa(30, 60, 0);
-        this.shift = new Shift(100, 50, 35);
+        this.shift = new Shift(100, 50, 50);
         this.font = new Font(6, "calibri", "black");
         this.stroke = new Stroke("black", 0.3);
-        this.viewBox = new ViewBox(2000, 2000, -1000);
+        this.viewBox = new ViewBox(3000, 2000, 0);
         this.activateWidhtLogs = false;
         this.activateDepthLogs = false;
         this.activateLayerDimensions = true;
@@ -88,6 +88,4 @@ public class DrawSettings {
         }
         return num;
     }
-
-
 }
