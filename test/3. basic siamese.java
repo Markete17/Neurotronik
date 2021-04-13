@@ -14,7 +14,7 @@ n2.add(layers.Conv2D(64,new Tuple(5,5),new Tuple(1,1),"same"));
 layers.MaxPooling2D(new Tuple(2,2));
 n2.add(layers.Conv2D(72,new Tuple(10,10),new Tuple(1,1),"same"));
 layers.setDenseLayer(true);
-n3.add(layers.concatenate(n3,n1,n2));
+n3.add(layers.concatenate(n1,n2));
 n3.add(layers.Dense(200));
 n3.add(layers.Dense(300));
 n3.add(layers.Dense(400));

@@ -99,7 +99,7 @@ public class Layers {
      * @param nodes the concatenated nodes
      * @return the cube concatenated
      */
-    public List<Cube> concatenate(Node node,Node... nodes) {
+    public List<Cube> concatenate(Node... nodes) {
         List<Cube> cubeList = new ArrayList<>();
         if (denseLayer) {
             return cubeList;
