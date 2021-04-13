@@ -39,17 +39,17 @@ Node x1a = new Node();
                         layers.MaxPooling2D(new Tuple(2, 2));
                         x4.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-                        x1.add(layers.concatenate(1, x1a, x1b));
+                        x1.add(layers.concatenate(x1a, x1b));
                         layers.MaxPooling2D(new Tuple(2, 2));
                         x1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-                        xp1.add(layers.concatenate(1, x1, x2));
+                        xp1.add(layers.concatenate(x1, x2));
                         xp1.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
 
-                        xp2.add(layers.concatenate(1, x2, x3));
+                        xp2.add(layers.concatenate(x2, x3));
                         xp2.add(layers.Conv2D(64, new Tuple(5, 5), new Tuple(1, 1), "same"));
-
-                        xp3.add(layers.concatenate(0, xp1, xp2));
+                        layers.setDenseLayer(true);
+                        xp3.add(layers.concatenate(xp1, xp2));
                         xp3.add(layers.Dense(200));
                         xp3.add(layers.Dense(200));
                         xp3.add(layers.Dense(200));
