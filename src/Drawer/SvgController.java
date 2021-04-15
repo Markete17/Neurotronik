@@ -327,11 +327,16 @@ public class SvgController {
 
     private String selectColor(Cube cube) {
         if (cube.isKernel()) {
-            return drawSettings.getColor().getKernelColor();
-        } else if (!cube.isKernel() && !cube.isDenseLayer()) {
-            return drawSettings.getColor().getCubeColor();
-        } else {
-            return drawSettings.getColor().getDenseColor();
+            return this.drawSettings.getColor().getKernelColor();
+        }
+        else if (cube.isDenseLayer()){
+            return this.drawSettings.getColor().getDenseColor();
+        }
+        else if (cube.isInputLayer()){
+            return this.drawSettings.getColor().getInputColor();
+        }
+        else {
+            return this.drawSettings.getColor().getCubeColor();
         }
     }
 
@@ -344,11 +349,16 @@ public class SvgController {
 
     private double selectOpacity(Cube cube) {
         if (cube.isKernel()) {
-            return drawSettings.getColor().getKernelOpacity();
-        } else if (!cube.isKernel() && !cube.isDenseLayer()) {
-            return drawSettings.getColor().getLayerOpacity();
-        } else {
-            return drawSettings.getColor().getDenseOpacity();
+            return this.drawSettings.getColor().getKernelOpacity();
+        }
+        else if (cube.isDenseLayer()){
+            return this.drawSettings.getColor().getDenseOpacity();
+        }
+        else if (cube.isInputLayer()){
+            return this.drawSettings.getColor().getInputOpacity();
+        }
+        else {
+            return this.drawSettings.getColor().getLayerOpacity();
         }
     }
 
@@ -390,7 +400,7 @@ public class SvgController {
      * SVG header
      */
     private void addHeader() {
-        this.svgString = "<svg width=\"" + (x_max - x_min + this.drawSettings.getFont().getFont_size()) + "px\" height=\"" + (y_max - y_min + this.drawSettings.getFont().getFont_size()) + "px\" viewBox=\"" + (this.x_min - this.drawSettings.getFont().getFont_size()) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+        this.svgString = "<svg width=\"100%\"" +" height=\"100%\"" + " viewBox=\"" + (this.x_min) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                 "\t<g stroke=\"" + drawSettings.getStroke().getStroke_color() + "\" stroke-width=\"" + drawSettings.getStroke().getStroke_width() + "\">\n\n";
     }
 

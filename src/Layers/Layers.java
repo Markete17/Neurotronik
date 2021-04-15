@@ -27,6 +27,7 @@ public class Layers {
      */
     public List<Cube> Input(Cube input) {
         List<Cube> cubeList = new ArrayList<>();
+        input.setInputLayer(true);
         cube_actual = input;
         cubeList.add(input);
         return cubeList;
@@ -46,6 +47,7 @@ public class Layers {
     public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding) {
         List<Cube> cubeList = new ArrayList<>();
         cube_actual = input;
+        input.setInputLayer(true);
         cubeList.add(input);
         Cube CNNCube = createKernel(this.cube_actual.getZ(), kernel_size);
         cubeList.add(CNNCube);

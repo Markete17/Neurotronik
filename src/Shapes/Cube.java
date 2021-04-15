@@ -24,6 +24,7 @@ public class Cube {
     private double z;
     private boolean isKernel = false;
     private boolean isDenseLayer = false;
+    private boolean isInputLayer = false;
     private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 1];
 
     public Cube() {
@@ -95,5 +96,13 @@ public class Cube {
 
     public void setDenseLayer(boolean denseLayer) {
         isDenseLayer = denseLayer;
+    }
+
+    public boolean isInputLayer() {
+        return isInputLayer;
+    }
+
+    public void setInputLayer(boolean inputLayer) {
+        isInputLayer = inputLayer;
     }
 }
