@@ -3,7 +3,7 @@ package Shapes;
 import Data.Coordinate;
 import Drawer.DrawSettings;
 
-public class Cube {
+public class Cube implements Shape {
 
     final int NUM_COORDINATES = 8;
 

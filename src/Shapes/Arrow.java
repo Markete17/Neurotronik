@@ -2,7 +2,7 @@ package Shapes;
 
 import Data.Coordinate;
 
-public class Arrow {
+public class Arrow implements Shape {
 
     private final int NUM_COORDINATES = 2;
     private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES];

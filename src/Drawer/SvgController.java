@@ -162,7 +162,7 @@ public class SvgController {
                 Coordinate vertex = cube.getCoordinates()[8];
 
                 Pyramid pyramid = new Pyramid(Arrays.copyOf(kernelCube.getCoordinates(), 4), new Coordinate(vertex.getX(), vertex.getY(), vertex.getZ()));
-                drawPyramid(pyramid);
+                drawPyramid(pyramid,kernelCube);
                 activate = false;
             }
             //The cube has not kernel (last cube or dense layers)
@@ -251,9 +251,6 @@ public class SvgController {
         svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\"/>" + "\n";
 
         if (cube.isKernel()) {
-            if (drawSettings.isActivateKernelDimensions()) {
-                svg += drawText(cube);
-            }
             aux = svg + aux;
             SortNode sn = new SortNode(aux, z);
             this.drawOrderList.add(sn);
@@ -274,17 +271,27 @@ public class SvgController {
         return svg;
     }
 
+    private String drawText(Pyramid pyramid,Cube kernel) {
+        String svg = "";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY()-9)) / 2 + "\" " + ">" + "("+(int) (kernel.getX())+","+(int)(kernel.getY())+")" + "</text>\n";
+       /* svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[3].getY()) + "\" " + ">" + (int) (kernel.getY()) + "</text>\n";*/
+        return svg;
+    }
+
     /**
      * Draw a pyramid
      *
      * @param pyramid to draw
      */
-    private void drawPyramid(Pyramid pyramid) {
+    private void drawPyramid(Pyramid pyramid,Cube kernel) {
         String svg = "";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + " L" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + " L" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + " L" + pyramid.getCoordinates()[3].getX() + " " + pyramid.getCoordinates()[3].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + " L" + pyramid.getCoordinates()[3].getX() + " " + pyramid.getCoordinates()[3].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + "\"/>" + "\n\n";
+        if (drawSettings.isActivateKernelDimensions()) {
+            svg += drawText(pyramid,kernel);
+        }
         double z = calculateAverageZ(pyramid.getCoordinates());
         SortNode sn = new SortNode(svg, z);
         this.drawOrderList.add(sn);
