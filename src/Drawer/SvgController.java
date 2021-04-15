@@ -272,10 +272,7 @@ public class SvgController {
     }
 
     private String drawText(Pyramid pyramid,Cube kernel) {
-        String svg = "";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY()-9)) / 2 + "\" " + ">" + "("+(int) (kernel.getX())+","+(int)(kernel.getY())+")" + "</text>\n";
-       /* svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[3].getY()) + "\" " + ">" + (int) (kernel.getY()) + "</text>\n";*/
-        return svg;
+        return "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY()-9)) / 2 + "\" " + ">" + "["+(int) (kernel.getX())+","+(int)(kernel.getY())+"]" + "</text>\n";
     }
 
     /**
