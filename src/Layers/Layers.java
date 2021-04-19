@@ -139,10 +139,12 @@ public class Layers {
                 output_w = (this.cube_actual.getX() - kernel_size.getN1() + 1) / strides.getN1();
                 output_h = (this.cube_actual.getY() - kernel_size.getN2() + 1) / strides.getN2();
             }
-            if (padding.equals("same")) {
+            else if (padding.equals("same")) {
                 output_w = (this.cube_actual.getX()) / strides.getN1();
                 output_h = (this.cube_actual.getY()) / strides.getN2();
-
+            }
+            else{
+                throw new RuntimeException("The padding "+padding+" is not supported.");
             }
         }
         this.setNewDimensions(output_w, output_h, filters);
