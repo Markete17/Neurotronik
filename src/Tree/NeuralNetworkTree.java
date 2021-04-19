@@ -41,7 +41,7 @@ public class NeuralNetworkTree {
 
     private Node root() throws RuntimeException {
         if (root == null) {
-            throw new RuntimeException("The tree is empty");
+            throw new RuntimeException("There is no parent node in the model.");
         }
         return root;
     }
@@ -50,7 +50,7 @@ public class NeuralNetworkTree {
         if (isEmpty()) {
             this.root = node;
         } else {
-            throw new RuntimeException("Tree already has a root");
+            throw new RuntimeException("The model already has a parent node.");
         }
 
 
@@ -159,7 +159,7 @@ public class NeuralNetworkTree {
         for(List<Node> nodes:this.getNodes()){
             for(Node node: nodes){
                 if(node.getCubeList().isEmpty() || node.getCubeList()==null){
-                    throw new RuntimeException("The neural network has been poorly defined.");
+                    throw new RuntimeException("The neural network is poorly defined. There may be a node that has not added convolutions.");
                 }
             }
         }
