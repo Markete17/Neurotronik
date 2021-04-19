@@ -144,11 +144,10 @@ public class Layers {
                 output_h = (this.cube_actual.getY()) / strides.getN2();
             }
             else{
-                throw new RuntimeException("The padding "+padding+" is not supported.");
+                throw new RuntimeException("The padding \'"+padding+"\' is not supported.");
             }
         }
         this.setNewDimensions(output_w, output_h, filters);
-
     }
 
     /**
