@@ -49,7 +49,7 @@ public class Node {
     }
 
     public void add(Input input) {
-        this.getCubeList().addAll(this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings())));
+        this.getCubeList().add(this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings())));
         setLastCube();
         this.setActualCube(this.getLastCube());
     }
@@ -61,7 +61,7 @@ public class Node {
             }
             this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube()));
         } else {
-            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding(), this.getActualCube()));
+            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding()));
         }
         setLastCube();
         this.setActualCube(this.getLastCube());
@@ -75,13 +75,18 @@ public class Node {
     }
 
     public void add(Dense dense) {
-        this.getCubeList().addAll(this.layerController.Dense(dense.getVector()));
+        this.getCubeList().add(this.layerController.Dense(dense.getVector()));
         setLastCube();
         this.setActualCube(this.getLastCube());
     }
 
     public void add(Concatenate concatenate) {
-        this.getCubeList().addAll(this.layerController.concatenate(concatenate.getNodes()));
+        for (Node node : concatenate.getNodes()) {
+            if (node.getCubeList().isEmpty() || node.getCubeList() == null) {
+                throw new RuntimeException("Could not concatenate because some node has no convolutions or input");
+            }
+        }
+        this.getCubeList().add(this.layerController.Concatenate(concatenate.getNodes()));
         setLastCube();
         this.setActualCube(this.getLastCube());
     }

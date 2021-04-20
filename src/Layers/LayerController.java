@@ -26,11 +26,9 @@ public class LayerController {
      * @param input input image is a cube
      * @return the input
      */
-    public List<Cube> Input(Cube input) {
-        List<Cube> cubeList = new ArrayList<>();
+    public Cube Input(Cube input) {
         input.setInputLayer(true);
-        cubeList.add(input);
-        return cubeList;
+        return input;
     }
 
     /**
@@ -44,13 +42,13 @@ public class LayerController {
      * @param padding     padding of cnn
      * @return the list of cubes
      */
-    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding, Cube actualCube) {
+    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding) {
         List<Cube> cubeList = new ArrayList<>();
         input.setInputLayer(true);
         cubeList.add(input);
-        Cube CNNCube = createKernel(actualCube.getZ(), kernel_size);
+        Cube CNNCube = createKernel(input.getZ(), kernel_size);
         cubeList.add(CNNCube);
-        Cube convolution = setConvolution(filters, kernel_size, strides, padding, actualCube);
+        Cube convolution = setConvolution(filters, kernel_size, strides, padding, input);
         cubeList.add(convolution);
         return cubeList;
     }
@@ -85,12 +83,10 @@ public class LayerController {
      * @param vector vector length
      * @return list of cubes - dense layer
      */
-    public List<Cube> Dense(double vector) {
-        List<Cube> cubeList = new ArrayList<>();
+    public Cube Dense(double vector) {
         Cube cube = new Cube(new Coordinate(10, vector, 10), drawSettings);
         cube.setDenseLayer(true);
-        cubeList.add(cube);
-        return cubeList;
+        return cube;
     }
 
     /**
@@ -99,8 +95,7 @@ public class LayerController {
      * @param nodes the concatenated nodes
      * @return the cube concatenated
      */
-    public List<Cube> concatenate(Node... nodes) {
-        List<Cube> cubeList = new ArrayList<>();
+    public Cube Concatenate(Node... nodes) {
         double x = 0;
         double y = 0;
         double z = 0;
@@ -109,9 +104,8 @@ public class LayerController {
             y += n.getLastCube().getY();
             z += n.getLastCube().getZ();
         }
-        Cube newCube = new Cube(new Coordinate(x, y, z), drawSettings);
-        cubeList.add(newCube);
-        return cubeList;
+        Cube concatenatedCube = new Cube(new Coordinate(x, y, z), drawSettings);
+        return concatenatedCube;
     }
 
     private Cube setPooling(Tuple tuple, Cube actualCube) {
