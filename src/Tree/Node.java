@@ -63,10 +63,10 @@ public class Node {
         if (this.getCubeList().isEmpty() || this.getCubeList() == null) {
             throw new RuntimeException("The node does not have an input layer.");
         }
-        if (actualCube.isDenseLayer()) {
-            throw new RuntimeException("Can not Conv2D a dense layer.");
-        }
         if (conv2D.getInput() == null) {
+            if (actualCube.isDenseLayer()) {
+                throw new RuntimeException("Can not Conv2D a dense layer.");
+            }
             this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube()));
         } else {
             for (Cube cube : this.getCubeList()) {
