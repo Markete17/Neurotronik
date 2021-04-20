@@ -9,14 +9,15 @@ import Tree.Node;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Layers {
-
-    private Cube cube_actual = new Cube();
+public class LayerController {
     private final DrawSettings drawSettings;
-    private boolean denseLayer = false;
 
-    public Layers(DrawSettings drawSettings) {
+    public LayerController(DrawSettings drawSettings) {
         this.drawSettings = drawSettings;
+    }
+
+    public DrawSettings getDrawSettings() {
+        return drawSettings;
     }
 
     /**
@@ -28,7 +29,6 @@ public class Layers {
     public List<Cube> Input(Cube input) {
         List<Cube> cubeList = new ArrayList<>();
         input.setInputLayer(true);
-        cube_actual = input;
         cubeList.add(input);
         return cubeList;
     }
@@ -44,25 +44,24 @@ public class Layers {
      * @param padding     padding of cnn
      * @return the list of cubes
      */
-    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding) {
+    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding, Cube actualCube) {
         List<Cube> cubeList = new ArrayList<>();
-        cube_actual = input;
         input.setInputLayer(true);
         cubeList.add(input);
-        Cube CNNCube = createKernel(this.cube_actual.getZ(), kernel_size);
+        Cube CNNCube = createKernel(actualCube.getZ(), kernel_size);
         cubeList.add(CNNCube);
-        setConvolution(filters, kernel_size, strides, padding);
-        cubeList.add(this.cube_actual);
+        Cube convolution = setConvolution(filters, kernel_size, strides, padding, actualCube);
+        cubeList.add(convolution);
         return cubeList;
     }
 
     //Conv2D function without input
-    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, String padding) {
+    public List<Cube> Conv2D(double filters, Tuple kernel_size, Tuple strides, String padding, Cube actualCube) {
         List<Cube> cubeList = new ArrayList<>();
-        Cube CNNCube = createKernel(this.cube_actual.getZ(), kernel_size);
+        Cube CNNCube = createKernel(actualCube.getZ(), kernel_size);
         cubeList.add(CNNCube);
-        setConvolution(filters, kernel_size, strides, padding);
-        cubeList.add(this.cube_actual);
+        Cube convolution = setConvolution(filters, kernel_size, strides, padding, actualCube);
+        cubeList.add(convolution);
         return cubeList;
     }
 
@@ -74,8 +73,8 @@ public class Layers {
      *
      * @param tuple x and y pooling
      */
-    public void MaxPooling2D(Tuple tuple) {
-        setPooling(tuple);
+    public Cube MaxPooling2D(Tuple tuple, Cube actualCube) {
+        return setPooling(tuple, actualCube);
     }
 
     /**
@@ -90,7 +89,6 @@ public class Layers {
         List<Cube> cubeList = new ArrayList<>();
         Cube cube = new Cube(new Coordinate(10, vector, 10), drawSettings);
         cube.setDenseLayer(true);
-        this.cube_actual = cube;
         cubeList.add(cube);
         return cubeList;
     }
@@ -103,9 +101,6 @@ public class Layers {
      */
     public List<Cube> concatenate(Node... nodes) {
         List<Cube> cubeList = new ArrayList<>();
-        if (denseLayer) {
-            return cubeList;
-        }
         double x = 0;
         double y = 0;
         double z = 0;
@@ -116,38 +111,31 @@ public class Layers {
         }
         Cube newCube = new Cube(new Coordinate(x, y, z), drawSettings);
         cubeList.add(newCube);
-        this.cube_actual = newCube;
         return cubeList;
     }
 
-    public void setDenseLayer(boolean denseLayer) {
-        this.denseLayer = denseLayer;
+    private Cube setPooling(Tuple tuple, Cube actualCube) {
+        double x = (actualCube.getX()) / tuple.getN1();
+        double y = (actualCube.getY()) / tuple.getN2();
+
+        return this.setNewDimensions(x, y, actualCube.getZ());
     }
 
-    private void setPooling(Tuple tuple) {
-        double x = (this.cube_actual.getX()) / tuple.getN1();
-        double y = (this.cube_actual.getY()) / tuple.getN2();
-
-        this.setNewDimensions(x, y, this.cube_actual.getZ());
-    }
-
-    private void setConvolution(double filters, Tuple kernel_size, Tuple strides, String padding) {
-        double output_w = this.cube_actual.getX();
-        double output_h = this.cube_actual.getY();
+    private Cube setConvolution(double filters, Tuple kernel_size, Tuple strides, String padding, Cube actualCube) {
+        double output_w = actualCube.getX();
+        double output_h = actualCube.getY();
         if (strides != null && padding != null) {
             if (padding.equals("valid")) {
-                output_w = (this.cube_actual.getX() - kernel_size.getN1() + 1) / strides.getN1();
-                output_h = (this.cube_actual.getY() - kernel_size.getN2() + 1) / strides.getN2();
-            }
-            else if (padding.equals("same")) {
-                output_w = (this.cube_actual.getX()) / strides.getN1();
-                output_h = (this.cube_actual.getY()) / strides.getN2();
-            }
-            else{
-                throw new RuntimeException("The padding \'"+padding+"\' is not supported.");
+                output_w = (actualCube.getX() - kernel_size.getN1() + 1) / strides.getN1();
+                output_h = (actualCube.getY() - kernel_size.getN2() + 1) / strides.getN2();
+            } else if (padding.equals("same")) {
+                output_w = (actualCube.getX()) / strides.getN1();
+                output_h = (actualCube.getY()) / strides.getN2();
+            } else {
+                throw new RuntimeException("The padding '" + padding + "' is not supported.");
             }
         }
-        this.setNewDimensions(output_w, output_h, filters);
+        return this.setNewDimensions(output_w, output_h, filters);
     }
 
     /**
@@ -164,9 +152,8 @@ public class Layers {
         return kernel;
     }
 
-    private void setNewDimensions(double x, double y, double z) {
+    private Cube setNewDimensions(double x, double y, double z) {
         Coordinate coordinate = new Coordinate(x, y, z);
-        this.cube_actual = new Cube(coordinate, drawSettings);
-
+        return new Cube(coordinate, drawSettings);
     }
 }

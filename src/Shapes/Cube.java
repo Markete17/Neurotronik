@@ -27,9 +27,6 @@ public class Cube implements Shape {
     private boolean isInputLayer = false;
     private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 1];
 
-    public Cube() {
-    }
-
     //input image
     public Cube(Coordinate coordinates, DrawSettings drawSettings) {
         this.initializeCube(coordinates, drawSettings);

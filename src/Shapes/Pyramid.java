@@ -16,7 +16,7 @@ public class Pyramid implements Shape {
      * Initialize the pyramid
      *
      * @param coordinates the coordinates of the base of pyramid
-     * @param point the vertex of pyramid
+     * @param point       the vertex of pyramid
      */
     private void initializePyramid(Coordinate[] coordinates, Coordinate point) {
         this.vertex = new Coordinate(point.getX(), point.getY(), point.getZ());

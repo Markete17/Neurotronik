@@ -162,7 +162,7 @@ public class SvgController {
                 Coordinate vertex = cube.getCoordinates()[8];
 
                 Pyramid pyramid = new Pyramid(Arrays.copyOf(kernelCube.getCoordinates(), 4), new Coordinate(vertex.getX(), vertex.getY(), vertex.getZ()));
-                drawPyramid(pyramid,kernelCube);
+                drawPyramid(pyramid, kernelCube);
                 activate = false;
             }
             //The cube has not kernel (last cube or dense layers)
@@ -271,8 +271,8 @@ public class SvgController {
         return svg;
     }
 
-    private String drawText(Pyramid pyramid,Cube kernel) {
-        return "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX()+pyramid.getCoordinates()[1].getX()+ pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY()-9)) / 2 + "\" " + ">" + "["+(int) (kernel.getX())+","+(int)(kernel.getY())+"]" + "</text>\n";
+    private String drawText(Pyramid pyramid, Cube kernel) {
+        return "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX() + pyramid.getCoordinates()[1].getX() + pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY() - 9)) / 2 + "\" " + ">" + "[" + (int) (kernel.getX()) + "," + (int) (kernel.getY()) + "]" + "</text>\n";
     }
 
     /**
@@ -280,14 +280,14 @@ public class SvgController {
      *
      * @param pyramid to draw
      */
-    private void drawPyramid(Pyramid pyramid,Cube kernel) {
+    private void drawPyramid(Pyramid pyramid, Cube kernel) {
         String svg = "";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + " L" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + " L" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[0].getX() + " " + pyramid.getCoordinates()[0].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + " L" + pyramid.getCoordinates()[3].getX() + " " + pyramid.getCoordinates()[3].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[1].getX() + " " + pyramid.getCoordinates()[1].getY() + "\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + drawSettings.getColor().getConvOpacity() + "\" fill=\"" + drawSettings.getColor().getPyramidColor() + "\" d=\"" + "M" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + " L" + pyramid.getCoordinates()[3].getX() + " " + pyramid.getCoordinates()[3].getY() + " L" + pyramid.getVertex().getX() + " " + pyramid.getVertex().getY() + " L" + pyramid.getCoordinates()[2].getX() + " " + pyramid.getCoordinates()[2].getY() + "\"/>" + "\n\n";
         if (drawSettings.isActivateKernelDimensions()) {
-            svg += drawText(pyramid,kernel);
+            svg += drawText(pyramid, kernel);
         }
         double z = calculateAverageZ(pyramid.getCoordinates());
         SortNode sn = new SortNode(svg, z);
@@ -332,14 +332,11 @@ public class SvgController {
     private String selectColor(Cube cube) {
         if (cube.isKernel()) {
             return this.drawSettings.getColor().getKernelColor();
-        }
-        else if (cube.isDenseLayer()){
+        } else if (cube.isDenseLayer()) {
             return this.drawSettings.getColor().getDenseColor();
-        }
-        else if (cube.isInputLayer()){
+        } else if (cube.isInputLayer()) {
             return this.drawSettings.getColor().getInputColor();
-        }
-        else {
+        } else {
             return this.drawSettings.getColor().getCubeColor();
         }
     }
@@ -354,14 +351,11 @@ public class SvgController {
     private double selectOpacity(Cube cube) {
         if (cube.isKernel()) {
             return this.drawSettings.getColor().getKernelOpacity();
-        }
-        else if (cube.isDenseLayer()){
+        } else if (cube.isDenseLayer()) {
             return this.drawSettings.getColor().getDenseOpacity();
-        }
-        else if (cube.isInputLayer()){
+        } else if (cube.isInputLayer()) {
             return this.drawSettings.getColor().getInputOpacity();
-        }
-        else {
+        } else {
             return this.drawSettings.getColor().getLayerOpacity();
         }
     }
@@ -404,7 +398,7 @@ public class SvgController {
      * SVG header
      */
     private void addHeader() {
-        this.svgString = "<svg width=\"100%\"" +" height=\"100%\"" + " viewBox=\"" + (this.x_min) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+        this.svgString = "<svg width=\"100%\"" + " height=\"100%\"" + " viewBox=\"" + (this.x_min) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                 "\t<g stroke=\"" + drawSettings.getStroke().getStroke_color() + "\" stroke-width=\"" + drawSettings.getStroke().getStroke_width() + "\">\n\n";
     }
 

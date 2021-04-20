@@ -156,9 +156,9 @@ public class NeuralNetworkTree {
      * Check if the Neural network has been poorly defined.
      */
     private void check() {
-        for(List<Node> nodes:this.getNodes()){
-            for(Node node: nodes){
-                if(node.getCubeList().isEmpty() || node.getCubeList()==null){
+        for (List<Node> nodes : this.getNodes()) {
+            for (Node node : nodes) {
+                if (node.getCubeList().isEmpty() || node.getCubeList() == null) {
                     throw new RuntimeException("The neural network is poorly defined. There may be a node that has not added convolutions.");
                 }
             }

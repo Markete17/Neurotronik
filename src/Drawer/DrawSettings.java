@@ -18,8 +18,8 @@ public class DrawSettings {
     public DrawSettings() {
         //AlfaX=90 AlfaY=90
         //AlfaX=30 AlfaY=60
-        this.color = new Color("lavender","orange", "darkturquoise", "darkturquoise", "pink", "black",0.5, 0.5, 0.75, 0.75, 0.5, 0.75);
-        this.alfa = new Alfa(30, 60, 20);
+        this.color = new Color("lavender", "orange", "darkturquoise", "darkturquoise", "pink", "black", 0.5, 0.5, 0.75, 0.75, 0.5, 0.75);
+        this.alfa = new Alfa(30, 60, 0);
         this.shift = new Shift(100, 50, 50);
         this.font = new Font(6, "calibri", "black");
         this.stroke = new Stroke("black", 0.3);

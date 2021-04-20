@@ -1,5 +1,8 @@
 package Tree;
 
+import Data.Coordinate;
+import Data.Tuple;
+import Layers.*;
 import Shapes.Cube;
 
 import java.util.ArrayList;
@@ -10,8 +13,11 @@ public class Node {
     private Cube lastCube;
     private Node parent;
     private final List<Node> children = new ArrayList<>();
+    private final LayerController layerController;
+    private Cube actualCube;
 
-    public Node() {
+    public Node(LayerController layerController) {
+        this.layerController = layerController;
     }
 
     public List<Cube> getCubeList() {
@@ -38,10 +44,55 @@ public class Node {
         return parent;
     }
 
-    public void add(List<Cube> cubeList) {
-        this.getCubeList().addAll(cubeList);
+    public Cube getActualCube() {
+        return actualCube;
+    }
+
+    public void add(Input input) {
+        this.getCubeList().addAll(this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings())));
+        setLastCube();
+        this.setActualCube(this.getLastCube());
+    }
+
+    public void add(Conv2D conv2D) {
+        if (conv2D.getInput() == null) {
+            if (this.getCubeList().isEmpty() || this.getActualCube() == null) {
+                throw new RuntimeException("The node does not have an input layer.");
+            }
+            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube()));
+        } else {
+            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding(), this.getActualCube()));
+        }
+        setLastCube();
+        this.setActualCube(this.getLastCube());
+    }
+
+    public void add(MaxPooling2D maxPooling2D) {
+        if (this.getCubeList().isEmpty() || this.getActualCube() == null) {
+            throw new RuntimeException("The node does not have an input layer.");
+        }
+        this.setActualCube(this.layerController.MaxPooling2D(new Tuple(maxPooling2D.getTuple().getN1(), maxPooling2D.getTuple().getN2()), this.getActualCube()));
+    }
+
+    public void add(Dense dense) {
+        this.getCubeList().addAll(this.layerController.Dense(dense.getVector()));
+        setLastCube();
+        this.setActualCube(this.getLastCube());
+    }
+
+    public void add(Concatenate concatenate) {
+        this.getCubeList().addAll(this.layerController.concatenate(concatenate.getNodes()));
+        setLastCube();
+        this.setActualCube(this.getLastCube());
+    }
+
+    private void setLastCube() {
         if (!this.getCubeList().isEmpty()) {
             this.setLastCube(this.cubeList.get(this.cubeList.size() - 1));
         }
+    }
+
+    public void setActualCube(Cube actualCube) {
+        this.actualCube = actualCube;
     }
 }
