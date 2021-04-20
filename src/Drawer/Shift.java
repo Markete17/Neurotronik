@@ -10,6 +10,7 @@ public class Shift {
         this.shiftNodes = shiftNodes;
         this.shiftLayers = shiftLayers;
         this.shiftParent = shiftParent;
+        this.checkErrors();
     }
 
     public double getShiftLayers() {
@@ -22,5 +23,17 @@ public class Shift {
 
     public double getShiftParent() {
         return shiftParent;
+    }
+
+    public void checkErrors() {
+        if (this.shiftLayers < 0) {
+            throw new RuntimeException("Layers Distance must be a positive number.");
+        }
+        if (this.shiftNodes < 0) {
+            throw new RuntimeException("Nodes Distance must be a positive number.");
+        }
+        if (this.shiftParent < 0) {
+            throw new RuntimeException("Parent Distance must be a positive number.");
+        }
     }
 }

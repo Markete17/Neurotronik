@@ -7,6 +7,7 @@ public class Stroke {
     public Stroke(String stroke_color, double stroke_width) {
         this.stroke_color = stroke_color;
         this.stroke_width = stroke_width;
+        this.checkErrors();
     }
 
     public String getStroke_color() {
@@ -15,5 +16,11 @@ public class Stroke {
 
     public double getStroke_width() {
         return stroke_width;
+    }
+
+    public void checkErrors() {
+        if (stroke_width < 0) {
+            throw new RuntimeException("Stroke width must be a positive number.");
+        }
     }
 }

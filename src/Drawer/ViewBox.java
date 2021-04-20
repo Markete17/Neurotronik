@@ -10,6 +10,7 @@ public class ViewBox {
         this.width = width;
         this.height = height;
         this.zoom = -zoom;
+        this.checkErrors();
     }
 
     public double getWidth() {
@@ -22,5 +23,11 @@ public class ViewBox {
 
     public double getZoom() {
         return zoom;
+    }
+
+    public void checkErrors() {
+        if (width < 0 || height < 0) {
+            throw new RuntimeException("The width and height of the view box must be positives.");
+        }
     }
 }

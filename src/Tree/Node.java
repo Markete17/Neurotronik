@@ -49,18 +49,29 @@ public class Node {
     }
 
     public void add(Input input) {
+        for (Cube cube : this.getCubeList()) {
+            if (cube.isInputLayer()) {
+                throw new RuntimeException("There is already an input layer.");
+            }
+        }
         this.getCubeList().add(this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings())));
         setLastCube();
         this.setActualCube(this.getLastCube());
     }
 
     public void add(Conv2D conv2D) {
+        if (this.getCubeList().isEmpty() || this.getCubeList() == null) {
+            throw new RuntimeException("The node does not have an input layer.");
+        }
         if (conv2D.getInput() == null) {
-            if (this.getCubeList().isEmpty() || this.getActualCube() == null) {
-                throw new RuntimeException("The node does not have an input layer.");
-            }
             this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube()));
         } else {
+            for (Cube cube : this.getCubeList()) {
+                if (cube.isInputLayer()) {
+                    throw new RuntimeException("There is already an input layer.");
+                }
+            }
+
             this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding()));
         }
         setLastCube();
@@ -97,7 +108,16 @@ public class Node {
         }
     }
 
-    public void setActualCube(Cube actualCube) {
+    private void setActualCube(Cube actualCube) {
         this.actualCube = actualCube;
+    }
+
+    private boolean hasInputLayer() {
+        for (Cube cube : this.getCubeList()) {
+            if (cube.isInputLayer()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

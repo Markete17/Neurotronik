@@ -9,6 +9,7 @@ public class Input {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.checkError();
     }
 
     public double getX() {
@@ -21,5 +22,11 @@ public class Input {
 
     public double getZ() {
         return z;
+    }
+
+    public void checkError() {
+        if (this.getX() <= 0 || this.getY() <= 0 || this.getZ() <= 0) {
+            throw new RuntimeException("The Input function is poorly defined: (Only positive input numbers.)");
+        }
     }
 }

@@ -14,6 +14,7 @@ public class Conv2D {
         this.kernel_size = kernel_size;
         this.strides = strides;
         this.padding = padding;
+        this.checkErrors();
     }
 
     public Conv2D(double filters, Tuple kernel_size, Tuple strides, String padding, Input input) {
@@ -22,6 +23,8 @@ public class Conv2D {
         this.strides = strides;
         this.padding = padding;
         this.input = input;
+        this.checkErrors();
+        this.input.checkError();
     }
 
     public double getFilters() {
@@ -42,5 +45,18 @@ public class Conv2D {
 
     public Input getInput() {
         return input;
+    }
+
+    public void checkErrors() {
+        if (filters <= 0) {
+            throw new RuntimeException("The Conv2D function is poorly defined: (Filters must be a positive number.)");
+        }
+        if (kernel_size.getN1() <= 0 || kernel_size.getN2() <= 0) {
+            throw new RuntimeException("The Conv2D function is poorly defined: (Kernel must have positive numbers.)");
+        }
+
+        if (strides.getN1() <= 0 || strides.getN2() <= 0) {
+            throw new RuntimeException("The Input function is poorly defined: (Strides must have positive numbers.)");
+        }
     }
 }

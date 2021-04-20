@@ -9,6 +9,7 @@ public class Font {
         this.font_size = font_size;
         this.font_family = font_family;
         this.font_color = font_color;
+        this.checkErrors();
     }
 
     public int getFont_size() {
@@ -21,5 +22,11 @@ public class Font {
 
     public String getFont_color() {
         return font_color;
+    }
+
+    public void checkErrors() {
+        if (font_size < 0) {
+            throw new RuntimeException("Bad Settings. The size must be a positive number.");
+        }
     }
 }

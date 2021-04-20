@@ -16,8 +16,8 @@ public class Color {
     private final double arrowOpacity;
     private final double denseOpacity;
 
-    public Color(String input,String cube, String kernel, String dense, String pyramid, String arrow, double inputOpacity,double layerOpacity, double kernelOpacity, double convOpacity, double arrowOpacity, double denseOpacity) {
-        this.inputColor=input;
+    public Color(String input, String cube, String kernel, String dense, String pyramid, String arrow, double inputOpacity, double layerOpacity, double kernelOpacity, double convOpacity, double arrowOpacity, double denseOpacity) {
+        this.inputColor = input;
         this.cubeColor = cube;
         this.kernelColor = kernel;
         this.denseColor = dense;
