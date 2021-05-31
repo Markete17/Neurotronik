@@ -63,6 +63,27 @@ public class LayerController {
         return cubeList;
     }
 
+    public List<Cube> Deconv2D(double filters, Tuple kernel_size, Tuple strides, Cube input, String padding) {
+        List<Cube> cubeList = new ArrayList<>();
+        input.setInputLayer(true);
+        cubeList.add(input);
+        Cube CNNCube = createKernel(input.getZ(), kernel_size);
+        cubeList.add(CNNCube);
+        Cube deconvolution = setDeconvolution(filters, kernel_size, strides, padding, input);
+        cubeList.add(deconvolution);
+        return cubeList;
+    }
+
+    //Deconv2D function without input
+    public List<Cube> Deconv2D(double filters, Tuple kernel_size, Tuple strides, String padding, Cube actualCube) {
+        List<Cube> cubeList = new ArrayList<>();
+        Cube CNNCube = createKernel(actualCube.getZ(), kernel_size);
+        cubeList.add(CNNCube);
+        Cube deconvolution = setDeconvolution(filters, kernel_size, strides, padding, actualCube);
+        cubeList.add(deconvolution);
+        return cubeList;
+    }
+
     /**
      * MAX POOLING 2D
      * Max pooling operation for 2D spatial data.
@@ -125,6 +146,23 @@ public class LayerController {
             } else if (padding.equals("same")) {
                 output_w = (actualCube.getX()) / strides.getN1();
                 output_h = (actualCube.getY()) / strides.getN2();
+            } else {
+                throw new RuntimeException("The padding '" + padding + "' is not supported.");
+            }
+        }
+        return this.setNewDimensions(output_w, output_h, filters);
+    }
+
+    private Cube setDeconvolution(double filters, Tuple kernel_size, Tuple strides, String padding, Cube actualCube) {
+        double output_w = actualCube.getX();
+        double output_h = actualCube.getY();
+        if (strides != null && padding != null) {
+            if (padding.equals("valid")) {
+                output_w = (actualCube.getX() - kernel_size.getN1() + 1) * strides.getN1();
+                output_h = (actualCube.getY() - kernel_size.getN2() + 1) * strides.getN2();
+            } else if (padding.equals("same")) {
+                output_w = (actualCube.getX()) * strides.getN1();
+                output_h = (actualCube.getY()) * strides.getN2();
             } else {
                 throw new RuntimeException("The padding '" + padding + "' is not supported.");
             }
