@@ -28,4 +28,11 @@ public class Model {
         jump.add(n2);
         getModelTree().getJumps().add(jump);
     }
+
+    public void addEncoder(Node n1,Node n2){
+        List<Node> encoders = new ArrayList<>();
+        encoders.add(n1);
+        encoders.add(n2);
+        getModelTree().getEncoders().add(encoders);
+    }
 }

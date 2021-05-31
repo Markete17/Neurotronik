@@ -27,39 +27,21 @@ public class MatrixController {
     public void move(String axis, Coordinate[] coordinates, double length) {
         switch (axis) {
             case "x": {
-                coordinates[0].setX(coordinates[0].getX() + length);
-                coordinates[1].setX(coordinates[1].getX() + length);
-                coordinates[2].setX(coordinates[2].getX() + length);
-                coordinates[3].setX(coordinates[3].getX() + length);
-                coordinates[4].setX(coordinates[4].getX() + length);
-                coordinates[5].setX(coordinates[5].getX() + length);
-                coordinates[6].setX(coordinates[6].getX() + length);
-                coordinates[7].setX(coordinates[7].getX() + length);
-                coordinates[8].setX(coordinates[8].getX() + length);
+                for(int i=0;i<11;i++){
+                    coordinates[i].setX(coordinates[i].getX() + length);
+                }
                 break;
             }
             case "y": {
-                coordinates[0].setY(coordinates[0].getY() + length);
-                coordinates[1].setY(coordinates[1].getY() + length);
-                coordinates[2].setY(coordinates[2].getY() + length);
-                coordinates[3].setY(coordinates[3].getY() + length);
-                coordinates[4].setY(coordinates[4].getY() + length);
-                coordinates[5].setY(coordinates[5].getY() + length);
-                coordinates[6].setY(coordinates[6].getY() + length);
-                coordinates[7].setY(coordinates[7].getY() + length);
-                coordinates[8].setY(coordinates[8].getY() + length);
+                for(int i=0;i<11;i++){
+                    coordinates[i].setY(coordinates[i].getY() + length);
+                }
                 break;
             }
             case "z": {
-                coordinates[0].setZ(coordinates[0].getZ() + length);
-                coordinates[1].setZ(coordinates[1].getZ() + length);
-                coordinates[2].setZ(coordinates[2].getZ() + length);
-                coordinates[3].setZ(coordinates[3].getZ() + length);
-                coordinates[4].setZ(coordinates[4].getZ() + length);
-                coordinates[5].setZ(coordinates[5].getZ() + length);
-                coordinates[6].setZ(coordinates[6].getZ() + length);
-                coordinates[7].setZ(coordinates[7].getZ() + length);
-                coordinates[8].setZ(coordinates[8].getZ() + length);
+                for(int i=0;i<11;i++){
+                    coordinates[i].setZ(coordinates[i].getZ() + length);
+                }
                 break;
             }
         }
@@ -93,6 +75,8 @@ public class MatrixController {
         double[][] c6 = multiply(matrix, coordinates[6].getCoordinateMatrix());
         double[][] c7 = multiply(matrix, coordinates[7].getCoordinateMatrix());
         double[][] c8 = multiply(matrix, coordinates[8].getCoordinateMatrix());
+        double[][] c9 = multiply(matrix, coordinates[9].getCoordinateMatrix());
+        double[][] c10 = multiply(matrix, coordinates[10].getCoordinateMatrix());
 
         coordinates[0] = new Coordinate(c0[0][0], c0[1][0], c0[2][0]);
         coordinates[1] = new Coordinate(c1[0][0], c1[1][0], c1[2][0]);
@@ -103,6 +87,8 @@ public class MatrixController {
         coordinates[6] = new Coordinate(c6[0][0], c6[1][0], c6[2][0]);
         coordinates[7] = new Coordinate(c7[0][0], c7[1][0], c7[2][0]);
         coordinates[8] = new Coordinate(c8[0][0], c8[1][0], c8[2][0]);
+        coordinates[9] = new Coordinate(c9[0][0], c9[1][0], c9[2][0]);
+        coordinates[10] = new Coordinate(c10[0][0], c10[1][0], c10[2][0]);
     }
 
 }

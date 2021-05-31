@@ -6,10 +6,11 @@ import Layers.*;
 import Shapes.Cube;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Node {
-    private final List<Cube> cubeList = new ArrayList<>();
+    private List<Cube> cubeList = new ArrayList<>();
     private Cube lastCube;
     private Node parent;
     private final List<Node> children = new ArrayList<>();
@@ -22,6 +23,10 @@ public class Node {
 
     public List<Cube> getCubeList() {
         return cubeList;
+    }
+
+    public void setCubeList(List<Cube> cubeList) {
+        this.cubeList = cubeList;
     }
 
     public Cube getLastCube() {
@@ -48,42 +53,51 @@ public class Node {
         return actualCube;
     }
 
-    public void add(Input input) {
+    public Node add(Input input) {
         this.hasInputLayerError();
-        this.getCubeList().add(this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings())));
+        Cube inputCube = this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings()));
+        this.getCubeList().add(inputCube);
         setLastCube();
         this.setActualCube(this.getLastCube());
+
+        return createAuxNode(inputCube);
     }
 
-    public void add(Conv2D conv2D) {
+    public Node add(Conv2D conv2D) {
+        List<Cube> convolutionList;
         if (conv2D.getInput() == null) {
             checkInputLayerError();
             if (actualCube.isDenseLayer()) {
                 throw new RuntimeException("Can not Conv2D a dense layer.");
             }
-            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube()));
+            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            this.getCubeList().addAll(this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding()));
+            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding());
         }
+        this.getCubeList().addAll(convolutionList);
         setLastCube();
         this.setActualCube(this.getLastCube());
+
+        return createAuxNode(convolutionList);
     }
 
-    public void add(Deconv2D deconv2D){
-
+    public Node add(Deconv2D deconv2D){
+        List<Cube> deconvolutionList;
         if (deconv2D.getInput() == null) {
             checkInputLayerError();
             if (actualCube.isDenseLayer()) {
                 throw new RuntimeException("Can not Deconv2D a dense layer.");
             }
-            this.getCubeList().addAll(this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube()));
+            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            this.getCubeList().addAll(this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding()));
+            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding());
         }
+        this.getCubeList().addAll(deconvolutionList);
         setLastCube();
         this.setActualCube(this.getLastCube());
+        return createAuxNode(deconvolutionList);
     }
 
     public void add(MaxPooling2D maxPooling2D) {
@@ -97,15 +111,18 @@ public class Node {
         this.setActualCube(this.getLastCube());
     }
 
-    public void add(Concatenate concatenate) {
+    public Node add(Concatenate concatenate) {
         for (Node node : concatenate.getNodes()) {
             if (node.getCubeList().isEmpty() || node.getCubeList() == null) {
                 throw new RuntimeException("Could not concatenate because some node has no convolutions or input");
             }
         }
-        this.getCubeList().add(this.layerController.Concatenate(concatenate.getNodes()));
+        Cube concatenatedCube = this.layerController.Concatenate(concatenate.getNodes());
+        this.getCubeList().add(concatenatedCube);
         setLastCube();
         this.setActualCube(this.getLastCube());
+
+        return createAuxNode(concatenatedCube);
     }
 
     private void setLastCube() {
@@ -129,5 +146,23 @@ public class Node {
                     throw new RuntimeException("There is already an input layer.");
             }
         }
+    }
+
+    private Node createAuxNode(List<Cube> cubeList){
+        Node node = new Node(layerController);
+        node.setCubeList(cubeList);
+        node.setLastCube(cubeList.get(cubeList.size()-1));
+        node.setActualCube(node.getLastCube());
+        return node;
+    }
+
+    private Node createAuxNode(Cube cube){
+        Node node = new Node(layerController);
+        List<Cube> cubes = new LinkedList<>();
+        cubes.add(cube);
+        node.setCubeList(cubes);
+        node.setLastCube(cubeList.get(cubeList.size()-1));
+        node.setActualCube(node.getLastCube());
+        return node;
     }
 }

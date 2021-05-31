@@ -86,6 +86,7 @@ public class SvgController {
         }
         drawUnions(modelTree);
         drawJumps(modelTree.getJumps());
+        drawEncoders(modelTree.getEncoders());
         Collections.sort(drawOrderList);
         this.addHeader();
         for (SortNode n : drawOrderList) {
@@ -319,6 +320,26 @@ public class SvgController {
             Cube lastCube = jump.get(0).getLastCube();
             Cube firstCube = jump.get(1).getCubeList().get(0);
             lineTo(lastCube, firstCube);
+        }
+    }
+
+    /**
+     * Draw a encoder CNN
+     * @param encoders  list of nodes
+     */
+    private void drawEncoders(List<List<Node>> encoders) {
+        for (List<Node> e : encoders) {
+            Cube cube1 = e.get(0).getLastCube();
+            Cube cube2 = e.get(1).getLastCube();
+
+            Coordinate vertex1 = cube1.getCoordinates()[10];
+            Coordinate vertex2 = cube1.getCoordinates()[9];
+            Coordinate vertex3 = cube2.getCoordinates()[9];
+            Coordinate vertex4 = cube2.getCoordinates()[10];
+
+            drawArrow(new Arrow(vertex1,vertex2));
+            drawArrow(new Arrow(vertex2,vertex3));
+            drawArrow(new Arrow(vertex4,vertex3));
         }
     }
 

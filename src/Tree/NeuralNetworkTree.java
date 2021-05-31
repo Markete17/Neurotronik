@@ -11,6 +11,7 @@ public class NeuralNetworkTree {
     private Node root;
     private List<Node>[] nodes;
     private final List<List<Node>> jumps = new ArrayList<>();
+    private final List<List<Node>> encoders = new ArrayList<>();
 
     public List<Node>[] getNodes() {
         return nodes;
@@ -18,6 +19,10 @@ public class NeuralNetworkTree {
 
     public List<List<Node>> getJumps() {
         return jumps;
+    }
+
+    public List<List<Node>> getEncoders() {
+        return encoders;
     }
 
     /**

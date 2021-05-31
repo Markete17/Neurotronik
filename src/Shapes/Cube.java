@@ -25,7 +25,7 @@ public class Cube implements Shape {
     private boolean isKernel = false;
     private boolean isDenseLayer = false;
     private boolean isInputLayer = false;
-    private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 1];
+    private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 3];
 
     //input image
     public Cube(Coordinate coordinates, DrawSettings drawSettings) {
@@ -58,6 +58,10 @@ public class Cube implements Shape {
         double x_random = Math.random() * (coordinates[5].getX() - coordinates[4].getX()) + coordinates[4].getX();
         double y_random = Math.random() * (coordinates[6].getY() - coordinates[4].getY()) + coordinates[4].getY();
         coordinates[8] = new Coordinate(x_random, y_random, coordinates[4].getZ());
+
+        //Encoder
+        coordinates[9] = new Coordinate(0, coordinates[0].getY()-50, 0);
+        coordinates[10] = new Coordinate(0, coordinates[0].getY(), 0);
     }
 
     public double getX() {
