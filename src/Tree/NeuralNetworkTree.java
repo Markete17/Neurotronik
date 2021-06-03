@@ -11,7 +11,7 @@ public class NeuralNetworkTree {
     private Node root;
     private List<Node>[] nodes;
     private final List<List<Node>> jumps = new ArrayList<>();
-    private final List<List<Node>> encoders = new ArrayList<>();
+    private final List<List<Node>> shortcuts = new ArrayList<>();
 
     public List<Node>[] getNodes() {
         return nodes;
@@ -21,8 +21,8 @@ public class NeuralNetworkTree {
         return jumps;
     }
 
-    public List<List<Node>> getEncoders() {
-        return encoders;
+    public List<List<Node>> getShortcuts() {
+        return this.shortcuts;
     }
 
     /**

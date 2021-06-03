@@ -99,8 +99,9 @@ public class NeuralNetworkConsole {
             model.addJump(x1b,xp3);
             model.addJump(x2,xp3);
 
-            model.addEncoder(na1,na2);
-            model.addEncoder(na3,na4);
+            //Shortcuts
+            model.addShortcut(na1,na2);
+            model.addShortcut(na3,na4);
             /**************************/
 
             SvgController svg = new SvgController(drawSettings);

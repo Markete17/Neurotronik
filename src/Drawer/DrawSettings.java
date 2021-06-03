@@ -13,11 +13,8 @@ public class DrawSettings {
     private final boolean activateLayerDimensions;
     private final boolean activateKernelDimensions;
 
-
     //Default Settings
     public DrawSettings() {
-        //AlfaX=90 AlfaY=90
-        //AlfaX=30 AlfaY=60
         this.color = new Color("lavender", "orange", "darkturquoise", "darkturquoise", "pink", "black", 0.5, 0.5, 0.75, 0.75, 0.5, 0.75);
         this.alfa = new Alfa(30, 60, 0);
         this.shift = new Shift(100, 50, 50);
@@ -30,6 +27,7 @@ public class DrawSettings {
         this.activateKernelDimensions = true;
     }
 
+    //Developer custom settings
     public DrawSettings(Color color, Alfa alfa, Shift shift, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs, boolean activateLayerDimensions, boolean activateKernelDimensions) {
         this.color = color;
         this.alfa = alfa;

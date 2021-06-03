@@ -29,10 +29,10 @@ public class Model {
         getModelTree().getJumps().add(jump);
     }
 
-    public void addEncoder(Node n1,Node n2){
-        List<Node> encoders = new ArrayList<>();
-        encoders.add(n1);
-        encoders.add(n2);
-        getModelTree().getEncoders().add(encoders);
+    public void addShortcut(Node n1,Node n2){
+        List<Node> shortcut = new ArrayList<>();
+        shortcut.add(n1);
+        shortcut.add(n2);
+        getModelTree().getShortcuts().add(shortcut);
     }
 }
