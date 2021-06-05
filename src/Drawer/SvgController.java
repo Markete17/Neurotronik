@@ -220,16 +220,7 @@ public class SvgController {
      * @param cube to draw
      */
     private void drawCube(Cube cube) {
-        //Cube Path
-        String color = selectColor(cube);
-        double opacity = selectOpacity(cube);
-        String svg = "";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-        svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
+        String svg = drawSvgCube(cube);
 
         if (cube.isKernel()) {
             aux = svg + aux;
@@ -249,6 +240,16 @@ public class SvgController {
      * @param cube to draw
      */
     private void drawSingleCube(Cube cube) {
+        String svg = drawSvgCube(cube);
+        if (drawSettings.isActivateLayerDimensions()) {
+            svg += drawText(cube);
+        }
+        double z = calculateAverageZ(cube.getCoordinates());
+        SortNode sn = new SortNode(svg, z);
+        this.drawOrderList.add(sn);
+    }
+
+    private String drawSvgCube(Cube cube){
         //Cube Path
         String color = selectColor(cube);
         double opacity = selectOpacity(cube);
@@ -259,13 +260,7 @@ public class SvgController {
         svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + " L" + cube.getCoordinates()[1].getX() + " " + cube.getCoordinates()[1].getY() + " L" + cube.getCoordinates()[5].getX() + " " + cube.getCoordinates()[5].getY() + " L" + cube.getCoordinates()[4].getX() + " " + cube.getCoordinates()[4].getY() + " L" + cube.getCoordinates()[0].getX() + " " + cube.getCoordinates()[0].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
         svg += "\t\t<path opacity=\"" + opacity + "\" fill=\"" + color + "\" d=\"" + "M" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + " L" + cube.getCoordinates()[3].getX() + " " + cube.getCoordinates()[3].getY() + " L" + cube.getCoordinates()[7].getX() + " " + cube.getCoordinates()[7].getY() + " L" + cube.getCoordinates()[6].getX() + " " + cube.getCoordinates()[6].getY() + " L" + cube.getCoordinates()[2].getX() + " " + cube.getCoordinates()[2].getY() + "\" stroke-linecap=\"square\"/>" + "\n";
-
-        if (drawSettings.isActivateLayerDimensions()) {
-            svg += drawText(cube);
-        }
-        double z = calculateAverageZ(cube.getCoordinates());
-        SortNode sn = new SortNode(svg, z);
-        this.drawOrderList.add(sn);
+        return svg;
     }
 
     /**
