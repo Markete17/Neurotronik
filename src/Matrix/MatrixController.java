@@ -27,19 +27,19 @@ public class MatrixController {
     public void move(String axis, Coordinate[] coordinates, double length) {
         switch (axis) {
             case "x": {
-                for(int i=0;i<11;i++){
+                for (int i = 0; i < 11; i++) {
                     coordinates[i].setX(coordinates[i].getX() + length);
                 }
                 break;
             }
             case "y": {
-                for(int i=0;i<11;i++){
+                for (int i = 0; i < 11; i++) {
                     coordinates[i].setY(coordinates[i].getY() + length);
                 }
                 break;
             }
             case "z": {
-                for(int i=0;i<11;i++){
+                for (int i = 0; i < 11; i++) {
                     coordinates[i].setZ(coordinates[i].getZ() + length);
                 }
                 break;

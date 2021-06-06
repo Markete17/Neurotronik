@@ -32,7 +32,7 @@ public class Deconv2D {
         return filters;
     }
 
-    public Tuple getKernel_size() {
+    public Tuple getKernelSize() {
         return kernel_size;
     }
 

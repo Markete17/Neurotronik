@@ -4,7 +4,7 @@ public class DrawSettings {
 
     private final Color color;
     private final Alfa alfa;
-    private final Shift shift;
+    private final Displacement displacement;
     private final Font font;
     private final Stroke stroke;
     private final ViewBox viewBox;
@@ -17,7 +17,7 @@ public class DrawSettings {
     public DrawSettings() {
         this.color = new Color("lavender", "orange", "darkturquoise", "darkturquoise", "pink", "black", 0.5, 0.5, 0.75, 0.75, 0.5, 0.75);
         this.alfa = new Alfa(30, 60, 0);
-        this.shift = new Shift(100, 50, 50);
+        this.displacement = new Displacement(100, 50, 50);
         this.font = new Font(6, "calibri", "black");
         this.stroke = new Stroke("black", 0.3);
         this.viewBox = new ViewBox(3000, 2000, 0);
@@ -28,10 +28,10 @@ public class DrawSettings {
     }
 
     //Developer custom settings
-    public DrawSettings(Color color, Alfa alfa, Shift shift, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs, boolean activateLayerDimensions, boolean activateKernelDimensions) {
+    public DrawSettings(Color color, Alfa alfa, Displacement displacement, Font font, Stroke stroke, ViewBox viewBox, boolean activateDepthLogs, boolean activateWidhtLogs, boolean activateLayerDimensions, boolean activateKernelDimensions) {
         this.color = color;
         this.alfa = alfa;
-        this.shift = shift;
+        this.displacement = displacement;
         this.font = font;
         this.stroke = stroke;
         this.viewBox = viewBox;
@@ -49,8 +49,8 @@ public class DrawSettings {
         return alfa;
     }
 
-    public Shift getShift() {
-        return shift;
+    public Displacement getDisplacement() {
+        return displacement;
     }
 
     public Font getFont() {

@@ -29,12 +29,12 @@ public class SvgController {
     private double z;
 
     private Coordinate imageCenter;
-    private double x_max = -Double.MAX_VALUE;
-    private double y_max = -Double.MAX_VALUE;
-    private double z_max = -Double.MAX_VALUE;
-    private double x_min = Double.MAX_VALUE;
-    private double y_min = Double.MAX_VALUE;
-    private double z_min = Double.MAX_VALUE;
+    private double xMax = -Double.MAX_VALUE;
+    private double yMax = -Double.MAX_VALUE;
+    private double zMax = -Double.MAX_VALUE;
+    private double xMin = Double.MAX_VALUE;
+    private double yMin = Double.MAX_VALUE;
+    private double zMin = Double.MAX_VALUE;
 
     //FINAL SVG FILE
     private final List<SortNode> drawOrderList = new ArrayList<>();
@@ -58,7 +58,6 @@ public class SvgController {
         }
 
         // Compare method
-        @Override
         public int compareTo(SortNode sn) {
             return Double.compare(sn.getZ(), this.z);
         }
@@ -76,7 +75,7 @@ public class SvgController {
      * @return svg file string
      */
     public String draw(NeuralNetworkTree modelTree) {
-        shiftTree(modelTree);
+        moveTree(modelTree);
         calculateImageCenter();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             for (int j = 0; j < modelTree.getNodes()[i].size(); j++) {
@@ -97,11 +96,11 @@ public class SvgController {
     }
 
     /**
-     * Shift all the tree
+     * Move all the tree
      *
      * @param modelTree neural network tree
      */
-    private void shiftTree(NeuralNetworkTree modelTree) {
+    private void moveTree(NeuralNetworkTree modelTree) {
         modelTree.initializeNodes();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             //First Level
@@ -116,11 +115,11 @@ public class SvgController {
                         } else {
                             l = Math.abs(lengthAux - node.getCubeList().get(0).getCoordinates()[0].getX());
                         }
-                        length += l + drawSettings.getShift().getShiftNodes();
+                        length += l + drawSettings.getDisplacement().getNodesDisplacement();
 
                     }
                     lengthAux = node.getCubeList().get(0).getCoordinates()[1].getX();
-                    this.shiftNode(node);
+                    this.moveNode(node);
                     depth = 0;
                     depthAux = 0;
                 }
@@ -134,11 +133,11 @@ public class SvgController {
                     Coordinate centerChild1 = calculateCenter(firstChild.getCubeList().get(0).getCoordinates());
                     Coordinate centerChild2 = calculateCenter(lastChild.getCubeList().get(0).getCoordinates());
                     length = (Math.abs(centerChild1.getX() + centerChild2.getX()) / 2);
-                    double depth = modelTree.greaterDepthChild(node.getChildren());
+                    double depthAux = modelTree.greaterDepthChild(node.getChildren());
                     double depthCube = node.getCubeList().get(0).getCoordinates()[1].getZ();
-                    double l = Math.abs(depth + depthCube);
-                    this.depth = l + drawSettings.getShift().getShiftParent();
-                    this.shiftNode(node);
+                    double l = Math.abs(depthAux + depthCube);
+                    this.depth = l + drawSettings.getDisplacement().getParentDisplacement();
+                    this.moveNode(node);
                 }
                 depth = 0;
                 depthAux = 0;
@@ -167,10 +166,8 @@ public class SvgController {
                 activate = false;
             }
             //The cube has not kernel (last cube or dense layers)
-            if (i != modelQueue.size() - 1) {
-                if (modelQueue.get(i + 1).isDenseLayer()) {
-                    drawSingleCube(cube);
-                }
+            if (i != modelQueue.size() - 1 && modelQueue.get(i + 1).isDenseLayer()) {
+                drawSingleCube(cube);
             }
             if (i == modelQueue.size() - 1 || cube.isDenseLayer()) {
                 drawSingleCube(cube);
@@ -237,6 +234,7 @@ public class SvgController {
 
     /**
      * Draw single cube without kernel cube.
+     *
      * @param cube to draw
      */
     private void drawSingleCube(Cube cube) {
@@ -249,7 +247,7 @@ public class SvgController {
         this.drawOrderList.add(sn);
     }
 
-    private String drawSvgCube(Cube cube){
+    private String drawSvgCube(Cube cube) {
         //Cube Path
         String color = selectColor(cube);
         double opacity = selectOpacity(cube);
@@ -265,25 +263,27 @@ public class SvgController {
 
     /**
      * Enters the text of the dimensions of the cubes in the svg image.
+     *
      * @param cube the cube that has the dimensions to be displayed.
      * @return svg string
      */
     private String drawText(Cube cube) {
         String svg = "";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" " + ">" + (int) (cube.getY()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" " + ">" + (int) (cube.getX()) + "</text>\n";
-        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" " + ">" + (int) (cube.getZ()) + "</text>\n\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFontColor() + ";font-family:" + drawSettings.getFont().getFontFamily() + ";font-size:" + drawSettings.getFont().getFontSize() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[6].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[4].getY() + cube.getCoordinates()[6].getY()) / 2 + "\" " + ">" + (int) (cube.getY()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFontColor() + ";font-family:" + drawSettings.getFont().getFontFamily() + ";font-size:" + drawSettings.getFont().getFontSize() + "\" " + "x=\"" + ((cube.getCoordinates()[6].getX() + cube.getCoordinates()[7].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[6].getY() + cube.getCoordinates()[7].getY()) / 2 + "\" " + ">" + (int) (cube.getX()) + "</text>\n";
+        svg += "\t\t<text style=\"fill:" + drawSettings.getFont().getFontColor() + ";font-family:" + drawSettings.getFont().getFontFamily() + ";font-size:" + drawSettings.getFont().getFontSize() + "\" " + "x=\"" + ((cube.getCoordinates()[4].getX() + cube.getCoordinates()[0].getX()) / 2) + "\" y=\"" + (cube.getCoordinates()[0].getY() + cube.getCoordinates()[4].getY()) / 2 + "\" " + ">" + (int) (cube.getZ()) + "</text>\n\n";
         return svg;
     }
 
     /**
      * Enters the text of the dimensions of the kernels in the svg image.
+     *
      * @param pyramid convolution
-     * @param kernel the kernel that has the dimensions to be displayed.
+     * @param kernel  the kernel that has the dimensions to be displayed.
      * @return svg string
      */
     private String drawText(Pyramid pyramid, Cube kernel) {
-        return "\t\t<text style=\"fill:" + drawSettings.getFont().getFont_color() + ";font-family:" + drawSettings.getFont().getFont_family() + ";font-size:" + drawSettings.getFont().getFont_size() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX() + pyramid.getCoordinates()[1].getX() + pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY() - 9)) / 2 + "\" " + ">" + "[" + (int) (kernel.getX()) + "," + (int) (kernel.getY()) + "]" + "</text>\n";
+        return "\t\t<text style=\"fill:" + drawSettings.getFont().getFontColor() + ";font-family:" + drawSettings.getFont().getFontFamily() + ";font-size:" + drawSettings.getFont().getFontSize() + "\" " + "x=\"" + ((pyramid.getCoordinates()[0].getX() + pyramid.getCoordinates()[1].getX() + pyramid.getVertex().getX()) / 3) + "\" y=\"" + (pyramid.getCoordinates()[0].getY() + (pyramid.getVertex().getY() - 9)) / 2 + "\" " + ">" + "[" + (int) (kernel.getX()) + "," + (int) (kernel.getY()) + "]" + "</text>\n";
     }
 
     /**
@@ -335,7 +335,8 @@ public class SvgController {
 
     /**
      * Draw shortcuts on a CNN
-     * @param shortcuts  list of nodes
+     *
+     * @param shortcuts list of nodes
      */
     private void drawShortcuts(List<List<Node>> shortcuts) {
         for (List<Node> shortcut : shortcuts) {
@@ -347,9 +348,9 @@ public class SvgController {
             Coordinate vertex3 = cube2.getCoordinates()[9];
             Coordinate vertex4 = cube2.getCoordinates()[10];
 
-            drawArrow(new Arrow(vertex1,vertex2));
-            drawArrow(new Arrow(vertex2,vertex3));
-            drawArrow(new Arrow(vertex4,vertex3));
+            drawArrow(new Arrow(vertex1, vertex2));
+            drawArrow(new Arrow(vertex2, vertex3));
+            drawArrow(new Arrow(vertex4, vertex3));
         }
     }
 
@@ -429,8 +430,8 @@ public class SvgController {
      * SVG header
      */
     private void addHeader() {
-        this.svgString = "<svg width=\"100%\"" + " height=\"100%\"" + " viewBox=\"" + (this.x_min) + " " + (this.y_min - this.drawSettings.getFont().getFont_size()) + " " + (x_max - x_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + " " + (y_max - y_min + this.drawSettings.getFont().getFont_size() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-                "\t<g stroke=\"" + drawSettings.getStroke().getStroke_color() + "\" stroke-width=\"" + drawSettings.getStroke().getStroke_width() + "\">\n\n";
+        this.svgString = "<svg width=\"100%\"" + " height=\"100%\"" + " viewBox=\"" + (this.xMin) + " " + (this.yMin - this.drawSettings.getFont().getFontSize()) + " " + (xMax - xMin + this.drawSettings.getFont().getFontSize() + drawSettings.getViewBox().getZoom()) + " " + (yMax - yMin + this.drawSettings.getFont().getFontSize() + drawSettings.getViewBox().getZoom()) + "\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+                "\t<g stroke=\"" + drawSettings.getStroke().getStrokeColor() + "\" stroke-width=\"" + drawSettings.getStroke().getStrokeWidth() + "\">\n\n";
     }
 
     /**
@@ -445,7 +446,7 @@ public class SvgController {
      *
      * @param node the node to be moved
      */
-    private void shiftNode(Node node) {
+    private void moveNode(Node node) {
         List<Cube> modelQueue = node.getCubeList();
         for (int i = 0; i < modelQueue.size(); i++) {
             Cube cube = modelQueue.get(i);
@@ -456,7 +457,7 @@ public class SvgController {
 
             if (!cube.isKernel() && i != 0) {
                 double l = Math.abs(depthAux - cube.getCoordinates()[4].getZ());
-                depth = l + drawSettings.getShift().getShiftLayers();
+                depth = l + drawSettings.getDisplacement().getDisplacementLayers();
             }
             matrixController.move("z", cube.getCoordinates(), depth);
 
@@ -473,27 +474,28 @@ public class SvgController {
 
     /**
      * Updates the largest and smallest value of current x, y, and z
+     *
      * @param coordinates coordinates of the figures
      */
     private void updateMaxMin(Coordinate[] coordinates) {
         for (Coordinate coordinate : coordinates) {
-            if (coordinate.getX() > x_max) {
-                x_max = coordinate.getX();
+            if (coordinate.getX() > xMax) {
+                xMax = coordinate.getX();
             }
-            if (coordinate.getX() < x_min) {
-                x_min = coordinate.getX();
+            if (coordinate.getX() < xMin) {
+                xMin = coordinate.getX();
             }
-            if (coordinate.getY() > y_max) {
-                y_max = coordinate.getY();
+            if (coordinate.getY() > yMax) {
+                yMax = coordinate.getY();
             }
-            if (coordinate.getY() < y_min) {
-                y_min = coordinate.getY();
+            if (coordinate.getY() < yMin) {
+                yMin = coordinate.getY();
             }
-            if (coordinate.getZ() > z_max) {
-                z_max = coordinate.getZ();
+            if (coordinate.getZ() > zMax) {
+                zMax = coordinate.getZ();
             }
-            if (coordinate.getZ() < z_min) {
-                z_min = coordinate.getZ();
+            if (coordinate.getZ() < zMin) {
+                zMin = coordinate.getZ();
             }
         }
     }
@@ -535,19 +537,20 @@ public class SvgController {
      * Calculates the coordinates of the center of the image
      */
     private void calculateImageCenter() {
-        double center_x = ((x_max - x_min) / 2) + x_min;
-        double center_y = ((y_max - y_min) / 2) + y_min;
-        double center_z = ((z_max - z_min) / 2) + z_min;
+        double center_x = ((xMax - xMin) / 2) + xMin;
+        double center_y = ((yMax - yMin) / 2) + yMin;
+        double center_z = ((zMax - zMin) / 2) + zMin;
 
         imageCenter = new Coordinate(center_x, center_y, center_z);
-        x_max = -Double.MAX_VALUE;
-        y_max = -Double.MAX_VALUE;
-        x_min = Double.MAX_VALUE;
-        y_min = Double.MAX_VALUE;
+        xMax = -Double.MAX_VALUE;
+        yMax = -Double.MAX_VALUE;
+        xMin = Double.MAX_VALUE;
+        yMin = Double.MAX_VALUE;
     }
 
     /**
      * Finds the vertices of the arrow that joins two cubes.
+     *
      * @param cube1 first cube
      * @param cube2 second cube
      */

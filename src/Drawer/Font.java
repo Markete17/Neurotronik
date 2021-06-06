@@ -1,31 +1,31 @@
 package Drawer;
 
 public class Font {
-    private final int font_size;
-    private final String font_family;
-    private String font_color;
+    private final int fontSize;
+    private final String fontFamily;
+    private String fontColor;
 
-    public Font(int font_size, String font_family, String font_color) {
-        this.font_size = font_size;
-        this.font_family = font_family;
-        this.font_color = font_color;
+    public Font(int fontSize, String fontFamily, String fontColor) {
+        this.fontSize = fontSize;
+        this.fontFamily = fontFamily;
+        this.fontColor = fontColor;
         this.checkErrors();
     }
 
-    public int getFont_size() {
-        return font_size;
+    public int getFontSize() {
+        return fontSize;
     }
 
-    public String getFont_family() {
-        return font_family;
+    public String getFontFamily() {
+        return fontFamily;
     }
 
-    public String getFont_color() {
-        return font_color;
+    public String getFontColor() {
+        return fontColor;
     }
 
     public void checkErrors() {
-        if (font_size < 0) {
+        if (fontSize < 0) {
             throw new RuntimeException("Bad Settings. The size must be a positive number.");
         }
     }

@@ -5,7 +5,7 @@ import Drawer.DrawSettings;
 
 public class Cube implements Shape {
 
-    final int NUM_COORDINATES = 8;
+    final int NUMCOORDINATES = 8;
 
     /*
         Array Index
@@ -25,7 +25,7 @@ public class Cube implements Shape {
     private boolean isKernel = false;
     private boolean isDenseLayer = false;
     private boolean isInputLayer = false;
-    private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES + 3];
+    private final Coordinate[] coordinates = new Coordinate[NUMCOORDINATES + 3];
 
     //input image
     public Cube(Coordinate coordinates, DrawSettings drawSettings) {
@@ -42,25 +42,25 @@ public class Cube implements Shape {
         this.y = coordinate.getY();
         this.z = coordinate.getZ();
 
-        double x_aux = drawSettings.logWidth(this.x);
-        double y_aux = this.y;
-        double z_aux = drawSettings.logDepth(this.z);
+        double xAux = drawSettings.logWidth(this.x);
+        double yAux = this.y;
+        double zAux = drawSettings.logDepth(this.z);
 
-        coordinates[0] = (new Coordinate(-(x_aux / 2), -(y_aux / 2), z_aux / 2));
-        coordinates[1] = (new Coordinate(x_aux / 2, -(y_aux / 2), z_aux / 2));
-        coordinates[2] = (new Coordinate(-(x_aux / 2), (y_aux / 2), z_aux / 2));
-        coordinates[3] = (new Coordinate(x_aux / 2, y_aux / 2, z_aux / 2));
-        coordinates[4] = (new Coordinate(-(x_aux / 2), -(y_aux / 2), -(z_aux / 2)));
-        coordinates[5] = (new Coordinate(x_aux / 2, -(y_aux / 2), -(z_aux / 2)));
-        coordinates[6] = (new Coordinate(-(x_aux / 2), y_aux / 2, -(z_aux / 2)));
-        coordinates[7] = (new Coordinate(x_aux / 2, y_aux / 2, -(z_aux / 2)));
+        coordinates[0] = (new Coordinate(-(xAux / 2), -(yAux / 2), zAux / 2));
+        coordinates[1] = (new Coordinate(xAux / 2, -(yAux / 2), zAux / 2));
+        coordinates[2] = (new Coordinate(-(xAux / 2), (yAux / 2), zAux / 2));
+        coordinates[3] = (new Coordinate(xAux / 2, yAux / 2, zAux / 2));
+        coordinates[4] = (new Coordinate(-(xAux / 2), -(yAux / 2), -(zAux / 2)));
+        coordinates[5] = (new Coordinate(xAux / 2, -(yAux / 2), -(zAux / 2)));
+        coordinates[6] = (new Coordinate(-(xAux / 2), yAux / 2, -(zAux / 2)));
+        coordinates[7] = (new Coordinate(xAux / 2, yAux / 2, -(zAux / 2)));
 
-        double x_random = Math.random() * (coordinates[5].getX() - coordinates[4].getX()) + coordinates[4].getX();
-        double y_random = Math.random() * (coordinates[6].getY() - coordinates[4].getY()) + coordinates[4].getY();
-        coordinates[8] = new Coordinate(x_random, y_random, coordinates[4].getZ());
+        double xRandom = Math.random() * (coordinates[5].getX() - coordinates[4].getX()) + coordinates[4].getX();
+        double yRandom = Math.random() * (coordinates[6].getY() - coordinates[4].getY()) + coordinates[4].getY();
+        coordinates[8] = new Coordinate(xRandom, yRandom, coordinates[4].getZ());
 
         //Encoder
-        coordinates[9] = new Coordinate(0, coordinates[0].getY()-50, 0);
+        coordinates[9] = new Coordinate(0, coordinates[0].getY() - 50, 0);
         coordinates[10] = new Coordinate(0, coordinates[0].getY(), 0);
     }
 

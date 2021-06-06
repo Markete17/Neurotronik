@@ -70,10 +70,10 @@ public class Node {
             if (actualCube.isDenseLayer()) {
                 throw new RuntimeException("Can not Conv2D a dense layer.");
             }
-            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube());
+            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernel_size(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding());
+            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding());
         }
         this.getCubeList().addAll(convolutionList);
         setLastCube();
@@ -82,17 +82,17 @@ public class Node {
         return createAuxNode(convolutionList);
     }
 
-    public Node add(Deconv2D deconv2D){
+    public Node add(Deconv2D deconv2D) {
         List<Cube> deconvolutionList;
         if (deconv2D.getInput() == null) {
             checkInputLayerError();
             if (actualCube.isDenseLayer()) {
                 throw new RuntimeException("Can not Deconv2D a dense layer.");
             }
-            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube());
+            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernel_size(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding());
+            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding());
         }
         this.getCubeList().addAll(deconvolutionList);
         setLastCube();
@@ -135,33 +135,34 @@ public class Node {
         this.actualCube = actualCube;
     }
 
-    private void checkInputLayerError(){
+    private void checkInputLayerError() {
         if (this.getCubeList().isEmpty() || this.getActualCube() == null) {
             throw new RuntimeException("The node does not have an input layer.");
         }
     }
-    private void hasInputLayerError(){
+
+    private void hasInputLayerError() {
         for (Cube cube : this.getCubeList()) {
             if (cube.isInputLayer()) {
-                    throw new RuntimeException("There is already an input layer.");
+                throw new RuntimeException("There is already an input layer.");
             }
         }
     }
 
-    private Node createAuxNode(List<Cube> cubeList){
+    private Node createAuxNode(List<Cube> cubeList) {
         Node node = new Node(layerController);
         node.setCubeList(cubeList);
-        node.setLastCube(cubeList.get(cubeList.size()-1));
+        node.setLastCube(cubeList.get(cubeList.size() - 1));
         node.setActualCube(node.getLastCube());
         return node;
     }
 
-    private Node createAuxNode(Cube cube){
+    private Node createAuxNode(Cube cube) {
         Node node = new Node(layerController);
         List<Cube> cubes = new LinkedList<>();
         cubes.add(cube);
         node.setCubeList(cubes);
-        node.setLastCube(cubeList.get(cubeList.size()-1));
+        node.setLastCube(cubeList.get(cubeList.size() - 1));
         node.setActualCube(node.getLastCube());
         return node;
     }

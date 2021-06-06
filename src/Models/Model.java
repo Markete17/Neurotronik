@@ -29,7 +29,7 @@ public class Model {
         getModelTree().getJumps().add(jump);
     }
 
-    public void addShortcut(Node n1,Node n2){
+    public void addShortcut(Node n1, Node n2) {
         List<Node> shortcut = new ArrayList<>();
         shortcut.add(n1);
         shortcut.add(n2);

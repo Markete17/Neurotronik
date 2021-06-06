@@ -3,36 +3,36 @@ package Layers;
 import Data.Tuple;
 
 public class Conv2D {
-    private final double filters;
-    private final Tuple kernel_size;
-    private final Tuple strides;
-    private final String padding;
+    private double filters;
+    private Tuple kernelSize;
+    private Tuple strides;
+    private String padding;
     private Input input;
 
     public Conv2D(double filters, Tuple kernel_size, Tuple strides, String padding) {
-        this.filters = filters;
-        this.kernel_size = kernel_size;
-        this.strides = strides;
-        this.padding = padding;
-        this.checkErrors();
+        setParameters(filters, kernel_size, strides, padding);
     }
 
     public Conv2D(double filters, Tuple kernel_size, Tuple strides, String padding, Input input) {
+        setParameters(filters, kernel_size, strides, padding);
+        this.input = input;
+        input.checkError();
+    }
+
+    private void setParameters(double filters, Tuple kernel_size, Tuple strides, String padding) {
         this.filters = filters;
-        this.kernel_size = kernel_size;
+        this.kernelSize = kernel_size;
         this.strides = strides;
         this.padding = padding;
-        this.input = input;
         this.checkErrors();
-        input.checkError();
     }
 
     public double getFilters() {
         return filters;
     }
 
-    public Tuple getKernel_size() {
-        return kernel_size;
+    public Tuple getKernelSize() {
+        return kernelSize;
     }
 
     public Tuple getStrides() {
@@ -51,7 +51,7 @@ public class Conv2D {
         if (filters <= 0) {
             throw new RuntimeException("The Conv2D function is poorly defined: (Filters must be a positive number.)");
         }
-        if (kernel_size.getN1() <= 0 || kernel_size.getN2() <= 0) {
+        if (kernelSize.getN1() <= 0 || kernelSize.getN2() <= 0) {
             throw new RuntimeException("The Conv2D function is poorly defined: (Kernel must have positive numbers.)");
         }
 

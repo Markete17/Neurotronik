@@ -1,25 +1,25 @@
 package Drawer;
 
 public class Stroke {
-    private final String stroke_color;
-    private final double stroke_width;
+    private final String strokeColor;
+    private final double strokeWidth;
 
-    public Stroke(String stroke_color, double stroke_width) {
-        this.stroke_color = stroke_color;
-        this.stroke_width = stroke_width;
+    public Stroke(String strokeColor, double strokeWidth) {
+        this.strokeColor = strokeColor;
+        this.strokeWidth = strokeWidth;
         this.checkErrors();
     }
 
-    public String getStroke_color() {
-        return stroke_color;
+    public String getStrokeColor() {
+        return strokeColor;
     }
 
-    public double getStroke_width() {
-        return stroke_width;
+    public double getStrokeWidth() {
+        return strokeWidth;
     }
 
     public void checkErrors() {
-        if (stroke_width < 0) {
+        if (strokeWidth < 0) {
             throw new RuntimeException("Stroke width must be a positive number.");
         }
     }
