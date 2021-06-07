@@ -57,7 +57,7 @@ public class Node {
 
     public Node add(Input input) throws TreeException {
         this.hasInputLayerError();
-        Cube inputCube = this.layerController.Input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings()));
+        Cube inputCube = this.layerController.input(new Cube(new Coordinate(input.getX(), input.getY(), input.getZ()), this.layerController.getDrawSettings()));
         this.getCubeList().add(inputCube);
         setLastCube();
         this.setActualCube(this.getLastCube());
@@ -72,10 +72,10 @@ public class Node {
             if (actualCube.isDenseLayer()) {
                 throw new TreeException("Can not Conv2D a dense layer.");
             }
-            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube());
+            convolutionList = this.layerController.conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), conv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            convolutionList = this.layerController.Conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding());
+            convolutionList = this.layerController.conv2D(conv2D.getFilters(), conv2D.getKernelSize(), conv2D.getStrides(), new Cube(new Coordinate(conv2D.getInput().getX(), conv2D.getInput().getY(), conv2D.getInput().getZ()), layerController.getDrawSettings()), conv2D.getPadding());
         }
         this.getCubeList().addAll(convolutionList);
         setLastCube();
@@ -91,10 +91,10 @@ public class Node {
             if (actualCube.isDenseLayer()) {
                 throw new TreeException("Can not Deconv2D a dense layer.");
             }
-            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube());
+            deconvolutionList = this.layerController.deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), deconv2D.getPadding(), this.getActualCube());
         } else {
             this.hasInputLayerError();
-            deconvolutionList = this.layerController.Deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding());
+            deconvolutionList = this.layerController.deconv2D(deconv2D.getFilters(), deconv2D.getKernelSize(), deconv2D.getStrides(), new Cube(new Coordinate(deconv2D.getInput().getX(), deconv2D.getInput().getY(), deconv2D.getInput().getZ()), layerController.getDrawSettings()), deconv2D.getPadding());
         }
         this.getCubeList().addAll(deconvolutionList);
         setLastCube();
@@ -104,11 +104,11 @@ public class Node {
 
     public void add(MaxPooling2D maxPooling2D) throws TreeException {
         checkInputLayerError();
-        this.setActualCube(this.layerController.MaxPooling2D(new Tuple(maxPooling2D.getTuple().getN1(), maxPooling2D.getTuple().getN2()), this.getActualCube()));
+        this.setActualCube(this.layerController.maxPooling2D(new Tuple(maxPooling2D.getTuple().getN1(), maxPooling2D.getTuple().getN2()), this.getActualCube()));
     }
 
     public void add(Dense dense) {
-        this.getCubeList().add(this.layerController.Dense(dense.getVector()));
+        this.getCubeList().add(this.layerController.dense(dense.getVector()));
         setLastCube();
         this.setActualCube(this.getLastCube());
     }
@@ -119,7 +119,7 @@ public class Node {
                 throw new TreeException("Could not concatenate because some node has no convolutions or input");
             }
         }
-        Cube concatenatedCube = this.layerController.Concatenate(concatenate.getNodes());
+        Cube concatenatedCube = this.layerController.concatenate(concatenate.getNodes());
         this.getCubeList().add(concatenatedCube);
         setLastCube();
         this.setActualCube(this.getLastCube());

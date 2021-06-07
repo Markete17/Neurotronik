@@ -27,7 +27,7 @@ public class LayerController {
      * @param input input image is a cube
      * @return the input
      */
-    public Cube Input(Cube input) {
+    public Cube input(Cube input) {
         input.setInputLayer(true);
         return input;
     }
@@ -36,14 +36,14 @@ public class LayerController {
      * CONV2D Layer
      * Is a 2D Convolution Layer, this layer creates a convolution kernel that is wind with layers input which helps produce a tensor of outputs.
      *
-     * @param filters     number of filters
+     * @param filters    number of filters
      * @param kernelSize size of the kernel
-     * @param strides     strides tuple
-     * @param input       input image
-     * @param padding     padding of cnn
+     * @param strides    strides tuple
+     * @param input      input image
+     * @param padding    padding of cnn
      * @return the list of cubes
      */
-    public List<Cube> Conv2D(double filters, Tuple kernelSize, Tuple strides, Cube input, String padding) throws LayersException {
+    public List<Cube> conv2D(double filters, Tuple kernelSize, Tuple strides, Cube input, String padding) throws LayersException {
         List<Cube> cubeList = new ArrayList<>();
         input.setInputLayer(true);
         cubeList.add(input);
@@ -55,7 +55,7 @@ public class LayerController {
     }
 
     //Conv2D function without input
-    public List<Cube> Conv2D(double filters, Tuple kernelSize, Tuple strides, String padding, Cube actualCube) throws LayersException {
+    public List<Cube> conv2D(double filters, Tuple kernelSize, Tuple strides, String padding, Cube actualCube) throws LayersException {
         List<Cube> cubeList = new ArrayList<>();
         Cube cnnCube = createKernel(actualCube.getZ(), kernelSize);
         cubeList.add(cnnCube);
@@ -67,16 +67,17 @@ public class LayerController {
     /**
      * DECONV2D Layer
      * Add a deconvolution layer to the node with the Deconv2D function that has these arguments.
-     * @param filters     number of filters
+     *
+     * @param filters    number of filters
      * @param kernelSize size of the kernel
-     * @param strides     strides tuple
-     * @param input       input image
-     * @param padding     padding of cnn
+     * @param strides    strides tuple
+     * @param input      input image
+     * @param padding    padding of cnn
      * @return the list of cubes
      * @throws LayersException
      */
 
-    public List<Cube> Deconv2D(double filters, Tuple kernelSize, Tuple strides, Cube input, String padding) throws LayersException {
+    public List<Cube> deconv2D(double filters, Tuple kernelSize, Tuple strides, Cube input, String padding) throws LayersException {
         List<Cube> cubeList = new ArrayList<>();
         input.setInputLayer(true);
         cubeList.add(input);
@@ -88,7 +89,7 @@ public class LayerController {
     }
 
     //Deconv2D function without input
-    public List<Cube> Deconv2D(double filters, Tuple kernelSize, Tuple strides, String padding, Cube actualCube) throws LayersException {
+    public List<Cube> deconv2D(double filters, Tuple kernelSize, Tuple strides, String padding, Cube actualCube) throws LayersException {
         List<Cube> cubeList = new ArrayList<>();
         Cube cnnCube = createKernel(actualCube.getZ(), kernelSize);
         cubeList.add(cnnCube);
@@ -105,7 +106,7 @@ public class LayerController {
      *
      * @param tuple x and y pooling
      */
-    public Cube MaxPooling2D(Tuple tuple, Cube actualCube) {
+    public Cube maxPooling2D(Tuple tuple, Cube actualCube) {
         return setPooling(tuple, actualCube);
     }
 
@@ -117,7 +118,7 @@ public class LayerController {
      * @param vector vector length
      * @return list of cubes - dense layer
      */
-    public Cube Dense(double vector) {
+    public Cube dense(double vector) {
         Cube cube = new Cube(new Coordinate(10, vector, 10), drawSettings);
         cube.setDenseLayer(true);
         return cube;
@@ -129,7 +130,7 @@ public class LayerController {
      * @param nodes the concatenated nodes
      * @return the cube concatenated
      */
-    public Cube Concatenate(Node... nodes) {
+    public Cube concatenate(Node... nodes) {
         double x = 0;
         double y = 0;
         double z = 0;

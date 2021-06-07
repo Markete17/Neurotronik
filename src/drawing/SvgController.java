@@ -488,8 +488,8 @@ public class SvgController {
                 depthAux = cube.getCoordinates()[0].getZ();
             }
             if (cube.isKernel()) {
-                Cube cube_actual = modelQueue.get(i - 1);
-                moveKernel(cube_actual, cube);
+                Cube actualCube = modelQueue.get(i - 1);
+                moveKernel(actualCube, cube);
             }
             updateMaxMin(cube.getCoordinates());
         }
@@ -526,18 +526,18 @@ public class SvgController {
     /**
      * Moves the kernel to a random position
      *
-     * @param cube_actual the actual cube
+     * @param actualCube the actual cube
      * @param kernel      kernel cube
      */
-    private void moveKernel(Cube cube_actual, Cube kernel) throws MatrixException {
-        double difY = Math.abs((cube_actual.getCoordinates()[3].getY() - kernel.getCoordinates()[3].getY()));
-        double difX = Math.abs((cube_actual.getCoordinates()[3].getX() - kernel.getCoordinates()[3].getX()));
+    private void moveKernel(Cube actualCube, Cube kernel) throws MatrixException {
+        double difY = Math.abs((actualCube.getCoordinates()[3].getY() - kernel.getCoordinates()[3].getY()));
+        double difX = Math.abs((actualCube.getCoordinates()[3].getX() - kernel.getCoordinates()[3].getX()));
 
-        double x_random = -difX + (Math.random() * (difX + difX)); //[-x,x]
-        double y_random = -difY + (Math.random() * (difY + difY)); //[-y,y]
+        double xRandom = -difX + (Math.random() * (difX + difX)); //[-x,x]
+        double yRandom = -difY + (Math.random() * (difY + difY)); //[-y,y]
 
-        matrixController.move("x", kernel.getCoordinates(), x_random);
-        matrixController.move("y", kernel.getCoordinates(), y_random);
+        matrixController.move("x", kernel.getCoordinates(), xRandom);
+        matrixController.move("y", kernel.getCoordinates(), yRandom);
     }
 
     /**

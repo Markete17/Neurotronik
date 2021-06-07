@@ -5,7 +5,7 @@ import drawing.DrawSettings;
 
 public class Cube implements Shape {
 
-    final static int NUM_COORDINATES = 8;
+    private static final int NUM_COORDINATES = 8;
 
     /*
         Array Index

@@ -27,7 +27,7 @@ public class ViewBox {
         return zoom;
     }
 
-    public void checkErrors() throws DrawingException {
+    private void checkErrors() throws DrawingException {
         if (width < 0 || height < 0) {
             throw new DrawingException("The width and height of the view box must be positives.");
         }

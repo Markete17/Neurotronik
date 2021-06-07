@@ -20,7 +20,7 @@ public class Stroke {
         return strokeWidth;
     }
 
-    public void checkErrors() throws DrawingException {
+    private void checkErrors() throws DrawingException {
         if (strokeWidth < 0) {
             throw new DrawingException("Stroke width must be a positive number.");
         }

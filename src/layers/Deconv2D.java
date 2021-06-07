@@ -12,11 +12,11 @@ public class Deconv2D {
     private Input input;
 
     public Deconv2D(double filters, Tuple kernelSize, Tuple strides, String padding) throws LayersException {
-        setParameters(filters,kernelSize,strides,padding);
+        setParameters(filters, kernelSize, strides, padding);
     }
 
     public Deconv2D(double filters, Tuple kernelSize, Tuple strides, String padding, Input input) throws LayersException {
-        setParameters(filters,kernelSize,strides,padding);
+        setParameters(filters, kernelSize, strides, padding);
         this.input = input;
         input.checkError();
     }

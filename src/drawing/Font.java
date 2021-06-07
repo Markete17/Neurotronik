@@ -26,7 +26,7 @@ public class Font {
         return fontColor;
     }
 
-    public void checkErrors() throws DrawingException {
+    private void checkErrors() throws DrawingException {
         if (fontSize < 0) {
             throw new DrawingException("Bad Settings. The size must be a positive number.");
         }

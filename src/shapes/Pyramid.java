@@ -4,7 +4,7 @@ import data.Coordinate;
 
 public class Pyramid implements Shape {
 
-    final int NUM_COORDINATES = 5;
+    private static final int NUM_COORDINATES = 5;
     private final Coordinate[] coordinates = new Coordinate[NUM_COORDINATES];
     private Coordinate vertex;
 
