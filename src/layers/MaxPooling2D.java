@@ -6,8 +6,8 @@ import exceptions.LayersException;
 public class MaxPooling2D {
     private final Tuple tuple;
 
-    public MaxPooling2D(Tuple tuple) throws LayersException {
-        this.tuple = tuple;
+    public MaxPooling2D(Tuple poolSize) throws LayersException {
+        this.tuple = poolSize;
         this.checkError();
     }
 
