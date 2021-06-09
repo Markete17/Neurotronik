@@ -1,7 +1,7 @@
 package shapes;
 
 import data.Coordinate;
-import drawing.DrawSettings;
+import settings.DrawSettings;
 
 public class Cube implements Shape {
 

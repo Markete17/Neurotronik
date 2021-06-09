@@ -1,4 +1,4 @@
-package drawing;
+package settings;
 
 public class Color {
     //COLOR

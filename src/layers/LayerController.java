@@ -2,7 +2,7 @@ package layers;
 
 import data.Coordinate;
 import data.Tuple;
-import drawing.DrawSettings;
+import settings.DrawSettings;
 import exceptions.LayersException;
 import shapes.Cube;
 import tree.Node;

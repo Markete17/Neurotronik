@@ -4,6 +4,7 @@ import data.Coordinate;
 import exceptions.MatrixException;
 import exceptions.TreeException;
 import matrices.*;
+import settings.DrawSettings;
 import shapes.Arrow;
 import shapes.Cube;
 import shapes.Pyramid;
