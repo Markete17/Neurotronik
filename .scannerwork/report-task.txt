@@ -2,5 +2,5 @@ projectKey=Neurotronik
 serverUrl=http://localhost:9000
 serverVersion=8.9.0.43852
 dashboardUrl=http://localhost:9000/dashboard?id=Neurotronik
-ceTaskId=AXn3YLOzdTUS5W6mAWKV
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AXn3YLOzdTUS5W6mAWKV
+ceTaskId=AXn3Y25hdTUS5W6mAWKX
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXn3Y25hdTUS5W6mAWKX

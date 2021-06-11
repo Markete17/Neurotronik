@@ -4,6 +4,7 @@ import data.Coordinate;
 import exceptions.MatrixException;
 import exceptions.TreeException;
 import matrices.*;
+import models.Model;
 import settings.DrawSettings;
 import shapes.Arrow;
 import shapes.Cube;
@@ -87,7 +88,7 @@ public class SvgController {
 
         @Override
         public int hashCode() {
-            return this.hashCode();
+            return 0;
         }
     }
 
@@ -99,10 +100,11 @@ public class SvgController {
     /**
      * Draws the Neural Network in a SVG file
      *
-     * @param modelTree tree of neural network
+     * @param model CNN Representation Model.
      * @return svg file string
      */
-    public String draw(NeuralNetworkTree modelTree) throws TreeException, MatrixException {
+    public String draw(Model model) throws TreeException, MatrixException {
+        NeuralNetworkTree modelTree = model.getModelTree();
         moveTree(modelTree);
         calculateImageCenter();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
