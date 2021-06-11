@@ -105,6 +105,7 @@ public class SvgController {
      */
     public String draw(Model model) throws TreeException, MatrixException {
         NeuralNetworkTree modelTree = model.getModelTree();
+        modelTree.initializeNodes();
         moveTree(modelTree);
         calculateImageCenter();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
@@ -131,7 +132,8 @@ public class SvgController {
      * @param modelTree neural network tree
      */
     private void moveTree(NeuralNetworkTree modelTree) throws TreeException, MatrixException {
-        modelTree.initializeNodes();
+        double nodesDisplacement = drawSettings.getDisplacement().getNodesDisplacement();
+        double parentDisplacement = drawSettings.getDisplacement().getParentDisplacement();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
             //First Level
             if (i == 0) {
@@ -145,7 +147,7 @@ public class SvgController {
                         } else {
                             l = Math.abs(lengthAux - node.getCubeList().get(0).getCoordinates()[0].getX());
                         }
-                        length += l + drawSettings.getDisplacement().getNodesDisplacement();
+                        length += l + nodesDisplacement;
 
                     }
                     lengthAux = node.getCubeList().get(0).getCoordinates()[1].getX();
@@ -166,7 +168,7 @@ public class SvgController {
                     double greaterDepthChild = modelTree.greaterDepthChild(node.getChildren());
                     double depthCube = node.getCubeList().get(0).getCoordinates()[1].getZ();
                     double l = Math.abs(greaterDepthChild + depthCube);
-                    this.depth = l + drawSettings.getDisplacement().getParentDisplacement();
+                    this.depth = l + parentDisplacement;
                     this.moveNode(node);
                 }
                 depth = 0;
@@ -474,6 +476,7 @@ public class SvgController {
      */
     private void moveNode(Node node) throws MatrixException {
         List<Cube> modelQueue = node.getCubeList();
+        double displacementLayers = drawSettings.getDisplacement().getDisplacementLayers();
         for (int i = 0; i < modelQueue.size(); i++) {
             Cube cube = modelQueue.get(i);
 
@@ -483,7 +486,7 @@ public class SvgController {
 
             if (!cube.isKernel() && i != 0) {
                 double l = Math.abs(depthAux - cube.getCoordinates()[4].getZ());
-                depth = l + drawSettings.getDisplacement().getDisplacementLayers();
+                depth = l + displacementLayers;
             }
             matrixController.move("z", cube.getCoordinates(), depth);
 
