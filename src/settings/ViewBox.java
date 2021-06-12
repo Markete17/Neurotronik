@@ -1,6 +1,6 @@
 package settings;
 
-import exceptions.DrawingException;
+import exceptions.SettingsException;
 
 public class ViewBox {
 
@@ -8,7 +8,7 @@ public class ViewBox {
     private final double height;
     private final double zoom;
 
-    public ViewBox(double width, double height, double zoom) throws DrawingException {
+    public ViewBox(double width, double height, double zoom) throws SettingsException {
         this.width = width;
         this.height = height;
         this.zoom = -zoom;
@@ -27,9 +27,9 @@ public class ViewBox {
         return zoom;
     }
 
-    private void checkErrors() throws DrawingException {
+    private void checkErrors() throws SettingsException {
         if (width < 0 || height < 0) {
-            throw new DrawingException("The width and height of the view box must be positives.");
+            throw new SettingsException("The width and height of the view box must be positives.");
         }
     }
 }

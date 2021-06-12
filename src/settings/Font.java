@@ -1,13 +1,13 @@
 package settings;
 
-import exceptions.DrawingException;
+import exceptions.SettingsException;
 
 public class Font {
     private final int fontSize;
     private final String fontFamily;
     private String fontColor;
 
-    public Font(int fontSize, String fontFamily, String fontColor) throws DrawingException {
+    public Font(int fontSize, String fontFamily, String fontColor) throws SettingsException {
         this.fontSize = fontSize;
         this.fontFamily = fontFamily;
         this.fontColor = fontColor;
@@ -26,9 +26,9 @@ public class Font {
         return fontColor;
     }
 
-    private void checkErrors() throws DrawingException {
+    private void checkErrors() throws SettingsException {
         if (fontSize < 0) {
-            throw new DrawingException("Bad Settings. The size must be a positive number.");
+            throw new SettingsException("The font size must be a positive number.");
         }
     }
 }

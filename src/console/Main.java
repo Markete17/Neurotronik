@@ -1,14 +1,12 @@
 package console;
 
-import exceptions.ConsoleException;
-
 public class Main {
 
     /*****************************
      ***NEUROTRONIK APPLICATION***
      ****************************/
 
-    public static void main(String[] args) throws ConsoleException {
+    public static void main(String[] args) throws Exception {
         NeuralNetworkConsole neurotronik = new NeuralNetworkConsole();
         neurotronik.run();
     }

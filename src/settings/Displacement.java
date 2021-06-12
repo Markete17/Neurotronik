@@ -1,6 +1,6 @@
 package settings;
 
-import exceptions.DrawingException;
+import exceptions.SettingsException;
 
 public class Displacement {
 
@@ -8,7 +8,7 @@ public class Displacement {
     private final double nodesDisplacement;//Spacing between nodes
     private final double parentDisplacement;//Spacing between parent and child
 
-    public Displacement(double nodesDisplacement, double layersDisplacement, double parentDisplacement) throws DrawingException {
+    public Displacement(double nodesDisplacement, double layersDisplacement, double parentDisplacement) throws SettingsException {
         this.nodesDisplacement = nodesDisplacement;
         this.layersDisplacement = layersDisplacement;
         this.parentDisplacement = parentDisplacement;
@@ -27,15 +27,15 @@ public class Displacement {
         return parentDisplacement;
     }
 
-    private void checkErrors() throws DrawingException {
+    private void checkErrors() throws SettingsException {
         if (this.layersDisplacement < 0) {
-            throw new DrawingException("Layers Distance must be a positive number.");
+            throw new SettingsException("Layers distance must be a positive number.");
         }
         if (this.nodesDisplacement < 0) {
-            throw new DrawingException("Nodes Distance must be a positive number.");
+            throw new SettingsException("Nodes distance must be a positive number.");
         }
         if (this.parentDisplacement < 0) {
-            throw new DrawingException("Parent Distance must be a positive number.");
+            throw new SettingsException("The distance between the parent node and children must be positive.");
         }
     }
 }

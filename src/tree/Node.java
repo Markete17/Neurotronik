@@ -146,7 +146,7 @@ public class Node {
     private void hasInputLayerError() throws TreeException {
         for (Cube cube : this.getCubeList()) {
             if (cube.isInputLayer()) {
-                throw new TreeException("There is already an input layer.");
+                throw new TreeException("There is already an input layer in the node.");
             }
         }
     }

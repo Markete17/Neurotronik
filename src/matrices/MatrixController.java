@@ -6,7 +6,7 @@ import exceptions.MatrixException;
 public class MatrixController {
     private double[][] matrix;
 
-    public MatrixController(double alfaX, double alfaY, double alfaZ) {
+    public MatrixController(double alfaX, double alfaY, double alfaZ) throws MatrixException {
         RotationMatrixX rotationMatrixX = new RotationMatrixX(alfaX);
         RotationMatrixY rotationMatrixY = new RotationMatrixY(alfaY);
         RotationMatrixZ rotationMatrixZ = new RotationMatrixZ(alfaZ);
@@ -14,7 +14,7 @@ public class MatrixController {
         this.matrix = multiply(this.matrix, rotationMatrixY.getMatrix());
     }
 
-    public void rotate(Coordinate[] coordinates) {
+    public void rotate(Coordinate[] coordinates) throws MatrixException {
         setNewCoordinates(coordinates);
     }
 
@@ -46,7 +46,7 @@ public class MatrixController {
                 break;
             }
             default:
-                throw new MatrixException("Invalid coordinate axis.");
+                throw new MatrixException("'"+axis+"' is an invalid coordinate axis.");
         }
 
     }
@@ -59,16 +59,19 @@ public class MatrixController {
      * @return c matrix result of multiplying a x b
      */
 
-    public double[][] multiply(double[][] a, double[][] b) {
+    public double[][] multiply(double[][] a, double[][] b) throws MatrixException {
         double[][] c = new double[a.length][b[0].length];
-        for (int i = 0; i < c.length; i++)
-            for (int j = 0; j < c[0].length; j++)
-                for (int k = 0; k < b.length; k++)
-                    c[i][j] += a[i][k] * b[k][j];
-        return c;
+        if (a[0].length == b.length) {
+            for (int i = 0; i < c.length; i++)
+                for (int j = 0; j < c[0].length; j++)
+                    for (int k = 0; k < b.length; k++)
+                        c[i][j] += a[i][k] * b[k][j];
+            return c;
+        }
+        throw new MatrixException("Matrices cannot be multiplied (invalid dimensions).");
     }
 
-    private void setNewCoordinates(Coordinate[] coordinates) {
+    private void setNewCoordinates(Coordinate[] coordinates) throws MatrixException {
         double[][] c0 = multiply(matrix, coordinates[0].getCoordinateMatrix());
         double[][] c1 = multiply(matrix, coordinates[1].getCoordinateMatrix());
         double[][] c2 = multiply(matrix, coordinates[2].getCoordinateMatrix());

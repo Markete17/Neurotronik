@@ -16,7 +16,7 @@ public class Dense {
 
     private void checkError() throws LayersException {
         if (this.vector <= 0) {
-            throw new LayersException("The Dense function is poorly defined: (Vector must be a positive number.)");
+            throw new LayersException("The Dense function is poorly defined: (Vector must be a positive number).");
         }
     }
 }

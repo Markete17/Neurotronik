@@ -1,5 +1,7 @@
 package settings;
 
+import exceptions.SettingsException;
+
 public class Color {
     //COLOR
     private final String inputColor;
@@ -16,7 +18,7 @@ public class Color {
     private final double arrowOpacity;
     private final double denseOpacity;
 
-    public Color(String input, String cube, String kernel, String dense, String pyramid, String arrow, double inputOpacity, double layerOpacity, double kernelOpacity, double convOpacity, double arrowOpacity, double denseOpacity) {
+    public Color(String input, String cube, String kernel, String dense, String pyramid, String arrow, double inputOpacity, double layerOpacity, double kernelOpacity, double convOpacity, double arrowOpacity, double denseOpacity) throws SettingsException {
         this.inputColor = input;
         this.cubeColor = cube;
         this.kernelColor = kernel;
@@ -29,6 +31,7 @@ public class Color {
         this.convOpacity = convOpacity;
         this.arrowOpacity = arrowOpacity;
         this.denseOpacity = denseOpacity;
+        this.checkErrors();
     }
 
     public String getInputColor() {
@@ -77,5 +80,26 @@ public class Color {
 
     public double getDenseOpacity() {
         return denseOpacity;
+    }
+
+    private void checkErrors() throws SettingsException {
+        if(this.arrowOpacity<0){
+            throw new SettingsException("The connector opacity must be a positive number");
+        }
+        if(this.inputOpacity<0){
+            throw new SettingsException("The input opacity must be a positive number");
+        }
+        if(this.layerOpacity<0){
+            throw new SettingsException("The convolutinal layer opacity must be a positive number");
+        }
+        if(this.kernelOpacity<0){
+            throw new SettingsException("The arrow opacity must be a positive number");
+        }
+        if(this.convOpacity<0){
+            throw new SettingsException("The convolution connector opacity must be a positive number");
+        }
+        if(this.denseOpacity<0){
+            throw new SettingsException("The dense opacity must be a positive number");
+        }
     }
 }

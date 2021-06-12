@@ -1,12 +1,12 @@
 package settings;
 
-import exceptions.DrawingException;
+import exceptions.SettingsException;
 
 public class Stroke {
     private final String strokeColor;
     private final double strokeWidth;
 
-    public Stroke(String strokeColor, double strokeWidth) throws DrawingException {
+    public Stroke(String strokeColor, double strokeWidth) throws SettingsException {
         this.strokeColor = strokeColor;
         this.strokeWidth = strokeWidth;
         this.checkErrors();
@@ -20,9 +20,9 @@ public class Stroke {
         return strokeWidth;
     }
 
-    private void checkErrors() throws DrawingException {
+    private void checkErrors() throws SettingsException {
         if (strokeWidth < 0) {
-            throw new DrawingException("Stroke width must be a positive number.");
+            throw new SettingsException("Stroke width must be a positive number.");
         }
     }
 }

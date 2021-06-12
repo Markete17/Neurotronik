@@ -1,6 +1,6 @@
 package settings;
 
-import exceptions.DrawingException;
+import exceptions.SettingsException;
 
 public class DrawSettings {
     private static final String BLACK = "black";
@@ -16,7 +16,7 @@ public class DrawSettings {
     private final boolean activateKernelDimensions;
 
     //Default Settings
-    public DrawSettings() throws DrawingException {
+    public DrawSettings() throws SettingsException {
         this.color = new Color("lavender", "orange", "darkturquoise", "darkturquoise", "pink", BLACK, 0.5, 0.5, 0.75, 0.75, 0.5, 0.75);
         this.alfa = new Alfa(30, 60, 0);
         this.displacement = new Displacement(100, 50, 50);

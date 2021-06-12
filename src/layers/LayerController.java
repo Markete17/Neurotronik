@@ -74,7 +74,7 @@ public class LayerController {
      * @param input      input image
      * @param padding    padding of cnn
      * @return the list of cubes
-     * @throws LayersException
+     * @throws LayersException layersException
      */
 
     public List<Cube> deconv2D(double filters, Tuple kernelSize, Tuple strides, Cube input, String padding) throws LayersException {

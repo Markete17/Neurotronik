@@ -1,6 +1,7 @@
 package drawing;
 
 import data.Coordinate;
+import exceptions.LayersException;
 import exceptions.MatrixException;
 import exceptions.TreeException;
 import matrices.*;
@@ -92,7 +93,7 @@ public class SvgController {
         }
     }
 
-    public SvgController(DrawSettings settings) {
+    public SvgController(DrawSettings settings) throws MatrixException {
         this.drawSettings = settings;
         this.matrixController = new MatrixController(this.drawSettings.getAlfa().getAlfaX(), this.drawSettings.getAlfa().getAlfaY(), this.drawSettings.getAlfa().getAlfaZ());
     }
@@ -103,7 +104,7 @@ public class SvgController {
      * @param model CNN Representation Model.
      * @return svg file string
      */
-    public String draw(Model model) throws TreeException, MatrixException {
+    public String draw(Model model) throws TreeException, MatrixException, LayersException {
         NeuralNetworkTree modelTree = model.getModelTree();
         modelTree.initializeNodes();
         moveTree(modelTree);
@@ -131,7 +132,7 @@ public class SvgController {
      *
      * @param modelTree neural network tree
      */
-    private void moveTree(NeuralNetworkTree modelTree) throws TreeException, MatrixException {
+    private void moveTree(NeuralNetworkTree modelTree) throws MatrixException {
         double nodesDisplacement = drawSettings.getDisplacement().getNodesDisplacement();
         double parentDisplacement = drawSettings.getDisplacement().getParentDisplacement();
         for (int i = 0; i < modelTree.getNodes().length; i++) {
