@@ -1,7 +1,6 @@
 package drawing;
 
 import data.Coordinate;
-import exceptions.LayersException;
 import exceptions.MatrixException;
 import exceptions.TreeException;
 import matrices.*;
@@ -20,15 +19,15 @@ import java.util.List;
 
 public class SvgController {
 
-    private static final String PATH ="\" d=\"";
-    private static final String PATH_OPACITY ="\t\t<path opacity=\"";
-    private static final String STROKE_LINECAP_SQUARE ="\" stroke-linecap=\"square\"/>";
-    private static final String SVG_FILL ="\" fill=\"";
-    private static final String SVG_TEXT ="\t\t<text style=\"fill:";
-    private static final String CSS_FONT_SIZE =";font-size:";
-    private static final String SVG_END_TEXT ="</text>\n";
-    private static final String CSS_FONT_FAMILY =";font-family:";
-    private static final String SVG_COORDINATE ="\" y=\"";
+    private static final String PATH = "\" d=\"";
+    private static final String PATH_OPACITY = "\t\t<path opacity=\"";
+    private static final String STROKE_LINECAP_SQUARE = "\" stroke-linecap=\"square\"/>";
+    private static final String SVG_FILL = "\" fill=\"";
+    private static final String SVG_TEXT = "\t\t<text style=\"fill:";
+    private static final String CSS_FONT_SIZE = ";font-size:";
+    private static final String SVG_END_TEXT = "</text>\n";
+    private static final String CSS_FONT_FAMILY = ";font-family:";
+    private static final String SVG_COORDINATE = "\" y=\"";
 
     private final DrawSettings drawSettings;
     private final MatrixController matrixController;
@@ -80,7 +79,7 @@ public class SvgController {
 
         @Override
         public boolean equals(Object obj) {
-            if(obj instanceof SortNode){
+            if (obj instanceof SortNode) {
                 SortNode sortNode = (SortNode) obj;
                 return this.getSvgString().equals(sortNode.getSvgString()) && (this.getZ() == sortNode.getZ());
             }
@@ -104,7 +103,7 @@ public class SvgController {
      * @param model CNN Representation Model.
      * @return svg file string
      */
-    public String draw(Model model) throws TreeException, MatrixException, LayersException {
+    public String draw(Model model) throws TreeException, MatrixException {
         NeuralNetworkTree modelTree = model.getModelTree();
         modelTree.initializeNodes();
         moveTree(modelTree);
@@ -199,7 +198,7 @@ public class SvgController {
                 activate = false;
             }
             //The cube has not kernel (last cube or dense layers)
-            if ( (i != modelQueue.size() - 1 && modelQueue.get(i + 1).isDenseLayer()) || (i == modelQueue.size() - 1 || cube.isDenseLayer())) {
+            if ((i != modelQueue.size() - 1 && modelQueue.get(i + 1).isDenseLayer()) || (i == modelQueue.size() - 1 || cube.isDenseLayer())) {
                 drawSingleCube(cube);
             }
             //The cube has kernel
@@ -467,7 +466,7 @@ public class SvgController {
      * SVG Footer
      */
     private void addFooter() {
-        this.svgString.append( "\t </g>\n" + "</svg>");
+        this.svgString.append("\t </g>\n" + "</svg>");
     }
 
     /**
@@ -534,7 +533,7 @@ public class SvgController {
      * Moves the kernel to a random position
      *
      * @param actualCube the actual cube
-     * @param kernel      kernel cube
+     * @param kernel     kernel cube
      */
     private void moveKernel(Cube actualCube, Cube kernel) throws MatrixException {
         double difY = Math.abs((actualCube.getCoordinates()[3].getY() - kernel.getCoordinates()[3].getY()));

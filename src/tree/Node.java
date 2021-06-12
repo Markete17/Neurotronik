@@ -14,7 +14,7 @@ import java.util.List;
 public class Node {
     private List<Cube> cubeList = new ArrayList<>();
     private Cube lastCube;
-    private Node parent;
+    private List<Node> parents;
     private final List<Node> children = new ArrayList<>();
     private final LayerController layerController;
     private Cube actualCube;
@@ -39,16 +39,16 @@ public class Node {
         this.lastCube = lastCube;
     }
 
-    public void setParent(Node parent) {
-        this.parent = parent;
+    public void setParents(List<Node> parents) {
+        this.parents = parents;
     }
 
     public List<Node> getChildren() {
         return children;
     }
 
-    public Node getParent() {
-        return parent;
+    public List<Node> getParents() {
+        return parents;
     }
 
     public Cube getActualCube() {

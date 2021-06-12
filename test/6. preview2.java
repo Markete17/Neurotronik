@@ -36,7 +36,7 @@
         x3.add(new Conv2D(64,new KernelSize(5,5),new Strides(1,1),"same"));
 
         x4.add(new Input(32,32,20));
-        x4.add(new Conv2D(32,new KernelSize10,10),new Strides(1,1),"same"));
+        x4.add(new Conv2D(32,new KernelSize(10,10),new Strides(1,1),"same"));
         x4.add(new MaxPooling2D(new PoolSize(2,2)));
         x4.add(new Conv2D(64,new KernelSize(5,5),new Strides(1,1),"same"));
         x4.add(new MaxPooling2D(new PoolSize(2,2)));

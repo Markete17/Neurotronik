@@ -64,7 +64,10 @@ public class NeuralNetworkTree {
 
     public void add(Node child, Node parent) {
         parent.getChildren().add(child);
-        child.setParent(parent);
+        if (child.getParents() == null) {
+            child.setParents(new ArrayList<>());
+        }
+        child.getParents().add(parent);
     }
 
     public void initializeNodes() throws TreeException {
@@ -84,7 +87,7 @@ public class NeuralNetworkTree {
                 if (!this.nodes[maxDepth - 1].contains(node))
                     this.nodes[maxDepth - 1].add(node);
             } else {
-                int level = level(node);
+                int level = level(node, 0);
                 if (!this.nodes[level].contains(node)) {
                     this.nodes[level].add(node);
                 }
@@ -109,13 +112,14 @@ public class NeuralNetworkTree {
         return 1 + Math.max(max, 0);
     }
 
-    private int level(Node node) {
-        int l = 0;
-        while (!isParent(node)) {
-            node = node.getParent();
-            l++;
+    private int level(Node node, int level) {
+        if (node.getParents() != null) {
+            level++;
+            for (Node parent : node.getParents()) {
+                level = Math.max(level, level(parent, level));
+            }
         }
-        return l;
+        return level;
     }
 
     public double greaterDepthChild(List<Node> children) {
@@ -152,10 +156,6 @@ public class NeuralNetworkTree {
             }
         }
         return firstChild;
-    }
-
-    private boolean isParent(Node node) {
-        return node.getParent() == null;
     }
 
     /**
