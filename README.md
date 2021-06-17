@@ -4,7 +4,7 @@
 1. [Description 🚀](#description)
 2. [Setting-Up ⚙️](#setup)
 3. [Settings & Functions 📌](#functions)
-4. [Export image](#image)
+4. [Export image 📁](#image)
 
 <a name="description"></a>
 ## 1. Description 🚀
@@ -216,7 +216,7 @@ model.addShortcut(n8,n9);
 </p>
 
 <a name="image"></a>
-## 4. Export image 📌
+## 4. Export image 📁
 <p align="justify">
 When you run the application, an image file in SVG format is generated that contains the representation you have defined. This file is found in the src directory of the project folder. Although, this path can be edited in the NeuralNetworkConsole class so that the image is exprotected in the folder you want.
 </p>
