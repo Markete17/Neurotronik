@@ -65,7 +65,7 @@ To configure the project, you must edit the Neural Network Console class. You ne
   <li><b>ViewBox:</b> To modify the size of the generated image and zoom.</li>
   <li><b>Stroke:</b> To change the width, color, and opacity of the image's stroke.</li>
   <li> I addition, you can show or hide the kernel and layer dimensions with the boolean variables "activateLayerDimensions" and "activateKernelDimensions" respectively. If they are initialized to "true", they are displayed and to "false", otherwise.</li>
-  <li>Logarithms in width and depth dimensions can be enabled or disabled with the Boolean variables "activateWidhtLogs" and "activateDepthLogs" respectively. If they are set to "true", they are set and "false", otherwise.</li>
+  <li>Logarithms in width and depth dimensions to scale the image, can be enabled or disabled with the Boolean variables "activateWidhtLogs" and "activateDepthLogs" respectively. If they are set to "true", they are set and "false", otherwise.</li>
  </ul>
   <pre><code>
   DrawSettings drawSettings = new DrawSettings();
