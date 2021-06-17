@@ -16,7 +16,7 @@
 <hr>
 
 <a name="setup"></a>
-## 2. Setting-Up⚙️
+## 2. Setting-Up ⚙️
 
 ### Developtment Enviorement
 
