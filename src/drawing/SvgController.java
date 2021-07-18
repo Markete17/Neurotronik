@@ -37,6 +37,7 @@ public class SvgController {
     private double depthAux = 0;
     private double length = 0;
     private double lengthAux = 0;
+    private double indexShortcuts = 0;
 
     private boolean activate = false;
     private String aux;
@@ -377,10 +378,18 @@ public class SvgController {
             Coordinate vertex3 = cube2.getCoordinates()[9];
             Coordinate vertex4 = cube2.getCoordinates()[10];
 
+            vertex2.setY(vertex2.getY()+indexShortcuts);
+            vertex3.setY(vertex3.getY()+indexShortcuts);
+
+            indexShortcuts-=5;
+
+            //indexShortcuts -=5;
+
             drawArrow(new Arrow(vertex1, vertex2));
             drawArrow(new Arrow(vertex2, vertex3));
             drawArrow(new Arrow(vertex4, vertex3));
         }
+        indexShortcuts=0;
     }
 
     /**

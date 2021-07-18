@@ -45,7 +45,7 @@ public class NeuralNetworkTree {
         return (node == this.root());
     }
 
-    private Node root() throws TreeException {
+    public Node root() throws TreeException {
         if (root == null) {
             throw new TreeException("There is no parent node in the model.");
         }
@@ -98,7 +98,7 @@ public class NeuralNetworkTree {
         }
     }
 
-    private int maxDepth(Node root) {
+    public int maxDepth(Node root) {
         if (root == null) {
             return 0;
         }
@@ -112,7 +112,7 @@ public class NeuralNetworkTree {
         return 1 + Math.max(max, 0);
     }
 
-    private int level(Node node, int level) {
+    public int level(Node node, int level) {
         if (node.getParents() != null) {
             level++;
             for (Node parent : node.getParents()) {

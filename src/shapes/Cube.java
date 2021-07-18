@@ -60,7 +60,7 @@ public class Cube implements Shape {
         coordinates[8] = new Coordinate(xRandom, yRandom, coordinates[4].getZ());
 
         //Encoder
-        coordinates[9] = new Coordinate(0, coordinates[0].getY() - 50, 0);
+        coordinates[9] = new Coordinate(0, coordinates[0].getY() - 30, 0);
         coordinates[10] = new Coordinate(0, coordinates[0].getY(), 0);
     }
 
