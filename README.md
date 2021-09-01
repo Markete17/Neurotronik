@@ -38,7 +38,7 @@ Also, without using Git, you can download the project through the option offered
 <p align="justify">
 This section will detail all the steps to be able to generate the representation of a simple neural architecture through the command line.
 </p>
-- <b>Step 1:</b> Create the file "MinimalExample.java":
+- <b>Step 1:</b> Create the file "MinimalExample.java" (There are other examples in the Examples folder of the repository):
     <pre><code>
 import data.*;
 import models.*;
