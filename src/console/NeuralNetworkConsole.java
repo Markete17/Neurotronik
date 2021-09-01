@@ -63,7 +63,7 @@ public class NeuralNetworkConsole {
     private void writeFile(String svg) throws ConsoleException, IOException {
         File file = new File(getURL());
         if (!file.exists()) {
-            file = new File(System.getProperty("user.dir") + "\\neurotronik.svg\\");
+            file = new File(System.getProperty("user.dir") + "/neurotronik.svg/");
         }
         BufferedWriter bw;
         bw = new BufferedWriter(new FileWriter(file));
@@ -77,6 +77,6 @@ public class NeuralNetworkConsole {
     }
 
     private String getURL() {
-        return System.getProperty("user.dir") + "\\src\\" + "\\neurotronik.svg\\";
+        return System.getProperty("user.dir") + "/src/" + "/neurotronik.svg/";
     }
 }
