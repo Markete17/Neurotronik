@@ -28,7 +28,7 @@ public class Input {
 
     public void checkError() throws LayersException {
         if (this.getX() <= 0 || this.getY() <= 0 || this.getZ() <= 0) {
-            throw new LayersException("The Input function is poorly defined: (Only positive input numbers).");
+            throw new LayersException("The Input layer is poorly defined: (Only positive input numbers).");
         }
     }
 }

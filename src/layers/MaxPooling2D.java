@@ -17,7 +17,7 @@ public class MaxPooling2D {
 
     private void checkError() throws LayersException {
         if (this.tuple.getN1() <= 0 || this.tuple.getN2() <= 0) {
-            throw new LayersException("The MaxPooling2D function is poorly defined: (Only positive numbers).");
+            throw new LayersException("The MaxPooling2D layer is poorly defined: (Only positive numbers).");
         }
     }
 }

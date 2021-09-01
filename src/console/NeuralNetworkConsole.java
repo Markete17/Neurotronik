@@ -30,16 +30,12 @@ public class NeuralNetworkConsole {
             //------------------EDIT YOUR NEURAL NETWORK-------------------
             Node n1 = new Node(layerController);
 
-            n1.add(new Input(72, 72, 30));
-            Node n2 = n1.add(new Conv2D(48, new KernelSize(10, 10), new Strides(1, 1), "same"));
-            Node n3 = n1.add(new Conv2D(64, new KernelSize(5, 5), new Strides(1, 1), "same"));
-            Node n4 = n1.add(new Conv2D(72, new KernelSize(5, 5), new Strides(2, 2), "same"));
-            Node n5 = n1.add(new Conv2D(86, new KernelSize(5, 5), new Strides(1, 1), "same"));
-            n1.add(new Dense(150));
+            Node n3 = n1.add(new Input(32, 32, 20));
+            n1.add(new Conv2D(48, new KernelSize(10, 10), new Strides(1, 1), "same"));
+            Node n4 = n1.add(new Conv2D(64, new KernelSize(5, 5), new Strides(1, 1), "same"));
 
             model.add(n1);
-            model.addShortcut(n2, n4);
-            model.addShortcut(n3, n5);
+            model.addShortcut(n3, n4);
             //---------------------------------------------------------------
 
             SvgController svgController = new SvgController(drawSettings);

@@ -50,14 +50,14 @@ public class Conv2D {
 
     private void checkErrors() throws LayersException {
         if (filters <= 0) {
-            throw new LayersException("The Conv2D function is poorly defined: (Filters must be a positive number).");
+            throw new LayersException("The Conv2D layer is poorly defined: (Filters must be a positive number).");
         }
         if (kernelSize.getN1() <= 0 || kernelSize.getN2() <= 0) {
-            throw new LayersException("The Conv2D function is poorly defined: (Kernel must have positive numbers).");
+            throw new LayersException("The Conv2D layer is poorly defined: (Kernel must have positive numbers).");
         }
 
         if (strides.getN1() <= 0 || strides.getN2() <= 0) {
-            throw new LayersException("The Conv2D function is poorly defined: (Strides must have positive numbers).");
+            throw new LayersException("The Conv2D layer is poorly defined: (Strides must have positive numbers).");
         }
     }
 }
