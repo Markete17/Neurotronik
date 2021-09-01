@@ -62,18 +62,18 @@ public class NeuralNetworkConsole {
 
     private void writeFile(String svg) throws ConsoleException, IOException {
         File file = new File(getURL());
-        if(!file.exists()) {
-            file = new File(System.getProperty("user.dir"));
+        if (!file.exists()) {
+            file = new File(System.getProperty("user.dir") + "\\neurotronik.svg\\");
         }
-            BufferedWriter bw;
-            bw = new BufferedWriter(new FileWriter(file));
-            try {
-                bw.write(svg);
-            } catch (IOException e) {
-                throw new ConsoleException(e.getMessage());
-            } finally {
-                bw.close();
-            }
+        BufferedWriter bw;
+        bw = new BufferedWriter(new FileWriter(file));
+        try {
+            bw.write(svg);
+        } catch (IOException e) {
+            throw new ConsoleException(e.getMessage());
+        } finally {
+            bw.close();
+        }
     }
 
     private String getURL() {
