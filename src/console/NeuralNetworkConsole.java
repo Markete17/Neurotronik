@@ -6,11 +6,10 @@ import exceptions.*;
 import models.*;
 import layers.*;
 import drawing.*;
-import settings.DrawSettings;
+import settings.*;
 import tree.*;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 

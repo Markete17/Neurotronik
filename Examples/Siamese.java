@@ -2,7 +2,7 @@ import data.*;
 import models.*;
 import layers.*;
 import drawing.*;
-import settings.DrawSettings;
+import settings.*;
 import tree.*;
 
 import java.io.BufferedWriter;
