@@ -77,13 +77,18 @@ public class MinimalExample {
     }
 }
     </code></pre>
-    
+    You can download this example by running the following command:
+    <pre><code><p align="center">wget https://bit.ly/2VjoFq8 −O MinimalExample.java</p></code></pre>
  - <b>Step 2:</b> Download the library "Neurotronik.jar":
- <pre><code><p align="center">$ wget https://bit.ly/3yFwHae</p></code></pre>
+ <pre><code><p align="center">wget https://bit.ly/3yFwHae −O Neurotronik.jar</p></code></pre>
  - <b>Step 3:</b> Compile the Java class by adding the library:
-  <pre><code><p align="center">$ javac −cp ./Neurotronik.jar MinimalExample.java</p></code></pre>
+  <pre><code><p align="center">javac −cp ./Neurotronik.jar MinimalExample.java</p></code></pre>
  - <b>Step 4:</b> Run the newly compiled program:
-  <pre><code><p align="center">$ java −cp ./Neurotronik.jar: MinimalExample</p></code></pre>
+
+ <b>Windows:</b>
+ <pre><code><p align="center">java −cp "Neurotronik.jar;" MinimalExample</p></code></pre>
+ <b>Linux:</b>
+  <pre><code><p align="center">java −cp "Neurotronik.jar" MinimalExample</p></code></pre>
  - <b>Step 5:</b> An svg file is generated that can be opened with your favorite browser, for example with chrome:
    <pre><code><p align="center">$ chromium ./output.svg</p></code></pre>
  
