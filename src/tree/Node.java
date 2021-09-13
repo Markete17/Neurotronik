@@ -107,10 +107,12 @@ public class Node {
         this.setActualCube(this.layerController.maxPooling2D(new Tuple(maxPooling2D.getTuple().getN1(), maxPooling2D.getTuple().getN2()), this.getActualCube()));
     }
 
-    public void add(Dense dense) {
-        this.getCubeList().add(this.layerController.dense(dense.getVector()));
+    public Node add(Dense dense) {
+        Cube denseCube = this.layerController.dense(dense.getVector());
+        this.getCubeList().add(denseCube);
         setLastCube();
         this.setActualCube(this.getLastCube());
+        return createAuxNode(denseCube);
     }
 
     public Node add(Concatenate concatenate) throws TreeException {
