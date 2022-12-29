@@ -6,6 +6,12 @@
 3. [Settings & Functions 📌](#functions)
 4. [Export image 📁](#image)
 
+<p>
+If you want to support my repository =)
+</p>
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.me/marcoosr9)
+
 <a name="description"></a>
 ## 1. Description 🚀
 
